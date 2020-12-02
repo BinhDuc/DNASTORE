@@ -3,25 +3,29 @@ package dnastore.beans;
 public class Account extends Role{
 	private String userName;
 	private String password;
+	private String email;
 	private String fullname;
 	private String gender;
 	private String birthday;
-	private String number;
+	private String phone;
+	private String adress;
 	private byte[] image;
 	
 	public Account() {
         
 	}
-
-	public Account(String userName, String password, String fullname, String gender, String birthday, String number,
-			byte[] image, int roleid, String rolename) {
+	
+	public Account(String userName, String password, String email, String fullname, String gender, String birthday,
+			String phone, String adress, byte[] image, int roleid, String rolename) {
 		super(roleid,rolename);
 		this.userName = userName;
 		this.password = password;
+		this.email = email;
 		this.fullname = fullname;
 		this.gender = gender;
 		this.birthday = birthday;
-		this.number = number;
+		this.phone = phone;
+		this.adress = adress;
 		this.image = image;
 	}
 
@@ -39,6 +43,14 @@ public class Account extends Role{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getFullname() {
@@ -65,12 +77,20 @@ public class Account extends Role{
 		this.birthday = birthday;
 	}
 
-	public String getNumber() {
-		return number;
+	public String getPhone() {
+		return phone;
 	}
 
-	public void setNumber(String number) {
-		this.number = number;
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getAdress() {
+		return adress;
+	}
+
+	public void setAdress(String adress) {
+		this.adress = adress;
 	}
 
 	public byte[] getImage() {
@@ -80,10 +100,6 @@ public class Account extends Role{
 	public void setImage(byte[] image) {
 		this.image = image;
 	}
-	
-	
-	
-	
-	
+
 	
 }
