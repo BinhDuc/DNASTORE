@@ -20,13 +20,13 @@ import dnastore.utils.MyUtils;
  * Servlet implementation class ProductDetailServlet
  */
 @WebServlet(urlPatterns = {"/ProductDetail"})
-public class ProductDetailServlet extends HttpServlet {
+public class PageProductDetail extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ProductDetailServlet() {
+    public PageProductDetail() {
         super();
         // TODO Auto-generated constructor stub
     }

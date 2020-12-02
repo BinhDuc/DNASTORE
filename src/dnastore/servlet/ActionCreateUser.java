@@ -25,13 +25,13 @@ import dnastore.utils.MyUtils;
  */
 @WebServlet("/createuser")
 @MultipartConfig(maxFileSize = 16177215) // upload file up to 16MB
-public class CreateUser extends HttpServlet {
+public class ActionCreateUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreateUser() {
+    public ActionCreateUser() {
         super();
         // TODO Auto-generated constructor stub
     }

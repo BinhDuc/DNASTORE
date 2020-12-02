@@ -17,13 +17,13 @@ import dnastore.utils.MyUtils;
  * Servlet implementation class DashboardNhanvien
  */
 @WebServlet("/DashboardNhanvien")
-public class DashboardNhanvien extends HttpServlet {
+public class PageDashboardEmployee extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DashboardNhanvien() {
+    public PageDashboardEmployee() {
         super();
         // TODO Auto-generated constructor stub
     }

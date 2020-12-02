@@ -17,10 +17,10 @@ import dnastore.beans.Product;
 import dnastore.utils.DBUtils;
 import dnastore.utils.MyUtils;
 @WebServlet(urlPatterns = { "/home"})
-public class HomeServlet extends HttpServlet {
+public class PageHome extends HttpServlet {
    private static final long serialVersionUID = 1L;
  
-   public HomeServlet() {
+   public PageHome() {
        super();
    }
 

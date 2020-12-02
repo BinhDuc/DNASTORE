@@ -22,10 +22,10 @@ import dnastore.utils.MyUtils;
  
 @WebServlet(urlPatterns = { "/createProduct" })
 @MultipartConfig(maxFileSize = 16177215) // upload file up to 16MB
-public class CreateProductServlet extends HttpServlet {
+public class ActionCreateProduct extends HttpServlet {
 	private static final long serialVersionUID = -1623656324694499109L;
  
-    public CreateProductServlet() {
+    public ActionCreateProduct() {
         super();
     }
  

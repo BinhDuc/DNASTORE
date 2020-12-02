@@ -17,10 +17,10 @@ import dnastore.utils.DBUtils;
 import dnastore.utils.MyUtils;
  
 @WebServlet(urlPatterns = { "/login" })
-public class LoginServlet extends HttpServlet {
+public class PageLogin extends HttpServlet {
     private static final long serialVersionUID = 1L;
  
-    public LoginServlet() {
+    public PageLogin() {
         super();
     }
  

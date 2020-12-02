@@ -17,7 +17,8 @@ public class DBUtils {
     public static Account findUser(Connection conn, //
             String userName, String password) throws SQLException {
  
-        String sql = "Select a.username, a.password,a.fullname, a.gender, a.birthday, a.number, a.image, a.roleid, b.rolename from account a , role b  " //
+        String sql = "Select a.username, a.password, a.email, a.fullname, a.gender, "
+        		+ "a.birthday, a.phone, a.adress, a.image, a.roleid, b.rolename from account a , role b  "
                 + " where b.roleid=a.roleid and a.username = ? and a.password = ?";
  
         PreparedStatement pstm = conn.prepareStatement(sql);
@@ -26,20 +27,24 @@ public class DBUtils {
         ResultSet rs = pstm.executeQuery();
  
         if (rs.next()) {
+        	String email = rs.getString("email");
         	String fullname = rs.getString("fullname");
         	String gender = rs.getString("gender");
             String birthday = rs.getString("birthday");
-            String number = rs.getString("number");
+            String phone = rs.getString("phone");
+            String adress = rs.getString("adress");
             byte[] image = rs.getBytes("image");
             int roleid = rs.getInt("roleid");
             String rolename = rs.getString("rolename");
             Account user = new Account();
             user.setUserName(userName);
             user.setPassword(password);
+            user.setEmail(email);
             user.setFullname(fullname);
             user.setGender(gender);
             user.setBirthday(birthday);
-            user.setNumber(number);
+            user.setPhone(phone);
+            user.setAdress(adress);
             user.setImage(image);
             user.setRoleid(roleid);
             user.setRolename(rolename);
@@ -50,7 +55,8 @@ public class DBUtils {
  
     public static Account findUser(Connection conn, String userName) throws SQLException {
  
-        String sql = "Select a.username, a.password,a.fullname, a.gender, a.birthday, a.number, a.image, a.roleid, b.rolename from account a , role b "//
+        String sql = "Select a.username, a.password, a.email, a.fullname, a.gender, "
+        		+ "a.birthday, a.phone, a.adress, a.image, a.roleid, b.rolename from account a , role b "
                 + " where b.roleid=a.roleid and a.username = ? ";
  
         PreparedStatement pstm = conn.prepareStatement(sql);
@@ -59,20 +65,24 @@ public class DBUtils {
  
         if (rs.next()) {
         	String password = rs.getString("password");
-            String fullname = rs.getString("fullname");
-            String gender = rs.getString("gender");
+        	String email = rs.getString("email");
+        	String fullname = rs.getString("fullname");
+        	String gender = rs.getString("gender");
             String birthday = rs.getString("birthday");
-            String number = rs.getString("number");
+            String phone = rs.getString("phone");
+            String adress = rs.getString("adress");
             byte[] image = rs.getBytes("image");
             int roleid = rs.getInt("roleid");
             String rolename = rs.getString("rolename");
             Account user = new Account();
             user.setUserName(userName);
             user.setPassword(password);
+            user.setEmail(email);
             user.setFullname(fullname);
             user.setGender(gender);
             user.setBirthday(birthday);
-            user.setNumber(number);
+            user.setPhone(phone);
+            user.setAdress(adress);
             user.setImage(image);
             user.setRoleid(roleid);
             user.setRolename(rolename);
@@ -81,7 +91,9 @@ public class DBUtils {
         return null;
     }
     public static List<Account> queryAccount(Connection conn) throws SQLException {
-        String sql = "Select a.username, a.password,a.fullname, a.gender, a.birthday, a.number, a.image, a.roleid, b.rolename from account a , role b where b.roleid=a.roleid";
+        String sql = "Select a.username, a.password, a.email, a.fullname, a.gender, "
+        		+ "a.birthday, a.phone, a.adress, a.image, a.roleid, b.rolename "
+        		+ "from account a , role b where b.roleid=a.roleid";
  
         PreparedStatement pstm = conn.prepareStatement(sql);
  

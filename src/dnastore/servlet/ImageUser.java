@@ -17,13 +17,13 @@ import dnastore.utils.MyUtils;
  * Servlet implementation class AvatarUser
  */
 @WebServlet("/AvatarUser")
-public class AvatarUser extends HttpServlet {
+public class ImageUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AvatarUser() {
+    public ImageUser() {
         super();
         // TODO Auto-generated constructor stub
     }

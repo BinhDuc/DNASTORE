@@ -17,13 +17,13 @@ import dnastore.utils.MyUtils;
  * Servlet implementation class DisplayImageServlet
  */
 @WebServlet(urlPatterns = { "/image" })
-public class DisplayImageServlet extends HttpServlet {
+public class ImageProduct extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DisplayImageServlet() {
+    public ImageProduct() {
         super();
         // TODO Auto-generated constructor stub
     }

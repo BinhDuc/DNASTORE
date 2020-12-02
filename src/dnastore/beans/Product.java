@@ -2,9 +2,10 @@ package dnastore.beans;
 
 public class Product extends Category{
 	private String code;
-	private byte[] image;
 	private String name;
 	private int price;
+	private int discount;
+	private byte[] image;
 	private String note;
 	
 	public Product() {
@@ -13,12 +14,14 @@ public class Product extends Category{
 	
 	
 
-	public Product(String code, byte[] image, String name, int price, String note,String categoryId,String categoryname) {
-		super(categoryId,categoryname);
+	public Product(String code, String name, int price, int discount, byte[] image, String note,
+			String categoryId, String categoryname, String subid) {
+		super(categoryId,categoryname,subid);
 		this.code = code;
-		this.image = image;
 		this.name = name;
 		this.price = price;
+		this.discount = discount;
+		this.image = image;
 		this.note = note;
 	}
 
@@ -28,32 +31,58 @@ public class Product extends Category{
 		return code;
 	}
 
+
+
 	public void setCode(String code) {
 		this.code = code;
 	}
 
-	public byte[] getImage() {
-		return image;
-	}
 
-	public void setImage(byte[] image) {
-		this.image = image;
-	}
 
 	public String getName() {
 		return name;
 	}
 
+
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
+
 
 	public int getPrice() {
 		return price;
 	}
 
+
+
 	public void setPrice(int price) {
 		this.price = price;
+	}
+
+
+
+	public int getDiscount() {
+		return discount;
+	}
+
+
+
+	public void setDiscount(int discount) {
+		this.discount = discount;
+	}
+
+
+
+	public byte[] getImage() {
+		return image;
+	}
+
+
+
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 
 

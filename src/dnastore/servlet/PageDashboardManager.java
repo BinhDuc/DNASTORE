@@ -14,10 +14,10 @@ import dnastore.beans.Account;
 import dnastore.utils.MyUtils;
  
 @WebServlet(urlPatterns = { "/managerdashboard" })
-public class DashboardServlet extends HttpServlet {
+public class PageDashboardManager extends HttpServlet {
     private static final long serialVersionUID = 1L;
  
-    public DashboardServlet() {
+    public PageDashboardManager() {
         super();
     }
  

@@ -3,14 +3,15 @@ package dnastore.beans;
 public class Category {
 	private String categoryId;
 	private String categoryname;
-	
+	private String subid;
 	public Category() {
 		
 	}
 
-	public Category(String categoryId, String categoryname) {
+	public Category(String categoryId, String categoryname, String subid) {
 		this.categoryId = categoryId;
 		this.categoryname = categoryname;
+		this.subid = subid;
 	}
 
 	public String getCategoryId() {
@@ -28,5 +29,14 @@ public class Category {
 	public void setCategoryname(String categoryname) {
 		this.categoryname = categoryname;
 	}
+
+	public String getSubid() {
+		return subid;
+	}
+
+	public void setSubid(String subid) {
+		this.subid = subid;
+	}
+	
 	
 }
