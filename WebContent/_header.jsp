@@ -2,93 +2,120 @@
   pageEncoding="UTF-8"%>
   
 <!-- Navigation -->
-<nav class="nav" style="background:white">
-    <div class="navigation container">
-        <div class="hamburger">
-            <i class="bx bx-menu"></i>
-        </div>
-        <div class="logo">
-            <a href="${pageContext.request.contextPath}/">
-                <h1>DNA<span style="color: #f60091;">S</span>TORE</h1>
+    
+    <nav class="navigation">
+        <div class="nav-center container">
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+            <a href="./index.html" class="logo">
+                <h1>DNA<span>S</span>TORE</h1>
             </a>
-        </div>
 
-        <div class="menu">
-            <div class="top-nav">
-                <div class="logo">
-                    <a href="${pageContext.request.contextPath}/">
-                        <h1>DNA<span style="color: #f60091;">S</span>TORE</h1>
-                    </a>
+            <div class="nav-menu">
+                <div class="nav-top">
+                    <div class="logo">
+                        <h1>DNA<span>S</span>TORE</h1>
+                    </div>
+                    <div class="close">
+                        <i class="fas fa-times"></i>
+                    </div>
                 </div>
-                <div class="close">
-                    <i class="bx bx-x"></i>
+
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="./index.html" class="nav-link">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./product.html" class="nav-link">Nữ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./product-men.html" class="nav-link">Nam</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./all-product.html" class="nav-link">Tất cả</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./gioithieu.html" class="nav-link">Giới Thiệu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./contact.html" class="nav-link">Liên hệ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="./login.html" class="nav-link">Đăng nhập</a>
+                    </li>
+                </ul>
+
+                <div class="nav-bottom">
+                    <h3>Liên hệ với chúng tôi qua</h3>
+                    <p>Hostline: 012345678</p>
+                    <p>Email: company@gmail.com</p>
+                    <div>
+                        <span>DNASTORE </span >&copy;
+                            <script>document.write(new Date().getFullYear());</script> All Rights Reserved.
+                    </div>
+                    
                 </div>
             </div>
+            
+            
+            <div class="nav-icons">
+                <a href="#"><i class="fas fa-user"></i></a>
+                <button class="bnt-search"><i class="fas fa-search"></i></button>
+                <a href="./cart.html" class="notification">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="badge total-count"></span>
+                </a>
+            </div>
+            <div class="search-box">
+                <input type="text" placeholder="Bạn tìm gì ..." class="search-input"/>
+                <input type="button" value="Tìm kiếm"/>
+            </div>
 
-            <ul class="nav-list">
-                <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/" class="nav-link">TRANG CHỦ</a>
-                </li>
-                <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/sanphamnu" class="nav-link">THỜI TRANG NỮ</a>
-                </li>
-                <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/sanphamnam" class="nav-link">THỜI TRANG NAM</a>
-                </li>
-                
-                <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/tatcasanpham" class="nav-link">TẤT CẢ SẢN PHẨM</a>
-                </li>
-                <li class="nav-item">
-                    <a href="./contact.html" class="nav-link">LIÊN HỆ</a>
-                </li>
-                <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/login" class="nav-link">ĐĂNG NHẬP</a>
-                </li>
-                <li class="nav-item">
-                    <a href="./cart.html" class="nav-link icon">
-                        <i class="bx bx-shopping-bag"></i>
-                    </a>
-                </li>
-            </ul>
+            
         </div>
+        <script type="text/javascript">
+            const nav = document.querySelector(".nav-menu");
+            const navigation = document.querySelector(".navigation");
+            const openBtn = document.querySelector(".hamburger");
+            const closeBtn = document.querySelector(".close");
 
-        <a href="./cart.html" class="cart-icon">
-            <i class="bx bx-shopping-bag"></i>
-        </a>
-    </div>
-    <script type="text/javascript">
-        const menu = document.querySelector(".menu");
-        const navOpen = document.querySelector(".hamburger");
-        const navClose = document.querySelector(".close");
+            const navLeft = nav.getBoundingClientRect().left;
+            openBtn.addEventListener("click", () => {
+              if (navLeft < 0) {
+                navigation.classList.add("show");
+                nav.classList.add("show");
+                document.body.classList.add("show");
+              }
+            });
 
-        const navLeft = menu.getBoundingClientRect().left;
-        navOpen.addEventListener("click", () => {
-          if (navLeft < 0) {
-            menu.classList.add("show");
-            document.body.classList.add("show");
-            navBar.classList.add("show");
-          }
-        });
+            closeBtn.addEventListener("click", () => {
+              if (navLeft < 0) {
+                navigation.classList.remove("show");
+                nav.classList.remove("show");
+                document.body.classList.remove("show");
+              }
+            });
 
-        navClose.addEventListener("click", () => {
-          if (navLeft < 0) {
-            menu.classList.remove("show");
-            document.body.classList.remove("show");
-            navBar.classList.remove("show");
-          }
-        });
-
-        // Fixed Nav
-        const navBar = document.querySelector(".nav");
-        const navHeight = navBar.getBoundingClientRect().height;
-        window.addEventListener("scroll", () => {
-          const scrollHeight = window.pageYOffset;
-          if (scrollHeight > navHeight) {
-            navBar.classList.add("fix-nav");
-          } else {
-            navBar.classList.remove("fix-nav");
-          }
-        });
-    </script>
-</nav>
+            // Fixed Nav
+            const navBar = document.querySelector(".navigation");
+            const navHeight = navBar.getBoundingClientRect().height;
+            window.addEventListener("scroll", () => {
+              const scrollHeight = window.pageYOffset;
+              if (scrollHeight > navHeight) {
+                navBar.classList.add("fix-nav");
+              } else {
+                navBar.classList.remove("fix-nav");
+              }
+            });
+            
+            $(document).ready(function() {
+     
+                $(".bnt-search").click(function() {
+                    $(".search-box").toggle();
+                    $("search-input").focus();
+                });
+    
+            });
+        </script>
+    </nav>

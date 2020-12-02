@@ -1,0 +1,104 @@
+@font-face {
+    font-family: AvertaStdCY-Black;
+    src: url(../fonts/AvertaStdCY-Black_1.otf);
+}
+
+@font-face {
+    font-family: AvertaStdCY-BlackItalic;
+    src: url(../fonts/AvertaStdCY-BlackItalic_1.otf);
+}
+
+@font-face {
+    font-family: AvertaStdCY-Bold;
+    src: url(../fonts/AvertaStdCY-Bold_1.otf);
+}
+
+@font-face {
+    font-family: AvertaStdCY-BoldItalic;
+    src: url(../fonts/AvertaStdCY-BoldItalic_1.otf);
+}
+
+@font-face {
+    font-family: AvertaStdCY-Extrabold;
+    src: url(../fonts/AvertaStdCY-Extrabold_1.otf);
+}
+
+@font-face {
+    font-family: AvertaStdCY-ExtraboldItalic;
+    src: url(../fonts/AvertaStdCY-ExtraboldItalic_1.otf);
+}
+
+@font-face {
+    font-family: AvertaStdCy-Extrathin;
+    src: url(../fonts/AvertaStdCy-Extrathin_1.otf);
+}
+
+@font-face {
+    font-family: AvertaStdCy-ExtrathinItalic;
+    src: url(../fonts/AvertaStdCy-ExtrathinItalic_1.otf);
+}
+
+@font-face {
+    font-family: AvertaStdCY-Light;
+    src: url(../fonts/AvertaStdCY-Light_1.otf);
+}
+
+@font-face {
+    font-family: AvertaStdCY-LightItalic;
+    src: url(../fonts/AvertaStdCY-LightItalic_1.otf);
+}
+
+@font-face {
+    font-family: AvertaStdCY-Regular;
+    src: url(../fonts/AvertaStdCY-Regular_3.otf);
+}
+
+@font-face {
+    font-family: AvertaStdCY-RegularItalic;
+    src: url(../fonts/AvertaStdCY-RegularItalic_1.otf);
+}
+
+@font-face {
+    font-family: AvertaStdCY-Semibold;
+    src: url(../fonts/AvertaStdCY-Semibold_1.otf);
+}
+
+@font-face {
+    font-family: AvertaStdCY-SemiboldItalic;
+    src: url(../fonts/AvertaStdCY-SemiboldItalic_1.otf);
+}
+
+@font-face {
+    font-family: AvertaStdCY-Thin;
+    src: url(../fonts/AvertaStdCY-Thin_1.otf);
+}
+
+@font-face {
+    font-family: AvertaStdCY-ThinItalic;
+    src: url(../fonts/AvertaStdCY-ThinItalic_1.otf);
+}
+
+@font-face {
+    font-family: SVN-Segoe-UI;
+    src: url(../fonts/SVN-Segoe-UI.ttf);
+}
+
+@font-face {
+    font-family: SVN-Poppins-SemiBold;
+    src: url(../fonts/SVN-Poppins-SemiBold.otf);
+}
+
+@font-face {
+    font-family: Aquire;
+    src: url(../fonts/Aquire-BW0ox.otf);
+}
+
+@font-face {
+    font-family: AquireBold;
+    src: url(../fonts/AquireBold-8Ma60.otf);
+}
+
+@font-face {
+    font-family: SVN-DHF-Dexsar-Brush;
+    src: url(../fonts/SVN-DHF-Dexsar-Brush.otf);
+}

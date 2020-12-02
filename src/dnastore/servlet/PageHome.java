@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import dnastore.beans.Product;
 import dnastore.utils.DBUtils;
 import dnastore.utils.MyUtils;
-@WebServlet(urlPatterns = { "/home"})
+@WebServlet(urlPatterns = { "/trangchu"})
 public class PageHome extends HttpServlet {
    private static final long serialVersionUID = 1L;
  
@@ -50,7 +50,7 @@ public class PageHome extends HttpServlet {
        // Forward toi trang /WEB-INF/views/homeView.jsp
        // (Người dùng không bao giờ truy cập trực tiếp được vào các trang JSP
        // đặt trong WEB-INF)
-       RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/components/home.jsp");
+       RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/PageHome.jsp");
         
        dispatcher.forward(request, response);
         

@@ -34,10 +34,11 @@ public class ActionCreateProduct extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     	Connection conn = MyUtils.getStoredConnection(request);
+    	String subid = (String) request.getParameter("subid");
         String errorString = null;
         List<Category> list = null; 
         try {
-            list = DBUtils.queryCategory(conn);
+            list = DBUtils.queryCategory(conn, subid);
             
         } catch (SQLException e) {
             e.printStackTrace();
@@ -62,6 +63,7 @@ public class ActionCreateProduct extends HttpServlet {
         // gets values of text fields
         String name = request.getParameter("name");
         String price = request.getParameter("price");
+        String discount = request.getParameter("discount");
         String categoryid = request.getParameter("categoryid");
         String note = request.getParameter("note");
         InputStream inputStream = null;
@@ -81,17 +83,18 @@ public class ActionCreateProduct extends HttpServlet {
         String message = null; // message will be sent back to client
         try {
             // constructs SQL statement
-            String sql = "INSERT INTO product (name, price, image, categoryid, note) values (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO product (name, price, discount, image, categoryid, note) values (?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, name);
             statement.setString(2, price);
-            statement.setString(4, categoryid);
-            statement.setString(5, note);
+            statement.setString(3, discount);
+            statement.setString(5, categoryid);
+            statement.setString(6, note);
             
 
             if (inputStream != null) {
                 // fetches input stream of the upload file for the blob column
-                statement.setBlob(3, inputStream);
+                statement.setBlob(4, inputStream);
             }
 
             // sends the statement to the database server
