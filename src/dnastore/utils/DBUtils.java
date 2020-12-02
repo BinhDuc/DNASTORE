@@ -253,26 +253,26 @@ public class DBUtils {
         return list;
     }
  
-    public static Product findProduct(Connection conn, String code) throws SQLException {
-        String sql = "Select a.code, a.image, a.name, a.price, a.categoryid , a.note, b.categoryname from product a , category b where a.categoryid=b.categoryid and a.code=?";
- 
-        PreparedStatement pstm = conn.prepareStatement(sql);
-        pstm.setString(1, code);
-        ResultSet rs = pstm.executeQuery();
- 
-        while (rs.next()) {
-        	byte[] image = rs.getBytes("image");
-        	String name = rs.getString("name");
-            int price = rs.getInt("price");
-            String note = rs.getString("note");
-            String categoryid = rs.getString("categoryid");
-            String categoryname = rs.getString("categoryname");
-            		
-            Product product = new Product(code, image, name, price, note, categoryid, categoryname);
-            return product;
-        }
-        return null;
-    }
+//    public static Product findProduct(Connection conn, String code) throws SQLException {
+//        String sql = "Select a.code, a.image, a.name, a.price, a.categoryid , a.note, b.categoryname from product a , category b where a.categoryid=b.categoryid and a.code=?";
+// 
+//        PreparedStatement pstm = conn.prepareStatement(sql);
+//        pstm.setString(1, code);
+//        ResultSet rs = pstm.executeQuery();
+// 
+//        while (rs.next()) {
+//        	byte[] image = rs.getBytes("image");
+//        	String name = rs.getString("name");
+//            int price = rs.getInt("price");
+//            String note = rs.getString("note");
+//            String categoryid = rs.getString("categoryid");
+//            String categoryname = rs.getString("categoryname");
+//            		
+//            Product product = new Product(code, image, name, price, note, categoryid, categoryname);
+//            return product;
+//        }
+//        return null;
+//    }
  
     public static void updateProduct(Connection conn, Product product) throws SQLException {
         String sql = "Update product set image =?, name =?, price=?, categoryid=?, note=? where code=? ";
