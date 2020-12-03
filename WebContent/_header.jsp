@@ -58,13 +58,12 @@
                 </div>
             </div>
             
-            
+            <jsp:useBean id="cart" scope="session" class="dnastore.beans.CartBean" />
             <div class="nav-icons">
-                <a href="#"><i class="fas fa-user"></i></a>
                 <button class="bnt-search"><i class="fas fa-search"></i></button>
                 <a href="${pageContext.request.contextPath}/giohang" class="notification">
                     <i class="fas fa-shopping-cart"></i>
-                    <span class="badge total-count"></span>
+                    <span class="badge total-count">${cart.lineItemCount}</span>
                 </a>
             </div>
             <div class="search-box">

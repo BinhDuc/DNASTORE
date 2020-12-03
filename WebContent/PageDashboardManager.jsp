@@ -206,7 +206,7 @@
                                 <label class="label">
                                     <input type="file" />
                                     <figure class="personal-figure">
-	                                    <img src="http://localhost:8080/DNAStore/avatar?username=${user.userName}" class="personal-avatar" alt="avatar">
+	                                    <img src="http://192.168.43.144:8080/DNAStore/avatar?username=${user.userName}" class="personal-avatar" alt="avatar">
 	                                    <figcaption class="personal-figcaption">
 	                                        <img src="./images/camera-white.png">
 	                                    </figcaption>

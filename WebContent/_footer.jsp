@@ -94,4 +94,3 @@
 	        }); 
 	    });
     </script>
-    <script src="./js/cart.js"></script>

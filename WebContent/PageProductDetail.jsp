@@ -39,9 +39,13 @@
                 <div class="price">${product.price} ₫</div>
                 
 
-                <form class="form">
-                    <input type="number" placeholder="1" min="1" name="count">
-                    <a href="#" class="addCart add-to-cart" data-name="Lemon3" data-price="52">Thêm vào giỏ hàng</a>
+                <form class="form" method="POST" action="${pageContext.request.contextPath}/giohang">
+                	<input type="hidden" name="description" value="${product.name}">
+                	<input type="hidden" name="price" value="${product.price}">
+                    <input type="text" min="1" name="quantity" value="1">
+                    
+                    <input type="submit" class="addCart" name="action" value="Add To Cart" style="border:none;outline:none;width:40%;padding:10px">
+                    
                 </form>
                 <h3>Chi tiết</h3>
                 <p>${product.note}</p>

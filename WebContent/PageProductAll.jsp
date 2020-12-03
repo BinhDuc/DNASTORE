@@ -44,7 +44,7 @@
     <!-- All Products -->
     <section class="sections all-products" id="products">
         <div class="top container">
-            <h3>240 sản phẩm</h3>
+            <h3>${productList.size()} sản phẩm</h3>
             <form>
                 <select>
                     <option value="1">Defualt Sorting</option>

@@ -130,7 +130,7 @@
                 <c:forEach items="${productList}" var="product" >
 	                <div class=" product">
 	                    <div class="product-header">
-	                        <img src="http://localhost:8080/DNAStore/image?code=${product.code}" alt="anhsanpham">
+	                        <img src="http://192.168.43.144:8080/DNAStore/image?code=${product.code}" alt="anhsanpham">
 	                    </div>
 	                    <div class="product-footer">
 	                        <a href="product?code=${product.code}">
