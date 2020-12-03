@@ -18,16 +18,16 @@ import dnastore.utils.DBUtils;
 import dnastore.utils.MyUtils;
 
 /**
- * Servlet implementation class ProductMale
+ * Servlet implementation class PagePsFemale
  */
-@WebServlet("/nam")
-public class PageProductMale extends HttpServlet {
+@WebServlet("/female")
+public class PagePsFemale extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PageProductMale() {
+    public PagePsFemale() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,15 +37,14 @@ public class PageProductMale extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Connection conn = MyUtils.getStoredConnection(request);
-		   
+		String categoryid = (String) request.getParameter("categoryid");   
 		String errorString = null;
 		List<Product> list = null;
 		List<Category> listct = null;
 	       
 		try {
-			list = DBUtils.queryProductMale(conn);
-			listct = DBUtils.queryMaleCategory(conn);
-       
+			list = DBUtils.queryProductCategory(conn, categoryid);
+			listct = DBUtils.queryFemaleCategory(conn);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			errorString = e.getMessage();
@@ -58,7 +57,7 @@ public class PageProductMale extends HttpServlet {
 		// Forward toi trang /WEB-INF/views/homeView.jsp
 		// (Người dùng không bao giờ truy cập trực tiếp được vào các trang JSP
 		// đặt trong WEB-INF)
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/PageProductMale.jsp");
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/PagePsFemale.jsp");
     
 		dispatcher.forward(request, response);
 	}

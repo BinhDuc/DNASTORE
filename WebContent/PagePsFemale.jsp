@@ -32,7 +32,9 @@
             <div class="title-links">
                 <a href="${pageContext.request.contextPath}/">Trang chủ</a>
                 /
-                <a href="">Nữ</a>
+                <a href="${pageContext.request.contextPath}/nu">Nữ</a>
+                /
+                <a href="">${productList[0].categoryname}</a>
             </div>
         </div>
         

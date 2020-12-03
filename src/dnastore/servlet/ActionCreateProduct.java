@@ -14,8 +14,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import dnastore.beans.Account;
 import dnastore.beans.Category;
 import dnastore.utils.DBUtils;
 import dnastore.utils.MyUtils;
@@ -34,6 +36,16 @@ public class ActionCreateProduct extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     	Connection conn = MyUtils.getStoredConnection(request);
+    	HttpSession session = request.getSession();
+		Account loginedUser = MyUtils.getLoginedUser(session);
+		// Nếu chưa đăng nhập (login).
+        if (loginedUser == null) {
+            // Redirect (Chuyển hướng) tới trang login.
+            response.sendRedirect(request.getContextPath() + "/dangnhap");
+            return;
+        }
+        // Lưu thông tin vào request attribute trước khi forward (chuyển tiếp).
+        request.setAttribute("user", loginedUser);
     	String subid = (String) request.getParameter("subid");
         String errorString = null;
         List<Category> list = null; 
@@ -48,7 +60,7 @@ public class ActionCreateProduct extends HttpServlet {
         request.setAttribute("errorString", errorString);
         request.setAttribute("categoryList", list);
         
-        RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/components/createProduct.jsp");
+        RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/CreateProductPage.jsp");
         dispatcher.forward(request, response);
        
     }
@@ -113,7 +125,7 @@ public class ActionCreateProduct extends HttpServlet {
 //        getServletContext().getRequestDispatcher("/WEB-INF/components/products.jsp").forward(
 //                request, response);
         RequestDispatcher dispatcher = request.getServletContext()
-                .getRequestDispatcher("/submit.jsp");
+                .getRequestDispatcher("/CreateProductPage.jsp");
         dispatcher.forward(request, response);
        
     }

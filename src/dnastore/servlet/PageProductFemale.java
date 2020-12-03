@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dnastore.beans.Category;
 import dnastore.beans.Product;
 import dnastore.utils.DBUtils;
 import dnastore.utils.MyUtils;
@@ -19,7 +20,7 @@ import dnastore.utils.MyUtils;
 /**
  * Servlet implementation class ProductFemale
  */
-@WebServlet("/sanphamnu")
+@WebServlet("/nu")
 public class PageProductFemale extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -37,26 +38,29 @@ public class PageProductFemale extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Connection conn = MyUtils.getStoredConnection(request);
 		   
-	       String errorString = null;
-	       List<Product> list = null;
-	       
-	       try {
-	           list = DBUtils.queryProductFemale(conn);
-	           
-	       } catch (SQLException e) {
-	           e.printStackTrace();
-	           errorString = e.getMessage();
-	       }
-	       
-	       // Lưu thông tin vào request attribute trước khi forward sang views.
-	       request.setAttribute("errorString", errorString);
-	       request.setAttribute("productList", list);
-	       // Forward toi trang /WEB-INF/views/homeView.jsp
-	       // (Người dùng không bao giờ truy cập trực tiếp được vào các trang JSP
-	       // đặt trong WEB-INF)
-	       RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/components/products.jsp");
-	        
-	       dispatcher.forward(request, response);
+		String errorString = null;
+		List<Product> list = null;
+		List<Category> listct = null;
+       
+		try {
+			list = DBUtils.queryProductFemale(conn);
+			listct = DBUtils.queryFemaleCategory(conn);
+           
+		} catch (SQLException e) {
+			e.printStackTrace();
+			errorString = e.getMessage();
+		}
+       
+		// Lưu thông tin vào request attribute trước khi forward sang views.
+		request.setAttribute("errorString", errorString);
+		request.setAttribute("productList", list);
+		request.setAttribute("categoryList", listct);
+		// Forward toi trang /WEB-INF/views/homeView.jsp
+		// (Người dùng không bao giờ truy cập trực tiếp được vào các trang JSP
+		// đặt trong WEB-INF)
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/PageProductFemale.jsp");
+        
+		dispatcher.forward(request, response);
 	}
 
 	/**

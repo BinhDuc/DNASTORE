@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
- 
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,85 +30,130 @@
 <body>
 	 <!-- Top container -->
     <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
-        <a href="http://" class="w3-bar-item header"><i class="fas fa-arrow-left"></i></a>
-        <a href=""><span class="w3-bar-item logo" style="color: #fff;">DNASTORE</span></a>
+        <a href="${pageContext.request.contextPath}/quanly" class="w3-bar-item header"><i class="fas fa-arrow-left"></i></a>
+        <a href="${pageContext.request.contextPath}/quanly"><span class="w3-bar-item logo" style="color: #fff;">DNASTORE</span></a>
         <span class="w3-bar-item w3-right">Quản lý</span>
         <button id="btnFullscreen" class="w3-bar-item w3-right" type="button" style="border: none;
         background: none;color: #fff;cursor: pointer;">
             <i class="fas fa-expand"></i>
         </button>
     </div>
-    
+   
     <div class="w3-main" style="margin-top:43px;">
         <div class="container">
-            
+            <c:choose>
+				<c:when test="${Message.equals('Sửa thành công')}">
+			    	<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>
+					<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+					<script>
+					    $(document).ready(function(){
+					        swal('Chào Mừng Bạn!', 'Tài khoản của bạn đã sửa thành công!', 'success');
+					    });
+					</script>
+				</c:when>
+			    <c:otherwise>
+					
+			    </c:otherwise>
+			</c:choose>
             <header>
-                <h2 style="font-family: AvertaStdCY-Semibold;">Thêm Sản Phẩm</h2>
+                <h2 style="font-family: AvertaStdCY-Semibold;">Sửa Tài Khoản</h2>
             </header>
-            <form method="POST" action="${pageContext.request.contextPath}/createProduct" enctype="multipart/form-data">
+            <form method="POST" action="${pageContext.request.contextPath}/editUser" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-25">
-                        <label>Tên sản phẩm</label>
+                        <label>UserName</label>
                     </div>
                     <div class="col-75">
-                        <input type="text" name="name" >
+                        <input type="text" name="username" value="${account.userName}" >
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-25">
-                        <label>Giá</label>
+                        <label>Password</label>
                     </div>
                     <div class="col-75">
-                        <input type="number" name="price">
+                        <input type="text" name="password" value="${account.password}">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-25">
-                        <label>Discount</label>
+                        <label>Email</label>
                     </div>
                     <div class="col-75">
-                        <input type="number" name="discount">
+                        <input type="email" name="email" value="${account.email}">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-25">
-                        <label>Ảnh sản phẩm</label>
+                        <label>Họ Tên</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="text" name="fullname" value="${account.fullname}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Giới tính</label>
+                    </div>
+                    <div class="col-75">
+                    <input type="text" name="gender" value="${account.gender}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Ngày sinh</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="date" name="birthday" value="${account.birthday}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Số điện thoại</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="number" name="phone" value="${account.phone}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Địa chỉ</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="text" name="adress" value="${account.adress}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Avatar</label>
                     </div>
                     <div class="col-75">
                         
                     <div class="image">
                             <div class="image-boder">
-                                <img id="image_upload_preview" src="./images/no-image-800x600.png" alt="your image" class="responsive"/> 
+                                <img id="image_upload_preview" src="http://localhost:8080/DNAStore/avatar?username=${account.userName}" alt="your image" class="responsive"/> 
                             </div>
                     </div>
-                        <input type='file' id="inputFile" name="image" />
+                        <input type='file' id="inputFile" name="image" value="http://localhost:8080/DNAStore/avatar?username=${account.userName}"/>
                     
                         
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-25">
-                        <label>Danh mục dản phẩm</label>
+                        <label>Role</label>
                     </div>
                     <div class="col-75">
-                        <select name="categoryid">
-                            <c:forEach items="${categoryList}" var="categoryList" >
-				         		<option value="${categoryList.categoryId}">${categoryList.categoryname}</option>
+                        <select name="roleid">
+                            <c:forEach items="${roleList}" var="roleList" >
+				         		<option value="${roleList.roleid}">${roleList.rolename}</option>
 				         	</c:forEach>
                         </select>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-25">
-                        <label>Chi tiết sản phẩm</label>
-                    </div>
-                    <div class="col-75">
-                        <textarea name="note" style="height:200px"></textarea>
-                    </div>
-                </div>
                 <br>
                 <div class="row">
-                    <input type="submit" value="Thêm sản phẩm">
+                    <input type="submit" value="Thêm tài khoản">
                 </div>
             </form>
         </div>

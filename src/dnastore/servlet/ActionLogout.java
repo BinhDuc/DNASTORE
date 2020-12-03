@@ -29,7 +29,7 @@ public class ActionLogout extends HttpServlet {
         if (session != null) {
             session.removeAttribute("loginedUser");
              
-            RequestDispatcher dispatcher =  this.getServletContext().getRequestDispatcher("/WEB-INF/components/login.jsp");
+            RequestDispatcher dispatcher =  this.getServletContext().getRequestDispatcher("/PageLogin.jsp");
             dispatcher.forward(request, response);
         }
 	}

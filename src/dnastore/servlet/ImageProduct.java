@@ -39,7 +39,7 @@ public class ImageProduct extends HttpServlet {
 			product = DBUtils.findProduct(conn, code);
 			if (product == null) {
                // Không có dữ liệu ảnh, chuyển hướng tới một ảnh mặc định.
-				response.sendRedirect(request.getContextPath() + "/images/1-removebg-preview.png");
+				response.sendRedirect(request.getContextPath() + "/image/no_avatar.webp");
 				return;
 			}
         // trump.jpg, putin.png

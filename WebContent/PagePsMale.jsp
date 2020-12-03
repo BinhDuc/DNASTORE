@@ -26,18 +26,20 @@
 </head>
 <body>
 	<jsp:include page="_header.jsp"></jsp:include>
-	<section class="bg-product">
+	<section class="bg-menproduct">
         <div class="link-title">
-            <h1>Thời Trang Nữ</h1>
+            <h1>Thời Trang Nam</h1>
             <div class="title-links">
                 <a href="${pageContext.request.contextPath}/">Trang chủ</a>
                 /
-                <a href="">Nữ</a>
+                <a href="${pageContext.request.contextPath}/nam">Nam</a>
+                /
+                <a href="">${productList[0].categoryname}</a>
             </div>
         </div>
         
     </section>
-    <!-- Female Products -->
+    <!-- Male Products -->
     <section class="sections all-products" id="products">
         <div class="top container">
             <h3>120 sản phẩm</h3>
@@ -54,13 +56,13 @@
         </div>
         <div class="container product-list">
             <div class="product-list-left">
-                <h3>Nữ</h3>   
+                <h3>Nam</h3>   
                 <button class="dropdown-btn"><span>Danh mục sản phẩm</span>
                     <span><i class="fas fa-caret-down"></i></span>
                 </button>
                 <div class="dropdown-container">
-                	<c:forEach items="${categoryList}" var="categoryList" >
-                    	<a href="female?categoryid=${categoryList.categoryId}">${categoryList.categoryname}</a>
+                    <c:forEach items="${categoryList}" var="categoryList" >
+                    	<a href="male?categoryid=${categoryList.categoryId}">${categoryList.categoryname}</a>
                     </c:forEach>
                 </div>
                 
@@ -85,7 +87,7 @@
 	                </div>
                 </c:forEach>
             </div>
-        </div>  
+        </div>    
     </section>
 	<jsp:include page="_footer.jsp"></jsp:include>
 </body>

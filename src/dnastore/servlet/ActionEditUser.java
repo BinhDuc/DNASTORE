@@ -8,30 +8,32 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import dnastore.beans.Account;
 import dnastore.beans.Role;
 import dnastore.utils.DBUtils;
 import dnastore.utils.MyUtils;
 
 /**
- * Servlet implementation class CreateUser
+ * Servlet implementation class ActionEditUser
  */
-@WebServlet("/createuser")
+@WebServlet("/editUser")
 @MultipartConfig(maxFileSize = 16177215) // upload file up to 16MB
-public class ActionCreateUser extends HttpServlet {
+public class ActionEditUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ActionCreateUser() {
+    public ActionEditUser() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -41,19 +43,36 @@ public class ActionCreateUser extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Connection conn = MyUtils.getStoredConnection(request);
-        String errorString = null;
-        List<Role> list = null; 
-        try {
-            list = DBUtils.queryRole(conn);
-            
-        } catch (SQLException e) {
-            e.printStackTrace();
-            errorString = e.getMessage();
+		HttpSession session = request.getSession();
+		Account loginedUser = MyUtils.getLoginedUser(session);
+		// Nếu chưa đăng nhập (login).
+        if (loginedUser == null) {
+            // Redirect (Chuyển hướng) tới trang login.
+            response.sendRedirect(request.getContextPath() + "/dangnhap");
+            return;
         }
-        // Lưu thông tin vào request attribute trước khi forward sang views.
+        // Lưu thông tin vào request attribute trước khi forward (chuyển tiếp).
+        request.setAttribute("user", loginedUser);
+        
+		String username = (String) request.getParameter("username");
+		Account account = null;
+		List<Role> list = null; 
+		String errorString = null;
+		try {
+			account = DBUtils.findUser(conn, username);
+			list = DBUtils.queryRole(conn);
+			
+		} catch (SQLException e) {
+			 e.printStackTrace();
+			 errorString = e.getMessage();
+		}
+		
+     // Lưu thông tin vào request attribute trước khi forward sang views.
         request.setAttribute("errorString", errorString);
+        request.setAttribute("account", account);
         request.setAttribute("roleList", list);
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/CreateUser.jsp");
+        RequestDispatcher dispatcher = request.getServletContext()
+                .getRequestDispatcher("/EditUser.jsp");
         dispatcher.forward(request, response);
 	}
 
@@ -62,6 +81,7 @@ public class ActionCreateUser extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Connection conn = MyUtils.getStoredConnection(request);
+		
 		 
         // gets values of text fields
         String username = request.getParameter("username");
@@ -74,8 +94,7 @@ public class ActionCreateUser extends HttpServlet {
         String adress = request.getParameter("adress");
         String roleid = request.getParameter("roleid");
         InputStream inputStream = null;
-
-        // obtains the upload file part in this multipart request
+        
         Part filePart = request.getPart("image");
         if (filePart != null) {
             // debug messages
@@ -87,32 +106,34 @@ public class ActionCreateUser extends HttpServlet {
             inputStream = filePart.getInputStream();
         }
 
-        String message = null; // message will be sent back to client
+        String message = null;
         try {
             // constructs SQL statement
-            String sql = "INSERT INTO account (username, password, email, fullname, gender, birthday, phone, adress, image, roleid) "
-            		+ "values (?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
+            String sql = "Update account set password=?, email =?, fullname=?, gender=?, birthday=?, "
+            		+ "phone=?, adress= ?, image=?, roleid=? "
+            		+ "where username=?";
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setString(1, username);
-            statement.setString(2, password);
-            statement.setString(3, email);
-            statement.setString(4, fullname);
-            statement.setString(5, gender);
-            statement.setString(6, birthday);
-            statement.setString(7, phone);
-            statement.setString(8, adress);
-            statement.setString(10, roleid);
+            
+            statement.setString(1, password);
+            statement.setString(2, email);
+            statement.setString(3, fullname);
+            statement.setString(4, gender);
+            statement.setString(5, birthday);
+            statement.setString(6, phone);
+            statement.setString(7, adress);
+            statement.setString(9, roleid);
+            statement.setString(10, username);
             
 
             if (inputStream != null) {
                 // fetches input stream of the upload file for the blob column
-                statement.setBlob(9, inputStream);
+                statement.setBlob(8, inputStream);
             }
 
             // sends the statement to the database server
             int row = statement.executeUpdate();
             if (row > 0) {
-                message = "Image is uploaded successfully into the Database";
+                message = "Sửa thành công";
             }
         } catch (SQLException ex) {
             message = "ERROR: " + ex.getMessage();
@@ -123,7 +144,7 @@ public class ActionCreateUser extends HttpServlet {
 
 
         RequestDispatcher dispatcher = request.getServletContext()
-                .getRequestDispatcher("/submit.jsp");
+                .getRequestDispatcher("/EditUser.jsp");
         dispatcher.forward(request, response);
 	}
 

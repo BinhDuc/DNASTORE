@@ -16,7 +16,7 @@ import dnastore.beans.Account;
 import dnastore.utils.DBUtils;
 import dnastore.utils.MyUtils;
  
-@WebServlet(urlPatterns = { "/login" })
+@WebServlet(urlPatterns = { "/dangnhap" })
 public class PageLogin extends HttpServlet {
     private static final long serialVersionUID = 1L;
  
@@ -33,7 +33,7 @@ public class PageLogin extends HttpServlet {
         // (Người dùng không thể truy cập trực tiếp
         // vào các trang JSP đặt trong thư mục WEB-INF).
         RequestDispatcher dispatcher //
-                = this.getServletContext().getRequestDispatcher("/WEB-INF/components/login.jsp");
+                = this.getServletContext().getRequestDispatcher("/PageLogin.jsp");
  
         dispatcher.forward(request, response);
  
@@ -54,7 +54,7 @@ public class PageLogin extends HttpServlet {
  
         if (userName == null || password == null || userName.length() == 0 || password.length() == 0) {
             hasError = true;
-            errorString = "Required username and password!";
+            errorString = "Chưa nhập username hoặc password!";
         } else {
             Connection conn = MyUtils.getStoredConnection(request);
             try {
@@ -63,7 +63,7 @@ public class PageLogin extends HttpServlet {
  
                 if (user == null) {
                     hasError = true;
-                    errorString = "User Name or password invalid";
+                    errorString = "Username hoặc password không hợp lệ!";
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -84,7 +84,7 @@ public class PageLogin extends HttpServlet {
  
             // Forward (Chuyển tiếp) tới trang /WEB-INF/views/login.jsp
             RequestDispatcher dispatcher //
-                    = this.getServletContext().getRequestDispatcher("/WEB-INF/components/login.jsp");
+                    = this.getServletContext().getRequestDispatcher("/PageLogin.jsp");
  
             dispatcher.forward(request, response);
         }
@@ -97,14 +97,14 @@ public class PageLogin extends HttpServlet {
             MyUtils.storeLoginedUser(session, user);
  
             if (user.getRoleid() == 1) {
-            	response.sendRedirect(request.getContextPath() + "/managerdashboard");
+            	response.sendRedirect(request.getContextPath() + "/quanly");
             }
 
             else if (user.getRoleid() == 2) {
-            	response.sendRedirect(request.getContextPath() + "/DashboardNhanvien");
+            	response.sendRedirect(request.getContextPath() + "/nhanvien");
             }
             else{
-            	response.sendRedirect(request.getContextPath() + "/home");
+            	response.sendRedirect(request.getContextPath() + "/trangchu");
             }
  
             // Redirect (Chuyển hướng) sang trang /userInfo.

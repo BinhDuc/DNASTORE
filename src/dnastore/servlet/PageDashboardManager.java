@@ -1,6 +1,9 @@
 package dnastore.servlet;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,9 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
  
 import dnastore.beans.Account;
+import dnastore.beans.Role;
+import dnastore.beans.Category;
+import dnastore.beans.Product;
+import dnastore.utils.DBUtils;
 import dnastore.utils.MyUtils;
  
-@WebServlet(urlPatterns = { "/managerdashboard" })
+@WebServlet(urlPatterns = { "/quanly" })
 public class PageDashboardManager extends HttpServlet {
     private static final long serialVersionUID = 1L;
  
@@ -24,7 +31,14 @@ public class PageDashboardManager extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    	Connection conn = MyUtils.getStoredConnection(request);
         HttpSession session = request.getSession();
+        String errorString = null;
+        List<Product> list = null;
+        List<Category> listct = null;
+        List<Account> listacc = null;
+        List<Account> listuser = null;
+        List<Role> listr = null;
  
         // Kiểm tra người dùng đã đăng nhập (login) chưa.
         Account loginedUser = MyUtils.getLoginedUser(session);
@@ -32,16 +46,32 @@ public class PageDashboardManager extends HttpServlet {
         // Nếu chưa đăng nhập (login).
         if (loginedUser == null) {
             // Redirect (Chuyển hướng) tới trang login.
-            response.sendRedirect(request.getContextPath() + "/login");
+            response.sendRedirect(request.getContextPath() + "/dangnhap");
             return;
         }
+        try {
+           list = DBUtils.queryProduct(conn);
+           listct = DBUtils.queryAllCategory(conn);
+           listacc = DBUtils.queryAccount(conn);
+           listuser = DBUtils.queryUser(conn);
+           listr = DBUtils.queryRole(conn);
+           
+       } catch (SQLException e) {
+           e.printStackTrace();
+           errorString = e.getMessage();
+       }
         // Lưu thông tin vào request attribute trước khi forward (chuyển tiếp).
+        request.setAttribute("errorString", errorString);
         request.setAttribute("user", loginedUser);
- 
+        request.setAttribute("productList", list);
+        request.setAttribute("CategoryList", listct);
+        request.setAttribute("AccountList", listacc);
+        request.setAttribute("UserList", listuser);
+        request.setAttribute("RoleList", listr);
         // Nếu người dùng đã login thì forward (chuyển tiếp) tới trang
         // /WEB-INF/views/userInfoView.jsp
         RequestDispatcher dispatcher //
-                = this.getServletContext().getRequestDispatcher("/WEB-INF/components/dashboardM.jsp");
+                = this.getServletContext().getRequestDispatcher("/PageDashboardManager.jsp");
         dispatcher.forward(request, response);
  
     }

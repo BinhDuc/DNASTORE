@@ -16,7 +16,7 @@ import dnastore.utils.MyUtils;
 /**
  * Servlet implementation class AvatarUser
  */
-@WebServlet("/AvatarUser")
+@WebServlet("/avatar")
 public class ImageUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -39,7 +39,7 @@ public class ImageUser extends HttpServlet {
 			account = DBUtils.findUser(conn, username);
 			if (account == null) {
                // Không có dữ liệu ảnh, chuyển hướng tới một ảnh mặc định.
-				response.sendRedirect(request.getContextPath() + "/images/1-removebg-preview.png");
+				response.sendRedirect(request.getContextPath() + "/images/no_avatar.webp");
 				return;
 			}
         // trump.jpg, putin.png

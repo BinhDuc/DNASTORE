@@ -19,7 +19,7 @@ import dnastore.utils.MyUtils;
 /**
  * Servlet implementation class ProductDetailServlet
  */
-@WebServlet(urlPatterns = {"/ProductDetail"})
+@WebServlet(urlPatterns = {"/product"})
 public class PageProductDetail extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -55,7 +55,7 @@ public class PageProductDetail extends HttpServlet {
         // Sản phẩm không tồn tại.
         // Redirect sang trang danh sách sản phẩm.
         if (errorString != null && product == null) {
-            response.sendRedirect(request.getServletPath() + "/home");
+            response.sendRedirect(request.getServletPath() + "/trangchu");
             return;
         }
  
@@ -67,7 +67,7 @@ public class PageProductDetail extends HttpServlet {
         request.setAttribute("productList", list);
  
         RequestDispatcher dispatcher = request.getServletContext()
-                .getRequestDispatcher("/WEB-INF/components/productDetail.jsp");
+                .getRequestDispatcher("/PageProductDetail.jsp");
         dispatcher.forward(request, response);
 	}
 

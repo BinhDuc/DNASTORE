@@ -8,7 +8,7 @@
             <div class="hamburger">
                 <i class="fas fa-bars"></i>
             </div>
-            <a href="./index.html" class="logo">
+            <a href="${pageContext.request.contextPath}/" class="logo">
                 <h1>DNA<span>S</span>TORE</h1>
             </a>
 
@@ -24,25 +24,25 @@
 
                 <ul class="nav-list">
                     <li class="nav-item">
-                        <a href="./index.html" class="nav-link">Trang chủ</a>
+                        <a href="${pageContext.request.contextPath}/" class="nav-link">Trang chủ</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./product.html" class="nav-link">Nữ</a>
+                        <a href="${pageContext.request.contextPath}/nu" class="nav-link">Nữ</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./product-men.html" class="nav-link">Nam</a>
+                        <a href="${pageContext.request.contextPath}/nam" class="nav-link">Nam</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./all-product.html" class="nav-link">Tất cả</a>
+                        <a href="${pageContext.request.contextPath}/tatca" class="nav-link">Tất cả</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./gioithieu.html" class="nav-link">Giới Thiệu</a>
+                        <a href="${pageContext.request.contextPath}/gioithieu" class="nav-link">Giới Thiệu</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./contact.html" class="nav-link">Liên hệ</a>
+                        <a href="${pageContext.request.contextPath}/lienhe" class="nav-link">Liên hệ</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./login.html" class="nav-link">Đăng nhập</a>
+                        <a href="${pageContext.request.contextPath}/dangnhap" class="nav-link">Đăng nhập</a>
                     </li>
                 </ul>
 
@@ -62,7 +62,7 @@
             <div class="nav-icons">
                 <a href="#"><i class="fas fa-user"></i></a>
                 <button class="bnt-search"><i class="fas fa-search"></i></button>
-                <a href="./cart.html" class="notification">
+                <a href="${pageContext.request.contextPath}/giohang" class="notification">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="badge total-count"></span>
                 </a>

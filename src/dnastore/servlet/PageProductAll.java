@@ -20,7 +20,7 @@ import dnastore.utils.MyUtils;
 /**
  * Servlet implementation class ProductServlet
  */
-@WebServlet("/tatcasanpham")
+@WebServlet("/tatca")
 public class PageProductAll extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -55,7 +55,7 @@ public class PageProductAll extends HttpServlet {
 	       // Forward toi trang /WEB-INF/views/homeView.jsp
 	       // (Người dùng không bao giờ truy cập trực tiếp được vào các trang JSP
 	       // đặt trong WEB-INF)
-	       RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/components/products.jsp");
+	       RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/PageProductAll.jsp");
 	        
 	       dispatcher.forward(request, response);
 	}

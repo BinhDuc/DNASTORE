@@ -10,13 +10,13 @@
         <a href="//m.me/3591658937533633" target="_blank" rel="noreferrer" aria-label="messenger">
             <i class="fab fa-facebook-messenger"></i>
         </a>
-        <a href="./index.html">
+        <a href="${pageContext.request.contextPath}/">
             <i class="fas fa-home"></i>
         </a>
         <a href="mailto:company@gmail.com?subject=feedback">
             <i class="fas fa-envelope"></i>
         </a> 
-        <a href="./user.html">
+        <a href="${pageContext.request.contextPath}/taikhoan">
             <i class="fas fa-user"></i>
         </a> 
     </div>
@@ -28,11 +28,11 @@
             <div class="footer-container">
                 <div class="footer-center">
                     <h3>Kết Nối</h3>
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href=""><i class="fab fa-facebook-f"></i></a>
+                    <a href=""><i class="fab fa-instagram"></i></a>
+                    <a href=""><i class="fab fa-twitter"></i></a>
+                    <a href=""><i class="fab fa-youtube"></i></a>
+                    <a href=""><i class="fab fa-linkedin-in"></i></a>
                 </div>
                 <div class="footer-center">
                     <h3>Liên Hệ</h3>
@@ -58,7 +58,7 @@
                         <span>
                             <i class="far fa-paper-plane"></i>
                         </span>
-                        Dream City, USA
+                        Hanoi City, VietNam
                     </div>
                 </div>
                 <div class="footer-center">
