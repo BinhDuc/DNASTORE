@@ -36,10 +36,17 @@
             <div class="right">
                 <span>Trang chủ/${product.categoryname}</span>
                 <h1>${product.name}</h1>
-                <div class="price">${product.price} ₫</div>
+                <div class="price">
+                	<script>
+						var price = ${product.price};
+						price = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+						document.write(price);
+					</script>
+                </div>
                 
 
                 <form class="form" method="POST" action="${pageContext.request.contextPath}/giohang">
+                	
                 	<input type="hidden" name="description" value="${product.name}">
                 	<input type="hidden" name="price" value="${product.price}">
                     <input type="text" min="1" name="quantity" value="1">
@@ -48,7 +55,7 @@
                     
                 </form>
                 <h3>Chi tiết</h3>
-                <p>${product.note}</p>
+                <p style="max-width:100%;overflow: hidden;">${product.note}</p>
             </div>
         </div>
     </section>
@@ -64,11 +71,17 @@
                         <img src="http://localhost:8080/DNAStore/image?code=${product.code}" alt="anhsanpham">
                     </div>
                     <div class="product-footer">
-                        <a href="ProductDetail?code=${product.code}">
+                        <a href="product?code=${product.code}">
                             <h3>${product.name}</h3>
                         </a>
 
-                        <h4 class="price">${product.price} ₫</h4>
+                        <h4 class="price">
+                        	<script>
+								var price = ${product.price};
+								price = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+								document.write(price);
+							</script>
+                        </h4>
                     </div>
                 </div>
             </c:forEach>

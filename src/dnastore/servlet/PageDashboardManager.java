@@ -35,6 +35,8 @@ public class PageDashboardManager extends HttpServlet {
         HttpSession session = request.getSession();
         String errorString = null;
         List<Product> list = null;
+        List<Product> listf = null;
+        List<Product> listm = null;
         List<Category> listct = null;
         List<Account> listacc = null;
         List<Account> listuser = null;
@@ -51,10 +53,13 @@ public class PageDashboardManager extends HttpServlet {
         }
         try {
            list = DBUtils.queryProduct(conn);
+           listm = DBUtils.queryProductMale(conn);
+           listf = DBUtils.queryProductFemale(conn);
            listct = DBUtils.queryAllCategory(conn);
            listacc = DBUtils.queryAccount(conn);
            listuser = DBUtils.queryUser(conn);
            listr = DBUtils.queryRole(conn);
+           
            
        } catch (SQLException e) {
            e.printStackTrace();
@@ -64,6 +69,8 @@ public class PageDashboardManager extends HttpServlet {
         request.setAttribute("errorString", errorString);
         request.setAttribute("user", loginedUser);
         request.setAttribute("productList", list);
+        request.setAttribute("productListf", listf);
+        request.setAttribute("productListm", listm);
         request.setAttribute("CategoryList", listct);
         request.setAttribute("AccountList", listacc);
         request.setAttribute("UserList", listuser);

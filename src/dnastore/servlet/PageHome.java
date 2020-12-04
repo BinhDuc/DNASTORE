@@ -32,12 +32,15 @@ public class PageHome extends HttpServlet {
 	   
        String errorString = null;
        List<Product> list = null;
-       
+       List<Product> listf = null;
+       List<Product> listm = null;
+       List<Product> lista = null;
        
        try {
            list = DBUtils.queryNewProduct(conn);
-           
-           
+           listf = DBUtils.queryProductFemale(conn);
+           listm = DBUtils.queryProductMale(conn);
+           lista = DBUtils.queryProduct(conn);
        } catch (SQLException e) {
            e.printStackTrace();
            errorString = e.getMessage();
@@ -46,6 +49,9 @@ public class PageHome extends HttpServlet {
        // Lưu thông tin vào request attribute trước khi forward sang views.
        request.setAttribute("errorString", errorString);
        request.setAttribute("productList", list);
+       request.setAttribute("productListf", listf);
+       request.setAttribute("productListm", listm);
+       request.setAttribute("productLista", lista);
        
        // Forward toi trang /WEB-INF/views/homeView.jsp
        // (Người dùng không bao giờ truy cập trực tiếp được vào các trang JSP

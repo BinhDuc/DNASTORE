@@ -31,8 +31,8 @@
 <body>
 	 <!-- Top container -->
     <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
-        <a href="http://" class="w3-bar-item header"><i class="fas fa-arrow-left"></i></a>
-        <a href=""><span class="w3-bar-item logo" style="color: #fff;">DNASTORE</span></a>
+        <a href="${pageContext.request.contextPath}/quanly" class="w3-bar-item header"><i class="fas fa-arrow-left"></i></a>
+        <a href="${pageContext.request.contextPath}/quanly"><span class="w3-bar-item logo" style="color: #fff;">DNASTORE</span></a>
         <span class="w3-bar-item w3-right">Quản lý</span>
         <button id="btnFullscreen" class="w3-bar-item w3-right" type="button" style="border: none;
         background: none;color: #fff;cursor: pointer;">
@@ -42,7 +42,20 @@
     
     <div class="w3-main" style="margin-top:43px;">
         <div class="container">
-            
+            <c:choose>
+				<c:when test="${Message.equals('Image is uploaded successfully into the Database')}">
+			    	<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>
+					<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+					<script>
+					    $(document).ready(function(){
+					        swal('Thành Công!', 'Đã thêm thành công sản phẩm mới!', 'success');
+					    });
+					</script>
+				</c:when>
+			    <c:otherwise>
+					
+			    </c:otherwise>
+			</c:choose>
             <header>
                 <h2 style="font-family: AvertaStdCY-Semibold;">Thêm Sản Phẩm</h2>
             </header>

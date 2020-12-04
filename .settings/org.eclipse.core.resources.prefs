@@ -4,6 +4,7 @@ encoding//src/dnastore/filter/CookieFilter.java=UTF-8
 encoding//src/dnastore/filter/JDBCFilter.java=UTF-8
 encoding//src/dnastore/servlet/ActionCreateProduct.java=UTF-8
 encoding//src/dnastore/servlet/ActionCreateUser.java=UTF-8
+encoding//src/dnastore/servlet/ActionEditProduct.java=UTF-8
 encoding//src/dnastore/servlet/ActionEditUser.java=UTF-8
 encoding//src/dnastore/servlet/ActionRegister.java=UTF-8
 encoding//src/dnastore/servlet/ImageProduct.java=UTF-8

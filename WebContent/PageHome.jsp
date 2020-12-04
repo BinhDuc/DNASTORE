@@ -23,6 +23,41 @@
     <!-- owcarousel -->
     <script src="./js/jquery-3.3.1.min.js"></script>
     <script src="./js/owl.carousel.min.js"></script>
+    <style>
+    	.flag-discount {
+		    color: #fff;
+		    display: block;
+		    float: left;
+		    padding: 3px 3px;
+		    background: #ee4d2d;
+		    font-size: 12px;
+		    font-weight: 400;
+		    position: absolute;
+		    top:1%;
+		    left:0;
+		}
+		.flag-discount::before,
+		.flag-discount::after {
+		    content: "";
+		    position: absolute;
+		    left: 100%;
+		    width: 0;
+		    height: 0;
+		    border-style: solid;
+		    display: block;
+		    
+		}
+		.flag-discount::before {
+		    top: 0;
+		    border-width: 22px 10px 0 0;
+		    border-color: #ee4d2d transparent transparent transparent;
+		}
+		.flag-discount::after {
+		    bottom: 0;
+		    border-width: 0 10px 22px 0;
+		    border-color: transparent transparent #ee4d2d transparent;
+		}
+    </style>
 </head>
 <body>
  
@@ -95,7 +130,7 @@
                     <img src="./images/cat1.jpg" alt="">
                     <div class="content">
                         <h2>Sản phẩm nam</h2>
-                        <span>155 Sản phẩm</span>
+                        <span>${productListm.size()} Sản phẩm</span>
                         <a href="${pageContext.request.contextPath}/nam">mua ngay</a>
                     </div>
                 </div>
@@ -104,7 +139,7 @@
                     <img src="./images/cat3.jpg" alt="">
                     <div class="content">
                         <h2>Sản phẩm nữ</h2>
-                        <span>155 Sản phẩm</span>
+                        <span>${productListf.size()} Sản phẩm</span>
                         <a href="${pageContext.request.contextPath}/nu">mua ngay</a>
                     </div>
                 </div>
@@ -112,7 +147,7 @@
                     <img src="./images/cat2.jpg" alt="">
                     <div class="content">
                         <h2>Tất cả sản phẩm</h2>
-                        <span>155 Sản phẩm</span>
+                        <span>${productLista.size()} Sản phẩm</span>
                         <a href="${pageContext.request.contextPath}/tatca">mua ngay</a>
                     </div>
                 </div>
@@ -130,14 +165,27 @@
                 <c:forEach items="${productList}" var="product" >
 	                <div class=" product">
 	                    <div class="product-header">
-	                        <img src="http://192.168.43.144:8080/DNAStore/image?code=${product.code}" alt="anhsanpham">
+	                        <img src="http://localhost:8080/DNAStore//image?code=${product.code}" alt="anhsanpham">
 	                    </div>
 	                    <div class="product-footer">
 	                        <a href="product?code=${product.code}">
 	                            <h3>${product.name}</h3>
-	                        </a>
-	                        
-	                        <h4 class="price">${product.price} ₫</h4>
+	                        </a>	
+                        	<h4 class="price">
+		                        <script>
+									var price = ${product.price -(product.price * (product.discount / 100))};
+									price = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+									document.write(price);
+								</script>	
+	                        </h4>
+	                        <h4 style="text-decoration: line-through;color:#696969;font-size:12px">
+                        		<script>
+									var price = ${product.price};
+									price = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+									document.write(price);
+								</script>
+                        	</h4>
+		                    <span class="flag-discount">- ${product.discount}%</span>
 	                    </div>
 	                </div>
                 </c:forEach>

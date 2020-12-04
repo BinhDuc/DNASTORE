@@ -320,13 +320,11 @@
 			       </tr>
 		       </thead>
 	      		<c:forEach items="${CategoryList}" var="CategoryList" > 
-					
 						<tr>
 		     				<td><c:out value="${CategoryList.categoryId}"/></td>
 		                   	<td><c:out value="${CategoryList.categoryname}"/></td>
 		                   	<td><c:out value="${CategoryList.subid}"/></td>            
-		           		</tr>
-           			       
+		           		</tr>	       
 		      	</c:forEach>
 		    </table>
 		    </div>
@@ -351,7 +349,8 @@
 	
 		 	</div>
 		 	<div class="w3-responsive w3-container">
-			    <table class="w3-table-all" >
+			    <table class="w3-table-all w3-hoverable" >
+			    	<caption>Sản phẩm nữ</caption>
 			    	<thead>
 				       <tr class="w3-green">
 				          <th>ID</th>
@@ -361,21 +360,54 @@
 				          <th>Danh mục</th>
 				       </tr>
 			       </thead>
-		      		<c:forEach items="${productList}" var="productList" > 
+		      		<c:forEach items="${productListf}" var="productList" > 
 						
-							<tr>
+							<tr class='clickable-row' data-href='editProduct?code=${productList.code}&subid=${productList.subid}' style="cursor: pointer;">
 			     				<td><c:out value="${productList.code}"/></td>
 			                   	<td><c:out value="${productList.name}"/></td>
 			                   	<td><c:out value="${productList.price}"/></td>
 			                   	<td><c:out value="${productList.discount}"/></td>  
-			                   	<td><c:out value="${productList.categoryname}"/></td>              
+			                   	<td><c:out value="${productList.categoryname}"/></td>
+			                   	                            
 			           		</tr>
 	           			       
 			      	</c:forEach>
+			      	
+			    </table>
+			    <table class="w3-table-all w3-hoverable" >
+			    	<caption>Sản phẩm nam</caption>
+			    	<thead>
+				       <tr class="w3-green">
+				          <th>ID</th>
+				          <th>Tên sản phẩm</th>
+				          <th>Giá</th>
+				          <th>Discount</th>
+				          <th>Danh mục</th>
+				       </tr>
+			       </thead>
+		      		<c:forEach items="${productListm}" var="productList" > 
+						
+							<tr class='clickable-row' data-href='editProduct?code=${productList.code}&subid=${productList.subid}' style="cursor: pointer;">
+			     				<td><c:out value="${productList.code}"/></td>
+			                   	<td><c:out value="${productList.name}"/></td>
+			                   	<td><c:out value="${productList.price}"/></td>
+			                   	<td><c:out value="${productList.discount}"/></td>  
+			                   	<td><c:out value="${productList.categoryname}"/></td>
+			                   	                            
+			           		</tr>
+	           			       
+			      	</c:forEach>
+			      	
 			    </table>
 		    </div>    
 		</div>
-		
+		<script>
+	      	jQuery(document).ready(function($) {
+	      	    $(".clickable-row").click(function() {
+	      	        window.location = $(this).data("href");
+	      	    });
+	      	});
+      	</script>
 		<!-- Quản lý nhân sự -->
 		<div id='listuser' class="w3-container city w3-animate-zoom" style="display:none">
 		    <div class="w3-container">

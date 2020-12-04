@@ -13,6 +13,7 @@
 
     <!-- Custom StyleSheet -->
     <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/pagination.css">
     <link rel="stylesheet" href="./fontawesome-free-5.15.1-web/css/all.min.css">
     <!--  owlcarosel -->
     <link rel="stylesheet" href="./assets/owlcarousel/assets/owl.carousel.min.css">
@@ -23,6 +24,34 @@
     <!-- owcarousel -->
     <script src="./js/jquery-3.3.1.min.js"></script>
     <script src="./js/owl.carousel.min.js"></script>
+    <script src="./js/jquery.twbsPagination.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function () {
+            var pageSize = 6; // Hiển thị 6 sản phẩm trên 1 trang
+            showPage = function (page) {
+                $(".product").hide();
+                $(".product").each(function (n) {
+                    if (n >= pageSize * (page - 1) && n < pageSize * page)
+                        $(this).show();
+                });
+            }
+            showPage(1);
+            ///** Cần truyền giá trị vào đây **///
+            var totalRows = ${productList.size()}; // Tổng số sản phẩm hiển thị
+            var btnPage = 3; // Số nút bấm hiển thị di chuyển trang
+            var iTotalPages = Math.ceil(totalRows / pageSize);
+
+            var obj = $('#pagination').twbsPagination({
+                totalPages: iTotalPages,
+                visiblePages: btnPage,
+                onPageClick: function (event, page) {
+                    console.info(page);
+                    showPage(page);
+                }
+            });
+            console.info(obj.data());
+        });
+    </script>
 </head>
 <body>
 	<jsp:include page="_header.jsp"></jsp:include>
@@ -42,7 +71,7 @@
     <!-- Female Products -->
     <section class="sections all-products" id="products">
         <div class="top container">
-            <h3>120 sản phẩm</h3>
+            <h3>${productList.size()} sản phẩm</h3>
             <form>
                 <select>
                     <option value="1">Defualt Sorting</option>
@@ -89,6 +118,7 @@
             </div>
         </div>  
     </section>
+    <section id="pagination"></section>
 	<jsp:include page="_footer.jsp"></jsp:include>
 </body>
 </html>
