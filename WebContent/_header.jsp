@@ -33,7 +33,7 @@
                         <a href="${pageContext.request.contextPath}/nam" class="nav-link">Nam</a>
                     </li>
                     <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/tatca" class="nav-link">Tất cả</a>
+                        <a href="${pageContext.request.contextPath}/sale" class="nav-link">Sale</a>
                     </li>
                     <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/gioithieu" class="nav-link">Giới Thiệu</a>
@@ -60,8 +60,8 @@
             
             <jsp:useBean id="cart" scope="session" class="dnastore.beans.CartBean" />
             <div class="nav-icons">
-                <button class="bnt-search"><i class="fas fa-search"></i></button>
-                <a href="${pageContext.request.contextPath}/giohang" class="notification">
+                <button class="bnt-search" style="border:none;outline:none"><i class="fas fa-search"></i></button>
+                <a href="${pageContext.request.contextPath}/giohang" class="notification" style="border:none;outline:none">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="badge total-count">${cart.lineItemCount}</span>
                 </a>

@@ -5,7 +5,8 @@ package dnastore.beans;
 */
 public class CartItemBean {
 	private String number;
-    private String description;
+	private String code;
+    private String name;
     private double price;
     private int quantity;
     private double TotalCost;
@@ -15,13 +16,19 @@ public class CartItemBean {
     public void setNumber(String number) {
         this.number = number;
     }
-    public String getDescription() {
-        return description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    public double getPrice() {
+    public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public double getPrice() {
         return price;
     }
     public void setPrice(double price) {

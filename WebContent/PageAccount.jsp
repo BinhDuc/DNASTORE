@@ -45,8 +45,8 @@
             </div>
             
             <div class="user-header-info">
-                <div class="avatar-user">
-                    <img src="http://localhost:8080/DNAStore/avatar?username=${user.userName}" alt="">
+                <div class="avatar-user" style="background: url(DNAStore/WebContent/images/no_avatar.webp)">
+                    <img src="${pageContext.request.contextPath}/avatar?username=${user.userName}" alt="avatar">
                 </div>
                 <p>${user.fullname}</p>
             </div>    

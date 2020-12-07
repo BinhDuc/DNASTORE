@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+??<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
    
@@ -20,8 +20,8 @@
     <link rel="stylesheet" href="./assets/owlcarousel/assets/owl.theme.default.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <!-- owcarousel -->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
+    <script src="./js/jquery-3.3.1.min.js"></script>
+    <script src="./js/owl.carousel.min.js"></script>
     <style>
         *{
             font-family: AvertaStdCY-Regular;
@@ -35,18 +35,16 @@
         <span class="w3-bar-item logo" style="color: #fff;">DNASTORE</span>
         <span class="w3-bar-item w3-right">${user.rolename}</span>
         <button id="btnFullscreen" class="w3-bar-item w3-right" type="button" style="border: none;
-        background: none;color: #fff;cursor: pointer;">
-            <i class="fas fa-expand"></i>
-        </button>
+        background: none;color: #fff;cursor: pointer;"><i class="fas fa-expand"></i></button>
     </div>
 
     <!-- Sidebar/menu -->
-    <nav class="w3-sidebar w3-collapse w3-white w3-animate-opacity" style="z-index:3;width:300px;" id="mySidebar"><br>
+    <nav class="w3-sidebar w3-collapse w3-white w3-margin-top w3-animate-opacity" style="z-index:3;width:300px;" id="mySidebar"><br>
         <div class="w3-container w3-row">
             <div class="w3-col s4">
-                <img src="http://localhost:8080/DNAStore/avatar?username=${user.userName}" class=" w3-margin-right" style="width:66px;height:66px; border-radius:50%;">
+                <img src="${pageContext.request.contextPath}/avatar?username=${user.userName}" class=" w3-margin-right" style="width:66px;height:66px; border-radius:50%;">
             </div>
-            <div class="w3-col s8 w3-bar">
+            <div class="w3-col s8 w3-bar ">
                 <span><strong>${user.fullname}</strong></span><br>
                 <a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
                 <a href="#" class="w3-bar-item w3-button"><i class="fas fa-user"></i></a>
@@ -59,27 +57,53 @@
         </div>
         <div class="w3-bar-block">
             
-            <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'overview')"><i class="fa fa-users fa-fw"></i>  Overview</button>
-            <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'userinfo')"><i class="fas fa-user"></i>  Hồ sơ</button>
+            <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'overview')">
+            	<i class="fas fa-tachometer-alt"></i>  Overview
+            </button>
+            <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'userinfo')">
+            	<i class="fas fa-user"></i>  Hồ sơ
+            </button>
             
 
-            <button onclick="dropDown('sub-product')" class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink"><i class="fas fa-cogs"></i> Sản Phẩm</button>
+            <button onclick="dropDown('sub-product')" class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink">
+            	<i class="fab fa-product-hunt"></i> Sản phẩm
+            </button>
             <div id="sub-product" class="w3-hide w3-animate-zoom w3-margin-left">
-                <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'category')"><i class="fas fa-images"></i> Category</button>
-                <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'product')"><i class="fas fa-code-branch"></i> Products</button>
+                <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'category')">
+                	<i class="fas fa-list"></i> Phân loại sản phẩm
+                </button>
+                <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'product')">
+                	<i class="fas fa-tshirt"></i> Danh sách
+                </button>
             </div>
 
-            <button onclick="dropDown('sub-acc')" class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink"><i class="fas fa-cogs"></i> Nhân sự</button>
+            <button onclick="dropDown('sub-acc')" class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink">
+            	<i class="fas fa-users"></i> Nhân sự
+            </button>
             <div id="sub-acc" class="w3-hide w3-animate-zoom w3-margin-left">
-                <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'listuser')"><i class="fas fa-images"></i> User</button>
-                <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'listrole')"><i class="fas fa-code-branch"></i> Role</button>
+                <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'listuser')">
+                	<i class="fas fa-users-cog"></i> Danh sách
+                </button>
+                <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'listrole')">
+                	<i class="fas fa-code-branch"></i> Chức Vụ
+                </button>
             </div>
-            <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'listcustomer')"><i class="fas fa-user"></i>  Tài khoản khách hàng</button>
-            <button onclick="dropDown('sub-nav')" class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink"><i class="fas fa-cogs"></i> Giao diện</button>
+            <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'listcustomer')">
+            	<i class="fas fa-address-book"></i>  Tài khoản khách hàng
+            </button>
+            <button onclick="dropDown('sub-nav')" class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink">
+            	<i class="fas fa-cogs"></i> Giao diện
+            </button>
             <div id="sub-nav" class="w3-hide w3-animate-zoom w3-margin-left">
-                <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'slideshow')"><i class="fas fa-images"></i> Carousel</button>
-                <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'slide-brand')"><i class="fas fa-code-branch"></i> Brand</button>
-                <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'banner-discount')"><i class="fas fa-tags"></i> Banner</button>
+                <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'slideshow')">
+                	<i class="fas fa-images"></i> Carousel
+                </button>
+                <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'slide-brand')">
+                	<i class="fas fa-code-branch"></i> Brand
+                </button>
+                <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'banner-discount')">
+                	<i class="fas fa-tags"></i> Banner
+                </button>
             </div>
         </div>
     </nav>
@@ -89,7 +113,7 @@
     <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
     <!-- !PAGE CONTENT! -->
-    <div class="w3-main" style="margin-left:300px;margin-top:43px;">
+    <div class="w3-main" style="margin-left:300px;margin-top:43px">
 
     <!-- Header -->
         <header class="w3-container" style="padding-top:22px">
@@ -119,22 +143,22 @@
                 </div>
                 <div class="w3-quarter">
                     <div class="w3-container w3-teal w3-padding-16">
-                        <div class="w3-left"><i class="fa fa-share-alt w3-xxxlarge"></i></div>
+                        <div class="w3-left"><i class="fab fa-product-hunt w3-xxxlarge"></i></div>
                         <div class="w3-right">
-                            <h3>23</h3>
+                            <h3>${productList.size()}</h3>
                         </div>
                         <div class="w3-clear"></div>
-                        <h4>Shares</h4>
+                        <h4>Sản phẩm</h4>
                     </div>
                 </div>
                 <div class="w3-quarter">
                     <div class="w3-container w3-orange w3-text-white w3-padding-16">
                         <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
                         <div class="w3-right">
-                            <h3>50</h3>
+                            <h3>${UserList.size()}</h3>
                         </div>
                         <div class="w3-clear"></div>
-                        <h4>Users</h4>
+                        <h4>Khách hàng</h4>
                     </div>
                 </div>
             </div>
@@ -143,18 +167,12 @@
             <div class="w3-container">
                 <h5>Users mới</h5>
                 <ul class="w3-ul w3-card-4 w3-white">
-                    <li class="w3-padding-16">
-                        <img src="./images/vice_item_1.webp" class="w3-left w3-circle w3-margin-right" style="width:35px">
-                        <span class="w3-xlarge">Mike</span><br>
-                    </li>
-                    <li class="w3-padding-16">
-                        <img src="./images/vice_item_1.webp" class="w3-left w3-circle w3-margin-right" style="width:35px">
-                        <span class="w3-xlarge">Jill</span><br>
-                    </li>
-                    <li class="w3-padding-16">
-                        <img src="./images/vice_item_1.webp" class="w3-left w3-circle w3-margin-right" style="width:35px">
-                        <span class="w3-xlarge">Jane</span><br>
-                    </li>
+                    <c:forEach items="${NewUserList}" var="NewUserList"> 
+                    	<li class="w3-padding-16">
+                        	<img src="${pageContext.request.contextPath}/avatar?username=${NewUserList.userName}" class="w3-left w3-circle w3-margin-right" style="width:35px">
+                        	<span class="w3-xlarge">${NewUserList.fullname}</span><br>
+                    	</li>
+                    </c:forEach>
                 </ul>
             </div>
             <hr>
@@ -206,7 +224,7 @@
                                 <label class="label">
                                     <input type="file" />
                                     <figure class="personal-figure">
-	                                    <img src="http://192.168.43.144:8080/DNAStore/avatar?username=${user.userName}" class="personal-avatar" alt="avatar">
+	                                    <img src="${pageContext.request.contextPath}/avatar?username=${user.userName}" class="personal-avatar" alt="avatar">
 	                                    <figcaption class="personal-figcaption">
 	                                        <img src="./images/camera-white.png">
 	                                    </figcaption>
@@ -533,30 +551,8 @@
 			    </table>
 		    </div>    
 		</div>
-         <div id='1' class="w3-container city w3-animate-zoom" style="display:none">
-            <div class="w3-container w3-animate-right ">
-                <h5>Recent Comments</h5>
-                <div class="w3-row">
-                    <div class="w3-col m2 text-center">
-                        <img class="w3-circle" src="./images/vice_item_1.webp" style="width:96px;height:96px">
-                    </div>
-                    <div class="w3-col m10 w3-container">
-                        <h4>John <span class="w3-opacity w3-medium">Sep 29, 2014, 9:12 PM</span></h4>
-                        <p>Keep up the GREAT work! I am cheering for you!! Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><br>
-                    </div>
-                </div>
-
-                <div class="w3-row">
-                    <div class="w3-col m2 text-center">
-                        <img class="w3-circle" src="./images/vice_item_1.webp" style="width:96px;height:96px">
-                    </div>
-                    <div class="w3-col m10 w3-container">
-                        <h4>Bo <span class="w3-opacity w3-medium">Sep 28, 2014, 10:15 PM</span></h4>
-                        <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><br>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
+	</div>
 
 
     

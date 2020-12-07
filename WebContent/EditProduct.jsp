@@ -26,6 +26,8 @@
         *{
             font-family: AvertaStdCY-Regular;
         }
+        .khung{
+        padding:20px}
     </style>
 </head>
 <body>
@@ -41,7 +43,7 @@
     </div>
     
     <div class="w3-main" style="margin-top:43px;">
-        <div class="container">
+        <div class="khung">
             <c:choose>
 				<c:when test="${Message.equals('Sửa thành công')}">
 			    	<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>
@@ -56,9 +58,14 @@
 					
 			    </c:otherwise>
 			</c:choose>
-            <header>
+			
+            <div>
                 <h2 style="font-family: AvertaStdCY-Semibold;">Sửa Sản Phẩm</h2>
-            </header>
+            </div>
+           
+           	<a href="deleteProduct?code=${product.code}" class="w3-button w3-green w3-margin-bottom" style="text-decoration: none;border-radius:5px">
+           		Delete <i class="fas fa-trash-alt"></i>
+           	</a>
             <form method="POST" action="${pageContext.request.contextPath}/editProduct" enctype="multipart/form-data">
             	<div class="row">
                     <div class="col-25">
@@ -100,10 +107,10 @@
                         
                     <div class="image">
                             <div class="image-boder">
-                                <img id="image_upload_preview" src="./images/no-image-800x600.png" alt="your image" class="responsive"/> 
+                                <img id="image_upload_preview" src="${pageContext.request.contextPath}/image?code=${product.code}" alt="your image" class="responsive"/> 
                             </div>
                     </div>
-                        <input type='file' id="inputFile" name="image" />
+                        <input type='file' id="inputFile" name="image" required/>
                     
                         
                     </div>

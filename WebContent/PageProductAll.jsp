@@ -52,16 +52,52 @@
             console.info(obj.data());
         });
     </script>
+    <style>
+    	.flag-discount {
+		    color: #fff;
+		    display: block;
+		    float: left;
+		    padding: 3px 3px;
+		    background: #ee4d2d;
+		    font-size: 12px;
+		    font-weight: 400;
+		    position: absolute;
+		    top:3%;
+		    left:0;
+		}
+		.flag-discount::before,
+		.flag-discount::after {
+		    content: "";
+		    position: absolute;
+		    left: 100%;
+		    width: 0;
+		    height: 0;
+		    border-style: solid;
+		    display: block;
+		    
+		}
+		.flag-discount::before {
+		    top: 0;
+		    border-width: 22px 10px 0 0;
+		    border-color: #ee4d2d transparent transparent transparent;
+		}
+		.flag-discount::after {
+		    bottom: 0;
+		    border-width: 0 10px 22px 0;
+		    border-color: transparent transparent #ee4d2d transparent;
+		}
+		
+    </style>
 </head>
 <body>
 	<jsp:include page="_header.jsp"></jsp:include>
 	<section class="bg-allproduct">
         <div class="link-title">
-            <h1>Tất Cả Sản Phẩm</h1>
+            <h1>SALE</h1>
             <div class="title-links">
                 <a href="${pageContext.request.contextPath}/">Trang chủ</a>
                 /
-                <a href="">Tất Cả</a>
+                <a href="">Giảm giá</a>
             </div>
         </div>
     </section>
@@ -86,18 +122,40 @@
             </form>
         </div>
         <div class="container">
-            <div class="product-center">
+            <div class="product-center product-center-s">
             	<c:forEach items="${productList}" var="product" >
-	                <div class="product">
+	                <div class="product clickable" data-href='product?code=${product.code}&categoryid=${product.categoryId}'>
 	                    <div class="product-header">
-	                        <img src="http://localhost:8080/DNAStore/image?code=${product.code}" alt="anhsanpham">
+	                        <img src="${pageContext.request.contextPath}/image?code=${product.code}" alt="anhsanpham">
 	                    </div>
 	                    <div class="product-footer">
-	                        <a href="product?code=${product.code}">
+	                        <a href="product?code=${product.code}&categoryid=${product.categoryId}">
 	                            <h3>${product.name}</h3>
 	                        </a>
-	                        <h4 class="price">${product.price} ₫</h4>
+	                        <h4 class="price">
+		                        <script>
+									var price = ${product.price -(product.price * (product.discount / 100))};
+									price = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+									document.write(price);
+								</script>	
+	                        </h4>
+	                        <h4 style="text-decoration: line-through;color:#696969;font-size:12px">
+                        		<script>
+									var price = ${product.price};
+									price = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+									document.write(price);
+								</script>
+                        	</h4>
+	                        
 	                    </div>
+	                    <c:choose>
+	                    	<c:when test="${product.discount > '0'}">
+								<span class="flag-discount">-${product.discount}%</span>
+						    </c:when>
+						    <c:otherwise>
+						    	
+						    </c:otherwise>
+	                    </c:choose>
 	                </div>
                 </c:forEach>
             </div>

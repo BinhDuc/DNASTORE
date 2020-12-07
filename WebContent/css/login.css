@@ -394,3 +394,8 @@ b#sign-up {
     max-width: 100%;
   }
 }
+@media only screen and (max-height: 567px){
+  .text h2 {
+    display: none;
+  }
+}

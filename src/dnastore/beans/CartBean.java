@@ -50,14 +50,14 @@ public class CartBean {
         }
 
     }
-	public void addCart( String description, String price, String quantity) {
+	public void addCart(String code, String name, String price, String quantity) {
         double iPrice = Double.parseDouble(price);
         int iQuantity = Integer.parseInt(quantity);
         CartItemBean cartItem = new CartItemBean();
         try {
             if (iQuantity > 0) {
-                
-                cartItem.setDescription(description);
+            	cartItem.setCode(code);
+                cartItem.setName(name);;
                 cartItem.setPrice(iPrice);
                 cartItem.setQuantity(iQuantity);
                 cartItem.setTotalCost(iPrice * iQuantity);

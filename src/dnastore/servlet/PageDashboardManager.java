@@ -40,6 +40,7 @@ public class PageDashboardManager extends HttpServlet {
         List<Category> listct = null;
         List<Account> listacc = null;
         List<Account> listuser = null;
+        List<Account> listnewuser = null;
         List<Role> listr = null;
  
         // Kiểm tra người dùng đã đăng nhập (login) chưa.
@@ -58,6 +59,7 @@ public class PageDashboardManager extends HttpServlet {
            listct = DBUtils.queryAllCategory(conn);
            listacc = DBUtils.queryAccount(conn);
            listuser = DBUtils.queryUser(conn);
+           listnewuser = DBUtils.queryNewUser(conn);
            listr = DBUtils.queryRole(conn);
            
            
@@ -74,6 +76,7 @@ public class PageDashboardManager extends HttpServlet {
         request.setAttribute("CategoryList", listct);
         request.setAttribute("AccountList", listacc);
         request.setAttribute("UserList", listuser);
+        request.setAttribute("NewUserList", listnewuser);
         request.setAttribute("RoleList", listr);
         // Nếu người dùng đã login thì forward (chuyển tiếp) tới trang
         // /WEB-INF/views/userInfoView.jsp

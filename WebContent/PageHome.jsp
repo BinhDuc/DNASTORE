@@ -33,7 +33,7 @@
 		    font-size: 12px;
 		    font-weight: 400;
 		    position: absolute;
-		    top:1%;
+		    top:3%;
 		    left:0;
 		}
 		.flag-discount::before,
@@ -80,43 +80,21 @@
         </script>
         <section class="hero">
             <div class="owl-carousel" id="carousel">
-                <div class="item">
-                    <div class="banner" data-background="./images/slidess.jpg">
-                        <div class="banner-content">
-                            <span>Bô Sưu Tập Thu Đông</span>
-                            <h1>XU HƯỚNG THỜI TRANG</h1>
-                            <h3>“Thời trang có thể phai tàn nhưng phong cách sẽ tồn tại mãi mãi”</h3>
-                            <div class="buttons-group">
-                                <a href="${pageContext.request.contextPath}/tatca">MUA NGAY</a>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="banner" data-background="./images/slide.jpg">
-                        <div class="banner-content">
-                            <span>New Inspiration 2020</span>
-                            <h1>TƯNG BỪNG KHAI TRƯƠNG!</h1>
-                            <h3>Trending from men and women style collection</h3>
-                            <div class="buttons-group">
-                                <a href="${pageContext.request.contextPath}/tatca">MUA NGAY</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="banner" data-background="./images/s1.jpg">
-                        <div class="banner-content">
-                            <span>Black Friday 2020</span>
-                            <h1>NGÂP TRÀN QUÀ TẶNG!</h1>
-                            <h3>Trending from men and women style collection</h3>
-                            <div class="buttons-group">
-                                <a href="${pageContext.request.contextPath}/tatca">MUA NGAY</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <c:forEach items="${slideList}" var="slide" >
+	                <div class="item">
+	                    <div class="banner" data-background="${pageContext.request.contextPath}/bgSlide?id=${slide.id}">
+	                        <div class="banner-content">
+	                            <span>${slide.title}</span>
+	                            <h1>${slide.slideName}</h1>
+	                            <h3>${slide.content}</h3>
+	                            <div class="buttons-group">
+	                                <a href="${pageContext.request.contextPath}/sale">MUA NGAY</a>
+	                            </div>
+	                            
+	                        </div>
+	                    </div>
+	                </div>
+                </c:forEach>
             </div>
 
 
@@ -163,12 +141,12 @@
 
             <div class="product-center container">
                 <c:forEach items="${productList}" var="product" >
-	                <div class=" product">
+	                <div class="product clickable" data-href='product?code=${product.code}&categoryid=${product.categoryId}'>
 	                    <div class="product-header">
-	                        <img src="http://localhost:8080/DNAStore//image?code=${product.code}" alt="anhsanpham">
+	                        <img src="${pageContext.request.contextPath}/image?code=${product.code}" alt="anhsanpham">
 	                    </div>
 	                    <div class="product-footer">
-	                        <a href="product?code=${product.code}">
+	                        <a href="product?code=${product.code}&categoryid=${product.categoryId}">
 	                            <h3>${product.name}</h3>
 	                        </a>	
                         	<h4 class="price">
@@ -178,14 +156,8 @@
 									document.write(price);
 								</script>	
 	                        </h4>
-	                        <h4 style="text-decoration: line-through;color:#696969;font-size:12px">
-                        		<script>
-									var price = ${product.price};
-									price = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
-									document.write(price);
-								</script>
-                        	</h4>
-		                    <span class="flag-discount">- ${product.discount}%</span>
+	                        
+		                    <span class="flag-discount">New</span>
 	                    </div>
 	                </div>
                 </c:forEach>
@@ -199,7 +171,7 @@
                     <h1>
                         <span>Bộ Sưu Tập Thu Đông</span>
                     </h1>
-                    <a class="btn" href="#">Mua Ngay</a>
+                    <a class="btn" href="${pageContext.request.contextPath}/sale">Mua Ngay</a>
                 </div>
             </div>
         </section>
@@ -320,6 +292,7 @@
                 }
             }
         });
+        
     </script>
   </body>
 </html>

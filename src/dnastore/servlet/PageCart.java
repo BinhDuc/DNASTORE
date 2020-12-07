@@ -1,6 +1,9 @@
 package dnastore.servlet;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import dnastore.beans.*;
+import dnastore.utils.DBUtils;
+import dnastore.utils.MyUtils;
 /**
  * Servlet implementation class PageCart
  */
@@ -28,6 +33,21 @@ public class PageCart extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Connection conn = MyUtils.getStoredConnection(request);
+	       String errorString = null;
+	       List<Product> list = null;
+	       
+	       try {
+	           list = DBUtils.queryRandomProduct(conn);
+	           
+	       } catch (SQLException e) {
+	           e.printStackTrace();
+	           errorString = e.getMessage();
+	       }
+	       
+	       // Lưu thông tin vào request attribute trước khi forward sang views.
+	       request.setAttribute("errorString", errorString);
+	       request.setAttribute("productList", list);
 		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/PageCart.jsp");
 		dispatcher.forward(request, response);
 	}
@@ -38,15 +58,15 @@ public class PageCart extends HttpServlet {
 		String iAction = request.getParameter("action");
 
         if (iAction != null && !iAction.equals("")) {
-            if (iAction.equals("Add To Cart")) {
+            if (iAction.equals("Mua ngay")) {
                 addToCart(request);
-            } else if (iAction.equals("Update")) {
+            } else if (iAction.equals("Sửa")) {
                 updateCart(request);
-            } else if (iAction.equals("Delete")) {
+            } else if (iAction.equals("X")) {
                 deleteCart(request);
             }
         }
-        response.sendRedirect("PageCart.jsp");
+        response.sendRedirect("giohang");
 	}
 	protected void deleteCart(HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -82,8 +102,8 @@ public class PageCart extends HttpServlet {
 
     protected void addToCart(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        
-        String iDescription = request.getParameter("description");
+        String iCode = request.getParameter("code");
+        String iDescription = request.getParameter("name");
         String iPrice = request.getParameter("price");
         String iQuantity = request.getParameter("quantity");
 
@@ -98,7 +118,7 @@ public class PageCart extends HttpServlet {
             session.setAttribute("cart", cartBean);
         }
 
-        cartBean.addCart(iDescription, iPrice, iQuantity);
+        cartBean.addCart(iCode, iDescription, iPrice, iQuantity);
     }
 
 }

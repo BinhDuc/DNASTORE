@@ -1,33 +1,29 @@
 package dnastore.servlet;
 
 import java.io.IOException;
-
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
- 
-import javax.servlet.RequestDispatcher;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dnastore.beans.Product;
+import dnastore.beans.Slide;
 import dnastore.utils.DBUtils;
 import dnastore.utils.MyUtils;
 
 /**
- * Servlet implementation class ProductServlet
+ * Servlet implementation class ImageSlide
  */
-@WebServlet("/sale")
-public class PageProductAll extends HttpServlet {
+@WebServlet("/bgSlide")
+public class ImageSlide extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PageProductAll() {
+    public ImageSlide() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,26 +33,14 @@ public class PageProductAll extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Connection conn = MyUtils.getStoredConnection(request);
-	       String errorString = null;
-	       List<Product> list = null;
-	       
-	       try {
-	           list = DBUtils.querySaleProduct(conn);
-	           
-	       } catch (SQLException e) {
-	           e.printStackTrace();
-	           errorString = e.getMessage();
-	       }
-	       
-	       // Lưu thông tin vào request attribute trước khi forward sang views.
-	       request.setAttribute("errorString", errorString);
-	       request.setAttribute("productList", list);
-	       // Forward toi trang /WEB-INF/views/homeView.jsp
-	       // (Người dùng không bao giờ truy cập trực tiếp được vào các trang JSP
-	       // đặt trong WEB-INF)
-	       RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/PageProductAll.jsp");
-	        
-	       dispatcher.forward(request, response);
+		Slide slide = null;
+		String id = request.getParameter("id");
+		try {
+			slide = DBUtils.findSlide(conn, id);
+			response.getOutputStream().write(slide.getBackground());
+		} catch (Exception e) {
+			 throw new ServletException(e);
+		}
 	}
 
 	/**

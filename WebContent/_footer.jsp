@@ -3,20 +3,20 @@
   
 <!-- sub navigation -->
 	<div class="sub-nav">       
-        <a href="tel:012345678" rel="nofollow" aria-label="phone">
+        <a href="tel:012345678" rel="nofollow" aria-label="phone" style="outline:none">
             <i class="fas fa-phone-alt"></i>
         </a>
         
-        <a href="//m.me/3591658937533633" target="_blank" rel="noreferrer" aria-label="messenger">
+        <a href="//m.me/3591658937533633" target="_blank" rel="noreferrer" aria-label="messenger" style="outline:none">
             <i class="fab fa-facebook-messenger"></i>
         </a>
-        <a href="${pageContext.request.contextPath}/">
+        <a href="${pageContext.request.contextPath}/" style="outline:none">
             <i class="fas fa-home"></i>
         </a>
-        <a href="mailto:company@gmail.com?subject=feedback">
+        <a href="mailto:company@gmail.com?subject=feedback" style="outline:none">
             <i class="fas fa-envelope"></i>
         </a> 
-        <a href="${pageContext.request.contextPath}/taikhoan">
+        <a href="${pageContext.request.contextPath}/taikhoan" style="outline:none">
             <i class="fas fa-user"></i>
         </a> 
     </div>
@@ -93,4 +93,9 @@
 	            return false; 
 	        }); 
 	    });
+	    jQuery(document).ready(function($) {
+      	    $(".clickable").click(function() {
+      	        window.location = $(this).data("href");
+      	    });
+      	});
     </script>

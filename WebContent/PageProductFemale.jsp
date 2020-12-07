@@ -52,6 +52,7 @@
             console.info(obj.data());
         });
     </script>
+    
 </head>
 <body>
 	<jsp:include page="_header.jsp"></jsp:include>
@@ -99,11 +100,11 @@
                     });
                 </script>
             </div>
-            <div class="product-center product-list-right">
+            <div class="product-center product-center-s product-list-right">
                 <c:forEach items="${productList}" var="product" >
 	                <div class="product">
 	                    <div class="product-header">
-	                        <img src="http://localhost:8080/DNAStore/image?code=${product.code}" alt="anhsanpham">
+	                        <img src="${pageContext.request.contextPath}/image?code=${product.code}" alt="anhsanpham">
 	                    </div>
 	                    <div class="product-footer">
 	                        <a href="product?code=${product.code}">

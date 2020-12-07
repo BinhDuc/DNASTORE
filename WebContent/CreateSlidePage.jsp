@@ -50,7 +50,7 @@
 					<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 					<script>
 					    $(document).ready(function(){
-					        swal('Thành Công!', 'Đã thêm thành công sản phẩm mới!', 'success');
+					        swal('Thành Công!', 'Đã thêm thành công slide mới!', 'success');
 					    });
 					</script>
 				</c:when>
@@ -59,36 +59,36 @@
 			    </c:otherwise>
 			</c:choose>
             <header>
-                <h2 style="font-family: AvertaStdCY-Semibold;">Thêm Sản Phẩm</h2>
+                <h2 style="font-family: AvertaStdCY-Semibold;">Thêm Slide</h2>
             </header>
-            <form method="POST" action="${pageContext.request.contextPath}/createProduct" enctype="multipart/form-data">
+            <form method="POST" action="${pageContext.request.contextPath}/CreateSlide" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-25">
-                        <label>Tên sản phẩm</label>
+                        <label>Title</label>
                     </div>
                     <div class="col-75">
-                        <input type="text" name="name" >
+                        <input type="text" name="title" >
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-25">
-                        <label>Giá</label>
+                        <label>Slide Name</label>
                     </div>
                     <div class="col-75">
-                        <input type="number" name="price">
+                        <input type="text" name="slidename">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-25">
-                        <label>Discount</label>
+                        <label>Content</label>
                     </div>
                     <div class="col-75">
-                        <input type="number" name="discount">
+                        <input type="text" name="content">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-25">
-                        <label>Ảnh sản phẩm</label>
+                        <label>Background</label>
                     </div>
                     <div class="col-75">
                         
@@ -97,34 +97,13 @@
                                 <img id="image_upload_preview" src="./images/no-image-800x600.png" alt="your image" class="responsive"/> 
                             </div>
                     </div>
-                        <input type='file' id="inputFile" name="image" />
-                    
-                        
+                        <input type='file' id="inputFile" name="background" />    
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-25">
-                        <label>Danh mục dản phẩm</label>
-                    </div>
-                    <div class="col-75">
-                        <select name="categoryid">
-                            <c:forEach items="${categoryList}" var="categoryList" >
-				         		<option value="${categoryList.categoryId}">${categoryList.categoryname}</option>
-				         	</c:forEach>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-25">
-                        <label>Chi tiết sản phẩm</label>
-                    </div>
-                    <div class="col-75">
-                        <textarea name="note" style="height:200px"></textarea>
-                    </div>
-                </div>
+                
                 <br>
                 <div class="row">
-                    <input type="submit" value="Thêm sản phẩm">
+                    <input type="submit" value="Thêm Slide">
                 </div>
             </form>
         </div>

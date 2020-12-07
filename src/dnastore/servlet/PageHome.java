@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dnastore.beans.Product;
+import dnastore.beans.Slide;
 import dnastore.utils.DBUtils;
 import dnastore.utils.MyUtils;
 @WebServlet(urlPatterns = { "/trangchu"})
@@ -35,12 +36,14 @@ public class PageHome extends HttpServlet {
        List<Product> listf = null;
        List<Product> listm = null;
        List<Product> lista = null;
+       List<Slide> lists = null;
        
        try {
            list = DBUtils.queryNewProduct(conn);
            listf = DBUtils.queryProductFemale(conn);
            listm = DBUtils.queryProductMale(conn);
            lista = DBUtils.queryProduct(conn);
+           lists = DBUtils.querySlide(conn);
        } catch (SQLException e) {
            e.printStackTrace();
            errorString = e.getMessage();
@@ -52,6 +55,7 @@ public class PageHome extends HttpServlet {
        request.setAttribute("productListf", listf);
        request.setAttribute("productListm", listm);
        request.setAttribute("productLista", lista);
+       request.setAttribute("slideList", lists);
        
        // Forward toi trang /WEB-INF/views/homeView.jsp
        // (Người dùng không bao giờ truy cập trực tiếp được vào các trang JSP

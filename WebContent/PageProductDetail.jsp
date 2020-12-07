@@ -30,7 +30,7 @@
         <div class="details container-md">
             <div class="left">
                 <div class="main">
-                    <img src="http://localhost:8080/DNAStore/image?code=${product.code}" alt="anhsanpham">
+                    <img src="${pageContext.request.contextPath}/image?code=${product.code}" alt="anhsanpham">
                 </div>
             </div>
             <div class="right">
@@ -38,20 +38,36 @@
                 <h1>${product.name}</h1>
                 <div class="price">
                 	<script>
-						var price = ${product.price};
+						var price = ${product.price -(product.price * (product.discount / 100))};
 						price = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
 						document.write(price);
 					</script>
+					<c:choose>
+                    	<c:when test="${product.discount > '0'}">
+							<div style="text-decoration: line-through;color:#696969;font-size:12px">
+								<script>
+									var price = ${product.price};
+									price = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+									document.write(price);
+								</script>
+			           		</div>
+					    </c:when>
+					    <c:otherwise>
+					    	
+					    </c:otherwise>
+                    </c:choose>
+							
                 </div>
+				
                 
 
                 <form class="form" method="POST" action="${pageContext.request.contextPath}/giohang">
-                	
-                	<input type="hidden" name="description" value="${product.name}">
-                	<input type="hidden" name="price" value="${product.price}">
+                	<input type="hidden" name="code" value="${product.code}">
+                	<input type="hidden" name="name" value="${product.name}">
+                	<input type="hidden" name="price" value="${product.price-(product.price * (product.discount / 100))}">
                     <input type="text" min="1" name="quantity" value="1">
                     
-                    <input type="submit" class="addCart" name="action" value="Add To Cart" style="border:none;outline:none;width:40%;padding:10px">
+                    <input type="submit" class="addCart" name="action" value="Mua ngay" style="border:none;outline:none;width:40%;padding:10px">
                     
                 </form>
                 <h3>Chi tiết</h3>
@@ -68,7 +84,7 @@
             <c:forEach items="${productList}" var="product" >
                 <div class="product">
                     <div class="product-header">
-                        <img src="http://localhost:8080/DNAStore/image?code=${product.code}" alt="anhsanpham">
+                        <img src="${pageContext.request.contextPath}/image?code=${product.code}" alt="anhsanpham">
                     </div>
                     <div class="product-footer">
                         <a href="product?code=${product.code}">

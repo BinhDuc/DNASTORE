@@ -52,6 +52,14 @@
             console.info(obj.data());
         });
     </script>
+    <style>
+        .product-center-s {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 4rem 3.5rem;
+
+        }
+    </style>
 </head>
 <body>
 	<jsp:include page="_header.jsp"></jsp:include>
@@ -105,7 +113,7 @@
                 <c:forEach items="${productList}" var="product" >
 	                <div class="product">
 	                    <div class="product-header">
-	                        <img src="http://localhost:8080/DNAStore/image?code=${product.code}" alt="anhsanpham">
+	                        <img src="${pageContext.request.contextPath}/image?code=${product.code}" alt="anhsanpham">
 	                    </div>
 	                    <div class="product-footer">
 	                        <a href="product?code=${product.code}">

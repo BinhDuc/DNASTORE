@@ -37,21 +37,6 @@ public class ImageUser extends HttpServlet {
 		String username = request.getParameter("username");
 		try {
 			account = DBUtils.findUser(conn, username);
-			if (account == null) {
-               // Không có dữ liệu ảnh, chuyển hướng tới một ảnh mặc định.
-				response.sendRedirect(request.getContextPath() + "/images/no_avatar.webp");
-				return;
-			}
-        // trump.jpg, putin.png
-			String imageFileName = account.getUserName();
-			
-			String contentType = this.getServletContext().getMimeType(imageFileName);
-			System.out.println("Content Type: "+ contentType);
-			response.setHeader("Content-Type", contentType);
-           
-			response.setHeader("Content-Length", String.valueOf(account.getImage().length));
-         
-			response.setHeader("Content-Disposition", "inline; filename=\"" + account.getUserName() + "\"");
 			// Ghi dữ liệu ảnh vào Response.
 			response.getOutputStream().write(account.getImage());
 		} catch (Exception e) {

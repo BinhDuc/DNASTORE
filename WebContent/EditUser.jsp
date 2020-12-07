@@ -25,6 +25,8 @@
         *{
             font-family: AvertaStdCY-Regular;
         }
+        .khung{
+        padding:20px}
     </style>
 </head>
 <body>
@@ -40,7 +42,7 @@
     </div>
    
     <div class="w3-main" style="margin-top:43px;">
-        <div class="container">
+        <div class="khung">
             <c:choose>
 				<c:when test="${Message.equals('Sửa thành công')}">
 			    	<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>
@@ -131,10 +133,10 @@
                         
                     <div class="image">
                             <div class="image-boder">
-                                <img id="image_upload_preview" src="http://localhost:8080/DNAStore/avatar?username=${account.userName}" alt="your image" class="responsive"/> 
+                                <img id="image_upload_preview" src="${pageContext.request.contextPath}/avatar?username=${account.userName}" alt="your image" class="responsive"/> 
                             </div>
                     </div>
-                        <input type='file' id="inputFile" name="image" value="http://localhost:8080/DNAStore/avatar?username=${account.userName}"/>
+                        <input type='file' id="inputFile" name="image" required/>
                     
                         
                     </div>

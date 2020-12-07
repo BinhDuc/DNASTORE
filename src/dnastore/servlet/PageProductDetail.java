@@ -38,6 +38,7 @@ public class PageProductDetail extends HttpServlet {
 		Connection conn = MyUtils.getStoredConnection(request);
 		 
         String code = (String) request.getParameter("code");
+        String categoryid = (String) request.getParameter("categoryid");
         Product product = null;
         String errorString = null;
 //        HttpSession session = request.getSession();
@@ -45,7 +46,7 @@ public class PageProductDetail extends HttpServlet {
 //        ArrayList<Cart> arrCart = new ArrayList<Cart>();
         try {
             product = DBUtils.findProduct(conn, code);
-            list = DBUtils.queryRandomProduct(conn);
+            list = DBUtils.querySameProduct(conn, categoryid);
         } catch (SQLException e) {
             e.printStackTrace();
             errorString = e.getMessage();
