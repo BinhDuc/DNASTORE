@@ -13,6 +13,7 @@
 
     <!-- Custom StyleSheet -->
     <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/SearchStyle.css" />
     <link rel="stylesheet" href="./css/pagination.css">
     <link rel="stylesheet" href="./fontawesome-free-5.15.1-web/css/all.min.css">
     <!--  owlcarosel -->
@@ -86,7 +87,11 @@
 		    border-width: 0 10px 22px 0;
 		    border-color: transparent transparent #ee4d2d transparent;
 		}
-		
+		.pro-cate a:hover{
+			background:rgba(0,0,0,.05);
+			color:#333;
+			transition: all 1000ms ;
+		}
     </style>
 </head>
 <body>
@@ -162,7 +167,14 @@
         </div>
         
     </section>
-    <section id="pagination"></section>
+    <c:choose>
+		<c:when test="${productList.size() > 6}">
+			<section id="pagination"></section>
+		</c:when>
+		<c:otherwise>
+		
+		</c:otherwise>
+	</c:choose>
     <jsp:include page="_footer.jsp"></jsp:include>
 </body>
 </html>

@@ -207,9 +207,9 @@ public class DBUtils {
     
 //-------------- Query Product-----------------------------------------------------------------------
     public static List<Product> queryProduct(Connection conn) throws SQLException {
-        String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, b.categoryname, b.subid"
+        String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, a.quantity, b.categoryname, b.subid"
         		+ " from product a , category b "
-        		+ "where a.categoryid = b.categoryid ";
+        		+ "where a.categoryid = b.categoryid and a.quantity>0";
  
         PreparedStatement pstm = conn.prepareStatement(sql);
  
@@ -222,6 +222,7 @@ public class DBUtils {
             int discount = rs.getInt("discount");
             byte[] image = rs.getBytes("image");
             String note = rs.getString("note");
+            int quantity = rs.getInt("quantity");
             String categoryid = rs.getString("categoryid");
             String categoryname = rs.getString("categoryname");
             String subid = rs.getString("subid");
@@ -232,6 +233,7 @@ public class DBUtils {
             product.setPrice(price);
             product.setImage(image);
             product.setNote(note);
+            product.setQuantity(quantity);
             product.setCategoryId(categoryid);
             product.setCategoryname(categoryname);
             product.setSubid(subid);
@@ -241,9 +243,9 @@ public class DBUtils {
     }
     
     public static List<Product> querySaleProduct(Connection conn) throws SQLException {
-        String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, b.categoryname, b.subid"
+        String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, a.quantity, b.categoryname, b.subid"
         		+ " from product a , category b "
-        		+ "where a.categoryid = b.categoryid and a.discount>0";
+        		+ "where a.categoryid = b.categoryid and a.discount>0 and a.quantity>0";
  
         PreparedStatement pstm = conn.prepareStatement(sql);
         ResultSet rs = pstm.executeQuery();
@@ -255,6 +257,7 @@ public class DBUtils {
             int discount = rs.getInt("discount");
             byte[] image = rs.getBytes("image");
             String note = rs.getString("note");
+            int quantity = rs.getInt("quantity");
             String categoryid = rs.getString("categoryid");
             String categoryname = rs.getString("categoryname");
             String subid = rs.getString("subid");
@@ -265,6 +268,7 @@ public class DBUtils {
             product.setPrice(price);
             product.setImage(image);
             product.setNote(note);
+            product.setQuantity(quantity);
             product.setCategoryId(categoryid);
             product.setCategoryname(categoryname);
             product.setSubid(subid);
@@ -273,9 +277,9 @@ public class DBUtils {
         return list;
     }
     public static List<Product> queryNewProduct(Connection conn) throws SQLException {
-        String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, b.categoryname, b.subid "
+        String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, a.quantity, b.categoryname, b.subid "
         		+ "from product a , category b "
-        		+ "where a.categoryid=b.categoryid order by a.code DESC limit 8";
+        		+ "where a.categoryid=b.categoryid and a.quantity>0 order by a.code DESC limit 8";
  
         PreparedStatement pstm = conn.prepareStatement(sql);
         ResultSet rs = pstm.executeQuery();
@@ -287,6 +291,7 @@ public class DBUtils {
             int discount = rs.getInt("discount");
             byte[] image = rs.getBytes("image");
             String note = rs.getString("note");
+            int quantity = rs.getInt("quantity");
             String categoryid = rs.getString("categoryid");
             String categoryname = rs.getString("categoryname");
             String subid = rs.getString("subid");
@@ -297,6 +302,7 @@ public class DBUtils {
             product.setPrice(price);
             product.setImage(image);
             product.setNote(note);
+            product.setQuantity(quantity);
             product.setCategoryId(categoryid);
             product.setCategoryname(categoryname);
             product.setSubid(subid);
@@ -306,9 +312,9 @@ public class DBUtils {
     }
     
     public static List<Product> queryRandomProduct(Connection conn) throws SQLException {
-        String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, b.categoryname, b.subid "
+        String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, a.quantity, b.categoryname, b.subid "
         		+ "from product a , category b "
-        		+ "where a.categoryid=b.categoryid ORDER BY RAND() limit 8";
+        		+ "where a.categoryid=b.categoryid and a.quantity>0 ORDER BY RAND() limit 8";
  
         PreparedStatement pstm = conn.prepareStatement(sql);
         ResultSet rs = pstm.executeQuery();
@@ -320,6 +326,7 @@ public class DBUtils {
             int discount = rs.getInt("discount");
             byte[] image = rs.getBytes("image");
             String note = rs.getString("note");
+            int quantity = rs.getInt("quantity");
             String categoryid = rs.getString("categoryid");
             String categoryname = rs.getString("categoryname");
             String subid = rs.getString("subid");
@@ -330,6 +337,7 @@ public class DBUtils {
             product.setPrice(price);
             product.setImage(image);
             product.setNote(note);
+            product.setQuantity(quantity);
             product.setCategoryId(categoryid);
             product.setCategoryname(categoryname);
             product.setSubid(subid);
@@ -338,9 +346,9 @@ public class DBUtils {
         return list;
     }
     public static List<Product> querySameProduct(Connection conn,String categoryid) throws SQLException {
-        String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, b.categoryname, b.subid "
+        String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, a.quantity, b.categoryname, b.subid "
         		+ "from product a , category b "
-        		+ "where a.categoryid=b.categoryid and a.categoryid=? limit 4";
+        		+ "where a.categoryid=b.categoryid and a.quantity>0 and a.categoryid=? limit 4";
  
         PreparedStatement pstm = conn.prepareStatement(sql);
         pstm.setString(1, categoryid);
@@ -353,6 +361,7 @@ public class DBUtils {
             int discount = rs.getInt("discount");
             byte[] image = rs.getBytes("image");
             String note = rs.getString("note");
+            int quantity = rs.getInt("quantity");
             String categoryname = rs.getString("categoryname");
             String subid = rs.getString("subid");
             Product product = new Product();
@@ -362,6 +371,7 @@ public class DBUtils {
             product.setPrice(price);
             product.setImage(image);
             product.setNote(note);
+            product.setQuantity(quantity);
             product.setCategoryId(categoryid);
             product.setCategoryname(categoryname);
             product.setSubid(subid);
@@ -370,9 +380,9 @@ public class DBUtils {
         return list;
     }
     public static List<Product> queryProductMale(Connection conn) throws SQLException {
-        String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, b.categoryname, b.subid "
+        String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, a.quantity, b.categoryname, b.subid "
         		+ "from product a , category b "
-        		+ "where a.categoryid=b.categoryid and (b.categoryid = 2 or b.subid = 2)";
+        		+ "where a.categoryid=b.categoryid and a.quantity>0 and (b.categoryid = 2 or b.subid = 2)";
  
         PreparedStatement pstm = conn.prepareStatement(sql); 
         ResultSet rs = pstm.executeQuery();
@@ -384,6 +394,7 @@ public class DBUtils {
             int discount = rs.getInt("discount");
             byte[] image = rs.getBytes("image");
             String note = rs.getString("note");
+            int quantity = rs.getInt("quantity");
             String categoryid = rs.getString("categoryid");
             String categoryname = rs.getString("categoryname");
             String subid = rs.getString("subid");
@@ -394,6 +405,7 @@ public class DBUtils {
             product.setPrice(price);
             product.setImage(image);
             product.setNote(note);
+            product.setQuantity(quantity);
             product.setCategoryId(categoryid);
             product.setCategoryname(categoryname);
             product.setSubid(subid);
@@ -402,9 +414,9 @@ public class DBUtils {
         return list;
     }
     public static List<Product> queryProductFemale(Connection conn) throws SQLException {
-        String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, b.categoryname, b.subid "
+        String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, a.quantity, b.categoryname, b.subid "
         		+ "from product a , category b "
-        		+ "where a.categoryid=b.categoryid and (b.categoryid = 1 or b.subid = 1)";
+        		+ "where a.categoryid=b.categoryid and a.quantity>0 and (b.categoryid = 1 or b.subid = 1)";
  
         PreparedStatement pstm = conn.prepareStatement(sql);
         ResultSet rs = pstm.executeQuery();
@@ -416,6 +428,7 @@ public class DBUtils {
             int discount = rs.getInt("discount");
             byte[] image = rs.getBytes("image");
             String note = rs.getString("note");
+            int quantity = rs.getInt("quantity");
             String categoryid = rs.getString("categoryid");
             String categoryname = rs.getString("categoryname");
             String subid = rs.getString("subid");
@@ -426,6 +439,7 @@ public class DBUtils {
             product.setPrice(price);
             product.setImage(image);
             product.setNote(note);
+            product.setQuantity(quantity);
             product.setCategoryId(categoryid);
             product.setCategoryname(categoryname);
             product.setSubid(subid);
@@ -433,9 +447,46 @@ public class DBUtils {
         }
         return list;
     }
+    
+    public static List<Product> searchProduct(Connection conn,String q) throws SQLException {
+        String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, a.quantity, b.categoryname, b.subid"
+        		+ " from product a , category b "
+        		+ "where a.categoryid = b.categoryid and a.quantity>0 and a.name like ? ";
  
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.setString(1, q);
+        ResultSet rs = pstm.executeQuery();
+        List<Product> list = new ArrayList<Product>();
+        while (rs.next()) {
+        	String code = rs.getString("code");
+            String name = rs.getString("name");
+            int price = rs.getInt("price");
+            int discount = rs.getInt("discount");
+            byte[] image = rs.getBytes("image");
+            String note = rs.getString("note");
+            int quantity = rs.getInt("quantity");
+            String categoryid = rs.getString("categoryid");
+            String categoryname = rs.getString("categoryname");
+            String subid = rs.getString("subid");
+            Product product = new Product();
+            product.setCode(code);
+            product.setName(name);
+            product.setDiscount(discount);
+            product.setPrice(price);
+            product.setImage(image);
+            product.setNote(note);
+            product.setQuantity(quantity);
+            product.setCategoryId(categoryid);
+            product.setCategoryname(categoryname);
+            product.setSubid(subid);
+            list.add(product);
+        }
+        return list;
+    }
+    
+    
     public static Product findProduct(Connection conn, String code) throws SQLException {
-        String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, b.categoryname, b.subid "
+        String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, a.quantity, b.categoryname, b.subid "
         		+ "from product a , category b "
         		+ "where a.categoryid=b.categoryid and a.code=?";
  
@@ -448,11 +499,12 @@ public class DBUtils {
             int discount = rs.getInt("discount");
             byte[] image = rs.getBytes("image");
             String note = rs.getString("note");
+            int quantity = rs.getInt("quantity");
             String categoryid = rs.getString("categoryid");
             String categoryname = rs.getString("categoryname");
             String subid = rs.getString("subid");
             		
-            Product product = new Product(code, name, price, discount, image, note, categoryid, categoryname, subid);
+            Product product = new Product(code, name, price, discount, image, note, quantity, categoryid, categoryname, subid);
             return product;
         }
         return null;
@@ -469,9 +521,9 @@ public class DBUtils {
         pstm.executeUpdate();
     }
     public static List<Product> queryProductCategory(Connection conn, String categoryid) throws SQLException {
-        String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, b.categoryname, b.subid "
+        String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, a.quantity, b.categoryname, b.subid "
         		+ "from product a , category b "
-        		+ "where a.categoryid=b.categoryid and a.categoryid=?";
+        		+ "where a.categoryid=b.categoryid and a.quantity>0 and a.categoryid=?";
  
         PreparedStatement pstm = conn.prepareStatement(sql);
         pstm.setString(1, categoryid);
@@ -484,6 +536,7 @@ public class DBUtils {
             int discount = rs.getInt("discount");
             byte[] image = rs.getBytes("image");
             String note = rs.getString("note");
+            int quantity = rs.getInt("quantity");
             String categoryname = rs.getString("categoryname");
             String subid = rs.getString("subid");
             Product product = new Product();
@@ -493,6 +546,7 @@ public class DBUtils {
             product.setPrice(price);
             product.setImage(image);
             product.setNote(note);
+            product.setQuantity(quantity);
             product.setCategoryId(categoryid);
             product.setCategoryname(categoryname);
             product.setSubid(subid);
@@ -598,7 +652,7 @@ public class DBUtils {
 //    ------Query Slide-------------------------------------------------------------------------------
     
     public static List<Slide> querySlide(Connection conn) throws SQLException {
-        String sql = "Select id, title, slidename, content, background from slide ";
+        String sql = "Select id, title, slidename, content, background from slide order by id DESC";
  
         PreparedStatement pstm = conn.prepareStatement(sql);
         ResultSet rs = pstm.executeQuery();

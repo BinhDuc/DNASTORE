@@ -13,6 +13,7 @@
 
     <!-- Custom StyleSheet -->
     <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/SearchStyle.css" />
     <link rel="stylesheet" href="./css/pagination.css">
     <link rel="stylesheet" href="./fontawesome-free-5.15.1-web/css/all.min.css">
     <!--  owlcarosel -->
@@ -109,7 +110,7 @@
             </div>
             <div class="product-center product-list-right">
                 <c:forEach items="${productList}" var="product" >
-	                <div class="product">
+	                <div class="product clickable" data-href='product?code=${product.code}&categoryid=${product.categoryId}'>
 	                    <div class="product-header">
 	                        <img src="${pageContext.request.contextPath}/image?code=${product.code}" alt="anhsanpham">
 	                    </div>
@@ -119,18 +120,26 @@
 	                        </a>
 	                        <h4 class="price">
 	                        	<script>
-									var price = ${product.price};
+									var price = ${product.price -(product.price * (product.discount / 100))};
 									price = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
 									document.write(price);
 								</script>
 	                        </h4>
 	                    </div>
 	                </div>
+	                
                 </c:forEach>
             </div>
         </div>    
     </section>
-    <section id="pagination"></section>
+    <c:choose>
+		<c:when test="${productList.size() > 6}">
+			<section id="pagination"></section>
+		</c:when>
+		<c:otherwise>
+		
+		</c:otherwise>
+	</c:choose>
 	<jsp:include page="_footer.jsp"></jsp:include>
 </body>
 </html>

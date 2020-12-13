@@ -13,6 +13,7 @@
 
     <!-- Custom StyleSheet -->
     <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/SearchStyle.css" />
     <link rel="stylesheet" href="./fontawesome-free-5.15.1-web/css/all.min.css">
     <!--  owlcarosel -->
     <link rel="stylesheet" href="./assets/owlcarousel/assets/owl.carousel.min.css">
@@ -105,7 +106,7 @@
             <div class="category-center container">
 
                 <div class="category-box">
-                    <img src="./images/cat1.jpg" alt="">
+                    <img src="./images/balancing-1868051_1920.jpg" alt="">
                     <div class="content">
                         <h2>Sản phẩm nam</h2>
                         <span>${productListm.size()} Sản phẩm</span>
@@ -114,7 +115,7 @@
                 </div>
 
                 <div class="category-box">
-                    <img src="./images/cat3.jpg" alt="">
+                    <img src="./images/blue-2564660_1920.jpg" alt="">
                     <div class="content">
                         <h2>Sản phẩm nữ</h2>
                         <span>${productListf.size()} Sản phẩm</span>
@@ -122,7 +123,7 @@
                     </div>
                 </div>
                 <div class="category-box">
-                    <img src="./images/cat2.jpg" alt="">
+                    <img src="./images/adult-1866798_1920.jpg" alt="">
                     <div class="content">
                         <h2>Tất cả sản phẩm</h2>
                         <span>${productLista.size()} Sản phẩm</span>

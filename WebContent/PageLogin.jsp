@@ -11,9 +11,11 @@
     <link rel="stylesheet" href="./css/login.css" />
     <!-- Custom StyleSheet -->
     <link rel="stylesheet" href="./fontawesome-free-5.15.1-web/css/all.min.css">
+    <script src="./js/jquery-3.3.1.min.js"></script>
     <title>DNASTORE</title>
 </head>
 <body>
+	
 	<!-- Container -->
     <div class="container" id="container">
 		<c:choose>
@@ -90,14 +92,23 @@
 
                 <div class="form-wrapper">
                     <div class="social-list align-center sign-in">
-                        <div class="align-center facebook-bg">
-                            <i class="bx bxl-facebook"></i>
+                        <div class="align-center facebook-bg clickable" >
+                        	<i class="bx bxl-facebook"></i>
+                            
                         </div>
-                        <div class="align-center google-bg">
+                        <div class="align-center google-bg clickable" data-href='https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/AccessGoogle/login-google&response_type=code
+        &client_id=520356423468-ckqhhnr2aphfp665lgcibidisbhervrf.apps.googleusercontent.com&approval_prompt=force'>
                             <i class="bx bxl-google"></i>
                         </div>
                     </div>
                 </div>
+                <script>
+			      	jQuery(document).ready(function($) {
+			      	    $(".clickable").click(function() {
+			      	        window.location = $(this).data("href");
+			      	    });
+			      	});
+		      	</script>
             </div>
             <!-- End Sign In -->
         </div>

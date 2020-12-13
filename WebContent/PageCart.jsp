@@ -1,6 +1,10 @@
+<%@page import="java.util.Map"%>
+<%@page import="java.util.TreeMap"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
+ <%@page import="dnastore.beans.Cart"%>
+ <%@page import="dnastore.beans.Product"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +17,7 @@
 
     <!-- Custom StyleSheet -->
     <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/SearchStyle.css" />
     <link rel="stylesheet" href="./fontawesome-free-5.15.1-web/css/all.min.css">
     <!--  owlcarosel -->
     <link rel="stylesheet" href="./assets/owlcarousel/assets/owl.carousel.min.css">
@@ -57,82 +62,136 @@
 		    border-width: 0 10px 22px 0;
 		    border-color: transparent transparent #ee4d2d transparent;
 		}
+		a.delete-btn{
+			border: none;
+           	outline: none;
+           	color: #ee4d2d;
+           	padding:10px;
+           	border-radius:50%;
+           	text-align: center;
+  			text-decoration: none;
+  			display: inline-block;
+  			font-size: 16px;
+		}
+		/* Chrome, Safari, Edge, Opera */
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+		  -webkit-appearance: none;
+		  margin: 0;
+		}
+		
+		/* Firefox */
+		input[type=number] {
+		  -moz-appearance: textfield;
+		}
+		@media only screen and (max-width: 567px) {
+			.total-1price{
+				display:none
+			}
+		}
     </style>
 </head>
 <body>
+	<%
+		Cart cart = (Cart) session.getAttribute("cart");
+		if(cart == null){
+			cart = new Cart();
+			session.setAttribute("cart", cart);
+		}
+		TreeMap<Product, Integer> list = cart.getList();
+	%>
 	<jsp:include page="_header.jsp"></jsp:include>
+	
 	<div class=" cart">
 		<div class="cart-header">
             <button onclick="history.back(-1)"><i class="fas fa-arrow-left"></i></button>
             <span>Giỏ hàng của tôi</span>
         </div>
-	    <table>
+	    <table id="table">
+	    	
 	        <tr bgcolor="#CCCCCC">
 	            <td colspan="4" style="text-align:center">
-	            	<p>Tổng sản phẩm: ${cart.lineItemCount} SẢN PHẨM </p>
+	            	<p>Tổng sản phẩm:<%=list.size() %> SẢN PHẨM </p>
 	            </td>
 	        </tr>
-	        <jsp:useBean id="cart" scope="session" class="dnastore.beans.CartBean" />
-	
-	        <c:if test="${cart.lineItemCount == 0}">
-	            <tr> 
-		            <td colspan="4" style="text-align:center;padding:20px">
-		            	<p>- Giỏ hàng của bạn trống - </p>
-		            	<br>
-		            	<a href="${pageContext.request.contextPath}/" class="checkout btn" style="background:none;color:#ee4d2d;border:1px solid #ee4d2d;margin-bottom:20px">Mua hàng</a>
-		            	
-		            </td>
-	            </tr>
-	        </c:if>
-			
-	        <c:forEach var="cartItem" items="${cart.list}" varStatus="counter">
-	            <form name="item" method="POST" action="${pageContext.request.contextPath}/giohang">
-	                <tr>
-	                	<td style="height: 130px">
-                            <img src="${pageContext.request.contextPath}/image?code=${cartItem.code}" alt="anhsanpham" style="height:auto;width: auto">
-                        </td>
+	        <%	
+	        	
+	        	for(Map.Entry<Product, Integer> ds : list.entrySet()) {
+	        %>
+               <tr>
+               		<td style="height: 130px">
+                          <img src="${pageContext.request.contextPath}/image?code=<%=ds.getKey().getCode() %>" alt="anhsanpham" style="height:auto;width: auto">
+                      </td>
 
-	                    <td>
-	                    	<p style="display: block;width:100%;font-weight: bold">${cartItem.name}</p>
-	                    	<p style="display: block;">Giá:
-	                    		<script>
-									var price = ${cartItem.price};
-									price = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
-									document.write(price);
-								</script> 
-	                    		
-                   			</p>
-	                        <input type='hidden' name='stt' value='<c:out value="${counter.count}"/>'>
-	                        
-	                        <div style="display: block;align-items: center;width: 80%;">
-                                <input type='number' name="quantity"  style="border:1px solid #ccc;text-align:center;border-radius:5px" value='<c:out value="${cartItem.quantity}"/>'> 
-	                            
-                            </div>
-	                    </td>
-
-	                    <td>
-	                    	<input type="submit" name="action" value="Sửa" style="border:none;;background: none;color:#696969">
-	                    	<input type="submit" name="action" value="X" style="border: none;outline: none;background: none;color: rgb(253, 131, 131);">
-	                    </td>
-	                </tr>
-	            </form>
-	        </c:forEach>
+                   <td>
+                   	<p style="display: block;width:100%;font-weight: bold"><%=ds.getKey().getName() %></p>
+                   	<p style="display: block;">Giá:
+                   		<script>
+							var price = <%=ds.getKey().getPrice() - ( ds.getKey().getPrice()* ds.getKey().getDiscount()/100 ) %>;
+							price = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+							document.write(price);
+						</script> 
+                   		
+                 			</p>
+                       
+                       <div style="display: block;align-items: center">
+                       		<a href="giohang?command=plus&code=<%=ds.getKey().getCode() %>&cartID=<%=System.currentTimeMillis()%>" class="update-btn">
+                       			<i class="fas fa-plus"></i>
+                       		</a>
+                              <input type='number' name="quantity"  style="border:1px solid #ccc;text-align:center;border-radius:5px" value="<%=ds.getValue() %>" /> 
+          					<a href="giohang?command=sub&code=<%=ds.getKey().getCode() %>&cartID=<%=System.currentTimeMillis()%>" class="update-btn">
+          						<i class="fas fa-minus"></i>
+          					</a>
+                		</div>
+                   </td>
+				   <td id="loop" style="display: none;">
+				   		
+                        	<%=ds.getValue() * (ds.getKey().getPrice() - (ds.getKey().getPrice()* ds.getKey().getDiscount()/100)) %>
+						
+				   </td>
+				   <td class="total-1price">
+				   		Thành tiền:
+				   		<script>
+							var price = <%=ds.getValue() * (ds.getKey().getPrice() - (ds.getKey().getPrice()* ds.getKey().getDiscount()/100)) %>;
+							price = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+							document.write(price);
+						</script> 
+                        	
+						
+				   </td>
+                   <td>
+                   	<a href="giohang?command=remove&code=<%=ds.getKey().getCode() %>&cartID=<%=System.currentTimeMillis()%>" class="delete-btn">
+                   		<i class="fas fa-times-circle"></i>
+                   	</a>
+                   </td>
+               </tr>
+           <%
+           	}
+           %>
+	        
 	        
 	    </table>
    		<div class="total-price" style="margin-right:10px">
    			<div class="total">    
                 <div>Tổng tiền</div>
-                <div>
-                	<script>
-						var total = ${cart.total};
-						total = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total);
-						document.write(total);
+                <div id="val">
+					<script type="text/javascript">
+			   			var table = document.getElementById("table"), sumVal = 0;
+			        
+			        	for(var i = 1; i < table.rows.length; i++)
+				        {
+				            sumVal = sumVal + parseInt(table.rows[i].cells[2].innerHTML);
+				        }
+			        	sumVal = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(sumVal);
+						document.write(sumVal);
+				        console.log(sumVal);
 					</script>
                 </div>
 
             </div>
-            <a href="#" class="checkout btn">Thanh Toán</a>
+            <a href="checkout" class="checkout btn">Thanh Toán</a>
    		</div>
+   		
 	</div>
 	<section class="section featured">
         <div class="top container">

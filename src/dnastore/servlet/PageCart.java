@@ -3,6 +3,7 @@ package dnastore.servlet;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -48,77 +49,80 @@ public class PageCart extends HttpServlet {
 	       // Lưu thông tin vào request attribute trước khi forward sang views.
 	       request.setAttribute("errorString", errorString);
 	       request.setAttribute("productList", list);
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/PageCart.jsp");
-		dispatcher.forward(request, response);
+		doPost(request, response);
 	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String iAction = request.getParameter("action");
-
-        if (iAction != null && !iAction.equals("")) {
-            if (iAction.equals("Mua ngay")) {
-                addToCart(request);
-            } else if (iAction.equals("Sửa")) {
-                updateCart(request);
-            } else if (iAction.equals("X")) {
-                deleteCart(request);
-            }
-        }
-        response.sendRedirect("giohang");
-	}
-	protected void deleteCart(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        
-        String iSTT = request.getParameter("stt");
-        CartBean cartBean = null;
-
-        Object iObject = session.getAttribute("cart");
-        if (iObject != null) {
-            cartBean = (CartBean) iObject;
-        } else {
-            cartBean = new CartBean();
-        }
-        cartBean.deleteCart(iSTT);
-    }
-
-    protected void updateCart(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        
-        String iQuantity = request.getParameter("quantity");
-        String iSTT = request.getParameter("stt");
-
-        CartBean cartBean = null;
-
-        Object objCartBean = session.getAttribute("cart");
-        if (objCartBean != null) {
-            cartBean = (CartBean) objCartBean;
-        } else {
-            cartBean = new CartBean();
-        }
-        cartBean.updateCart(iSTT, iQuantity);
-    }
-
-    protected void addToCart(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        String iCode = request.getParameter("code");
-        String iDescription = request.getParameter("name");
-        String iPrice = request.getParameter("price");
-        String iQuantity = request.getParameter("quantity");
-
-        CartBean cartBean = null;
-
-        Object objCartBean = session.getAttribute("cart");
-
-        if (objCartBean != null) {
-            cartBean = (CartBean) objCartBean;
-        } else {
-            cartBean = new CartBean();
-            session.setAttribute("cart", cartBean);
-        }
-
-        cartBean.addCart(iCode, iDescription, iPrice, iQuantity);
+		Connection conn = MyUtils.getStoredConnection(request);
+		HttpSession session = request.getSession();
+		Cart cart = (Cart) session.getAttribute("cart");
+		String code = request.getParameter("code");
+		String command = request.getParameter("command");
+		
+		
+		ArrayList<Long> listBuy = null;
+		String url = "/PageCart.jsp";
+		try {
+			listBuy = (ArrayList<Long>) session.getAttribute("cartID");
+			long idBuy = 0;
+			if (request.getParameter("cartID") != null) {
+				idBuy = Long.parseLong(request.getParameter("cartID"));
+				Product sp = DBUtils.findProduct(conn, code);
+				switch (command) {
+					case "insert":
+						if (listBuy==null) {
+							listBuy= new ArrayList<>();
+							session.setAttribute("cartID", listBuy);
+						}
+						if (listBuy.indexOf(idBuy) == -1) {
+							cart.addToCart(sp, 1);
+							listBuy.add(idBuy);
+						}
+						url = "/PageCart.jsp";
+						break;
+					case "plus":
+						if(listBuy == null) {
+							listBuy= new ArrayList<>();
+							session.setAttribute("cartID", listBuy);
+						}
+						if(listBuy.indexOf(idBuy) == -1) {
+							cart.addToCart(sp, 1);
+							listBuy.add(idBuy);
+						}
+						url = "/PageCart.jsp";
+						break;
+					case "sub":
+						if(listBuy == null) {
+							listBuy= new ArrayList<>();
+							session.setAttribute("cartID", listBuy);
+						}
+						if(listBuy.indexOf(idBuy) == -1) {
+							cart.subToCart(sp, 1);
+							listBuy.add(idBuy);
+						}
+						url = "/PageCart.jsp";
+						break;
+					case "remove":
+						cart.removeToCart(sp);
+						url = "/PageCart.jsp";
+						break;
+					default:
+						url = "/PageCart.jsp";
+						break;
+				}
+				RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+				rd.forward(request, response);
+			}else {
+				RequestDispatcher rd = getServletContext().getRequestDispatcher("/PageCart.jsp");
+				rd.forward(request, response);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
     }
 
 }
