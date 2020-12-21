@@ -28,7 +28,7 @@
     <script src="./js/jquery.twbsPagination.min.js" type="text/javascript"></script>
     <script type="text/javascript">
         $(function () {
-            var pageSize = 6; // Hiển thị 6 sản phẩm trên 1 trang
+            var pageSize = 8; // Hiển thị 6 sản phẩm trên 1 trang
             showPage = function (page) {
                 $(".product").hide();
                 $(".product").each(function (n) {
@@ -53,7 +53,17 @@
             console.info(obj.data());
         });
     </script>
-    
+    <style>
+    	.product:hover .product-header::after {
+		  background:transparent;
+		}
+		.product:hover .product-header img {
+		  transform: scale(1.05);
+		}
+		.product{
+			cursor: pointer;
+		}
+    </style>
 </head>
 <body>
 	<jsp:include page="_header.jsp"></jsp:include>

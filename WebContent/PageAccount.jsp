@@ -63,11 +63,11 @@
         <section class="user-option" style="background-color: #fff;">
             <div class="options">
                 <i class="fas fa-user"></i>
-                <a href="">Thiết lập tài khoản</a>
+                <a href="accountInfo?username=${user.userName}">Thiết lập tài khoản</a>
             </div>
             <div class="options">
-                <i class="far fa-clock"></i>
-                <a href="">Lịch sử mua hàng</a>
+                <i class="fas fa-history"></i>
+                <a href="historyOrder?username=${user.userName}">Lịch sử mua hàng</a>
             </div>
             <div class="options" style="margin-bottom:20px">
                 <i class="fas fa-sign-out-alt"></i>

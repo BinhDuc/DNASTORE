@@ -92,7 +92,7 @@ public class PageLogin extends HttpServlet {
         // Lưu thông tin người dùng vào Session.
         // Và chuyển hướng sang trang userInfo.
         else {
-        	System.out.println("User Role: "+ user.getRoleid());
+//        	System.out.println("User Role: "+ user.getRoleid());
             HttpSession session = request.getSession();
             MyUtils.storeLoginedUser(session, user);
  

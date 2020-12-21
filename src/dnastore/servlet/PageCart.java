@@ -61,24 +61,25 @@ public class PageCart extends HttpServlet {
 		Cart cart = (Cart) session.getAttribute("cart");
 		String code = request.getParameter("code");
 		String command = request.getParameter("command");
-		
-		
 		ArrayList<Long> listBuy = null;
 		String url = "/PageCart.jsp";
 		try {
 			listBuy = (ArrayList<Long>) session.getAttribute("cartID");
 			long idBuy = 0;
+			int sl =1;
 			if (request.getParameter("cartID") != null) {
 				idBuy = Long.parseLong(request.getParameter("cartID"));
+				sl = Integer.parseInt(request.getParameter("quantity"));
+				System.out.println("so luong: "+sl);
 				Product sp = DBUtils.findProduct(conn, code);
 				switch (command) {
-					case "insert":
+					case "Mua ngay":
 						if (listBuy==null) {
 							listBuy= new ArrayList<>();
 							session.setAttribute("cartID", listBuy);
 						}
 						if (listBuy.indexOf(idBuy) == -1) {
-							cart.addToCart(sp, 1);
+							cart.addToCart(sp, sl);
 							listBuy.add(idBuy);
 						}
 						url = "/PageCart.jsp";

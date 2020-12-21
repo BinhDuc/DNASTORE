@@ -28,6 +28,7 @@
     <!-- owcarousel -->
     <script src="./js/jquery-3.3.1.min.js"></script>
     <script src="./js/owl.carousel.min.js"></script>
+    <script src='./assets/sweetalert2.all.js'></script>
     <style>
     	.flag-discount {
 		    color: #fff;
@@ -73,6 +74,15 @@
   			display: inline-block;
   			font-size: 16px;
 		}
+		.product:hover .product-header::after {
+		  background:transparent;
+		}
+		.product:hover .product-header img {
+		  transform: scale(1.05);
+		}
+		.product{
+			cursor: pointer;
+		}
 		/* Chrome, Safari, Edge, Opera */
 		input::-webkit-outer-spin-button,
 		input::-webkit-inner-spin-button {
@@ -88,6 +98,9 @@
 			.total-1price{
 				display:none
 			}
+		}
+		.checkout:hover{
+			background:#f25433
 		}
     </style>
 </head>
@@ -107,90 +120,111 @@
             <button onclick="history.back(-1)"><i class="fas fa-arrow-left"></i></button>
             <span>Giỏ hàng của tôi</span>
         </div>
-	    <table id="table">
-	    	
-	        <tr bgcolor="#CCCCCC">
-	            <td colspan="4" style="text-align:center">
-	            	<p>Tổng sản phẩm:<%=list.size() %> SẢN PHẨM </p>
-	            </td>
-	        </tr>
-	        <%	
-	        	
-	        	for(Map.Entry<Product, Integer> ds : list.entrySet()) {
-	        %>
-               <tr>
-               		<td style="height: 130px">
-                          <img src="${pageContext.request.contextPath}/image?code=<%=ds.getKey().getCode() %>" alt="anhsanpham" style="height:auto;width: auto">
-                      </td>
-
-                   <td>
-                   	<p style="display: block;width:100%;font-weight: bold"><%=ds.getKey().getName() %></p>
-                   	<p style="display: block;">Giá:
-                   		<script>
-							var price = <%=ds.getKey().getPrice() - ( ds.getKey().getPrice()* ds.getKey().getDiscount()/100 ) %>;
-							price = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
-							document.write(price);
-						</script> 
-                   		
-                 			</p>
-                       
-                       <div style="display: block;align-items: center">
-                       		<a href="giohang?command=plus&code=<%=ds.getKey().getCode() %>&cartID=<%=System.currentTimeMillis()%>" class="update-btn">
-                       			<i class="fas fa-plus"></i>
-                       		</a>
-                              <input type='number' name="quantity"  style="border:1px solid #ccc;text-align:center;border-radius:5px" value="<%=ds.getValue() %>" /> 
-          					<a href="giohang?command=sub&code=<%=ds.getKey().getCode() %>&cartID=<%=System.currentTimeMillis()%>" class="update-btn">
-          						<i class="fas fa-minus"></i>
-          					</a>
-                		</div>
-                   </td>
-				   <td id="loop" style="display: none;">
-				   		
-                        	<%=ds.getValue() * (ds.getKey().getPrice() - (ds.getKey().getPrice()* ds.getKey().getDiscount()/100)) %>
-						
-				   </td>
-				   <td class="total-1price">
-				   		Thành tiền:
-				   		<script>
-							var price = <%=ds.getValue() * (ds.getKey().getPrice() - (ds.getKey().getPrice()* ds.getKey().getDiscount()/100)) %>;
-							price = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
-							document.write(price);
-						</script> 
-                        	
-						
-				   </td>
-                   <td>
-                   	<a href="giohang?command=remove&code=<%=ds.getKey().getCode() %>&cartID=<%=System.currentTimeMillis()%>" class="delete-btn">
-                   		<i class="fas fa-times-circle"></i>
-                   	</a>
-                   </td>
-               </tr>
-           <%
-           	}
-           %>
-	        
-	        
-	    </table>
-   		<div class="total-price" style="margin-right:10px">
-   			<div class="total">    
-                <div>Tổng tiền</div>
-                <div id="val">
-					<script type="text/javascript">
-			   			var table = document.getElementById("table"), sumVal = 0;
-			        
-			        	for(var i = 1; i < table.rows.length; i++)
-				        {
-				            sumVal = sumVal + parseInt(table.rows[i].cells[2].innerHTML);
-				        }
-			        	sumVal = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(sumVal);
-						document.write(sumVal);
-				        console.log(sumVal);
-					</script>
-                </div>
-
-            </div>
-            <a href="checkout" class="checkout btn">Thanh Toán</a>
-   		</div>
+        <form action="checkout">
+        	<table id="table">
+		    	
+		        <tr bgcolor="#CCCCCC">
+		            <td colspan="4" style="text-align:center">
+		            	<p>Tổng sản phẩm:<%=list.size() %> SẢN PHẨM </p>
+		            </td>
+		        </tr>
+		        <%	
+		        	
+		        	for(Map.Entry<Product, Integer> ds : list.entrySet()) {
+		        %>
+	               <tr>
+	               		<td style="height: 130px">
+	                          <img src="${pageContext.request.contextPath}/image?code=<%=ds.getKey().getCode() %>" alt="anhsanpham" style="height:auto;width: auto">
+	                      </td>
+	
+	                   <td>
+	                   	<a href="product?code=<%=ds.getKey().getCode() %>&categoryid=<%=ds.getKey().getCategoryId()%>" 
+	                   	style="display: block;width:100%;font-weight: bold;color:#333;font-size:18px"><%=ds.getKey().getName() %></a>
+	                   	<p style="display: block;">Giá:
+	                   		<script>
+								var price = <%=ds.getKey().getPrice() - ( ds.getKey().getPrice()* ds.getKey().getDiscount()/100 ) %>;
+								price = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+								document.write(price);
+							</script> 
+	                   		
+	                 	</p>
+	                       
+	                       <div style="display: block;align-items: center">
+	                       		<a href="giohang?command=sub&code=<%=ds.getKey().getCode() %>&cartID=<%=System.currentTimeMillis()%>&quantity=1" class="update-btn">
+	          						<i class="fas fa-minus"></i>
+	          					</a>
+	                            <input type='number' name="quantity" id="quantity"
+	                            	oninput="javascript: if (this.value > this.max) {
+	                            							$(document).ready(function(){
+									      						swal('Nhập lại số lượng!', 'còn  sản phẩm', 'warning');
+								  							});
+								  						}"
+								  	oninvalid="$(document).ready(function(){
+						      						swal('Nhập lại số lượng!', '<%=ds.getKey().getName() %> còn <%=ds.getKey().getQuantity() %> sản phẩm', 'warning');
+					  							});"
+	                            	style="border:1px solid #ccc;text-align:center;border-radius:5px" 
+	                            	value="<%=ds.getValue() %>" max="<%=ds.getKey().getQuantity() %>" class="readonly" required />
+	                            <a href="giohang?command=plus&code=<%=ds.getKey().getCode() %>&cartID=<%=System.currentTimeMillis()%>&quantity=1" class="update-btn">
+	                       			<i class="fas fa-plus"></i>
+	                       		</a>
+	                		</div>
+	                		<script>
+							    $(".readonly").keydown(function(e){
+							        e.preventDefault();
+							    });
+							</script>
+	                   </td>
+					   <td id="loop" style="display: none;">
+	                        <%=ds.getValue() * (ds.getKey().getPrice() - (ds.getKey().getPrice()* ds.getKey().getDiscount()/100)) %>	
+					   </td>
+					   <td class="total-1price">
+					   		Thành tiền:
+					   		<script>
+								var price = <%=ds.getValue() * (ds.getKey().getPrice() - (ds.getKey().getPrice()* ds.getKey().getDiscount()/100)) %>;
+								price = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+								document.write(price);
+							</script> 
+	                        	
+							
+					   </td>
+	                   <td>
+	                   	<a href="giohang?command=remove&code=<%=ds.getKey().getCode() %>&cartID=<%=System.currentTimeMillis()%>&quantity=<%=ds.getValue() %>" class="delete-btn">
+	                   		<i class="fas fa-times-circle"></i>
+	                   	</a>
+	                   </td>
+	               </tr>
+	               
+	           <%
+	           	}
+	           %>
+		        
+		        
+		    </table>
+		    
+	   		<div class="total-price" style="margin-right:10px">
+	   			<div class="total">    
+	                <div>Tổng tiền</div>
+	                <div id="val">
+						<script type="text/javascript">
+				   			var table = document.getElementById("table"), sumVal = 0;
+				        
+				        	for(var i = 1; i < table.rows.length; i++)
+					        {
+					            sumVal = sumVal + parseInt(table.rows[i].cells[2].innerHTML);
+					        }
+				        	sumVal = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(sumVal);
+							document.write(sumVal);
+					        console.log(sumVal);
+						</script>
+	                </div>
+	
+	            </div>
+	            
+	            <input type="submit" class="checkout btn" value="Thanh toán" 
+	            style="outline:none;border:none;cursor: pointer;padding:15px 20px;font-size:18px">
+	   		</div>
+        </form>
+		   
    		
 	</div>
 	<section class="section featured">

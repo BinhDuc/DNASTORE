@@ -41,9 +41,7 @@ public class PageProductDetail extends HttpServlet {
         String categoryid = (String) request.getParameter("categoryid");
         Product product = null;
         String errorString = null;
-//        HttpSession session = request.getSession();
         List<Product> list = null;
-//        ArrayList<Cart> arrCart = new ArrayList<Cart>();
         try {
             product = DBUtils.findProduct(conn, code);
             list = DBUtils.querySameProduct(conn, categoryid);
@@ -61,8 +59,6 @@ public class PageProductDetail extends HttpServlet {
         }
  
         // Lưu thông tin vào request attribute trước khi forward sang views.
-//        session.setAttribute("cart", arrCart);
-//        response.sendRedirect("/WEB-INF/components/cart.jsp");
         request.setAttribute("errorString", errorString);
         request.setAttribute("product", product);
         request.setAttribute("productList", list);

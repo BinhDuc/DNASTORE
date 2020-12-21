@@ -47,7 +47,7 @@ public class ActionEditProduct extends HttpServlet {
 		HttpSession session = request.getSession();
 		Account loginedUser = MyUtils.getLoginedUser(session);
 		// Nếu chưa đăng nhập (login).
-        if (loginedUser == null) {
+        if (loginedUser == null || loginedUser.getRoleid() != 1) {
             // Redirect (Chuyển hướng) tới trang login.
             response.sendRedirect(request.getContextPath() + "/dangnhap");
             return;
@@ -88,6 +88,7 @@ public class ActionEditProduct extends HttpServlet {
         String discount = request.getParameter("discount");
         String categoryid = request.getParameter("categoryid");
         String note = request.getParameter("note");
+        String quantity = request.getParameter("quantity");
         InputStream inputStream = null;
         Part filePart = request.getPart("image");
         if (filePart != null) {
@@ -102,7 +103,7 @@ public class ActionEditProduct extends HttpServlet {
         String message = null;
         try {
             // constructs SQL statement
-            String sql = "Update product set name=?, price =?, discount=?, image=?, categoryid=?, note=? "
+            String sql = "Update product set name=?, price =?, discount=?, image=?, categoryid=?, note=?, quantity=? "
             		+ "where code=?";
             PreparedStatement statement = conn.prepareStatement(sql);
             
@@ -111,7 +112,8 @@ public class ActionEditProduct extends HttpServlet {
             statement.setString(3, discount);
             statement.setString(5, categoryid);
             statement.setString(6, note);
-            statement.setString(7, code);
+            statement.setString(7, quantity);
+            statement.setString(8, code);
             
 
             if (inputStream != null) {

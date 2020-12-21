@@ -10,7 +10,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
- 
+import javax.servlet.http.HttpSession;
+
+import dnastore.beans.Account;
 import dnastore.utils.DBUtils;
 import dnastore.utils.MyUtils;
 
@@ -34,7 +36,16 @@ public class ActionDeleteProduct extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Connection conn = MyUtils.getStoredConnection(request);
-		 
+		HttpSession session = request.getSession();
+		Account loginedUser = MyUtils.getLoginedUser(session);
+		// Nếu chưa đăng nhập (login).
+        if (loginedUser == null  || loginedUser.getRoleid() != 1) {
+            // Redirect (Chuyển hướng) tới trang login.
+            response.sendRedirect(request.getContextPath() + "/dangnhap");
+            return;
+        }
+        // Lưu thông tin vào request attribute trước khi forward (chuyển tiếp).
+        request.setAttribute("user", loginedUser);
         String code = (String) request.getParameter("code");
  
         String errorString = null;

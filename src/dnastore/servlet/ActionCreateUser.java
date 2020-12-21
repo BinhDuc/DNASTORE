@@ -14,8 +14,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import dnastore.beans.Account;
 import dnastore.beans.Role;
 import dnastore.utils.DBUtils;
 import dnastore.utils.MyUtils;
@@ -41,6 +43,15 @@ public class ActionCreateUser extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Connection conn = MyUtils.getStoredConnection(request);
+		HttpSession session = request.getSession();
+		Account loginedUser = MyUtils.getLoginedUser(session);
+		// Nếu chưa đăng nhập (login).
+        if (loginedUser == null  || loginedUser.getRoleid() != 1) {
+            // Redirect (Chuyển hướng) tới trang login.
+            response.sendRedirect(request.getContextPath() + "/dangnhap");
+            return;
+        }
+        
         String errorString = null;
         List<Role> list = null; 
         try {
@@ -50,10 +61,11 @@ public class ActionCreateUser extends HttpServlet {
             e.printStackTrace();
             errorString = e.getMessage();
         }
-        // Lưu thông tin vào request attribute trước khi forward sang views.
+     // Lưu thông tin vào request attribute trước khi forward (chuyển tiếp).
+        request.setAttribute("user", loginedUser);
         request.setAttribute("errorString", errorString);
         request.setAttribute("roleList", list);
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/CreateUser.jsp");
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/CreateUserPage.jsp");
         dispatcher.forward(request, response);
 	}
 
@@ -121,9 +133,9 @@ public class ActionCreateUser extends HttpServlet {
         // sets the message in request scope
         request.setAttribute("Message", message);
 
-
+        
         RequestDispatcher dispatcher = request.getServletContext()
-                .getRequestDispatcher("/submit.jsp");
+                .getRequestDispatcher("/CreateUserPage.jsp");
         dispatcher.forward(request, response);
 	}
 

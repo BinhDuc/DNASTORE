@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
  
@@ -202,7 +203,15 @@ public class DBUtils {
         }
         return lista;
     }
+    public static void deleteUser(Connection conn, String userName) throws SQLException {
+        String sql = "Delete From account where username= ?";
  
+        PreparedStatement pstm = conn.prepareStatement(sql);
+ 
+        pstm.setString(1, userName);
+ 
+        pstm.executeUpdate();
+    }
     
     
 //-------------- Query Product-----------------------------------------------------------------------
@@ -245,7 +254,7 @@ public class DBUtils {
     public static List<Product> querySaleProduct(Connection conn) throws SQLException {
         String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, a.quantity, b.categoryname, b.subid"
         		+ " from product a , category b "
-        		+ "where a.categoryid = b.categoryid and a.discount>0 and a.quantity>0";
+        		+ "where a.categoryid = b.categoryid and a.discount>0 and a.quantity>0 order by a.code DESC";
  
         PreparedStatement pstm = conn.prepareStatement(sql);
         ResultSet rs = pstm.executeQuery();
@@ -382,7 +391,7 @@ public class DBUtils {
     public static List<Product> queryProductMale(Connection conn) throws SQLException {
         String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, a.quantity, b.categoryname, b.subid "
         		+ "from product a , category b "
-        		+ "where a.categoryid=b.categoryid and a.quantity>0 and (b.categoryid = 2 or b.subid = 2)";
+        		+ "where a.categoryid=b.categoryid and a.quantity>0 and (b.categoryid = 2 or b.subid = 2) order by a.code DESC";
  
         PreparedStatement pstm = conn.prepareStatement(sql); 
         ResultSet rs = pstm.executeQuery();
@@ -416,7 +425,7 @@ public class DBUtils {
     public static List<Product> queryProductFemale(Connection conn) throws SQLException {
         String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, a.quantity, b.categoryname, b.subid "
         		+ "from product a , category b "
-        		+ "where a.categoryid=b.categoryid and a.quantity>0 and (b.categoryid = 1 or b.subid = 1)";
+        		+ "where a.categoryid=b.categoryid and a.quantity>0 and (b.categoryid = 1 or b.subid = 1) order by a.code DESC";
  
         PreparedStatement pstm = conn.prepareStatement(sql);
         ResultSet rs = pstm.executeQuery();
@@ -451,7 +460,7 @@ public class DBUtils {
     public static List<Product> searchProduct(Connection conn,String q) throws SQLException {
         String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, a.quantity, b.categoryname, b.subid"
         		+ " from product a , category b "
-        		+ "where a.categoryid = b.categoryid and a.quantity>0 and a.name like ? ";
+        		+ "where a.categoryid = b.categoryid and a.quantity>0 and a.name like ? order by a.code DESC";
  
         PreparedStatement pstm = conn.prepareStatement(sql);
         pstm.setString(1, q);
@@ -523,7 +532,7 @@ public class DBUtils {
     public static List<Product> queryProductCategory(Connection conn, String categoryid) throws SQLException {
         String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, a.quantity, b.categoryname, b.subid "
         		+ "from product a , category b "
-        		+ "where a.categoryid=b.categoryid and a.quantity>0 and a.categoryid=?";
+        		+ "where a.categoryid=b.categoryid and a.quantity>0 and a.categoryid=? order by a.code DESC";
  
         PreparedStatement pstm = conn.prepareStatement(sql);
         pstm.setString(1, categoryid);
@@ -630,6 +639,51 @@ public class DBUtils {
         }
         return listct;
     }
+    public static Category findCategory(Connection conn, String categoryid) throws SQLException {
+        String sql = "Select categoryid, categoryname, subid "
+        		+ "from category "
+        		+ "where categoryid=?";
+ 
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.setString(1, categoryid);
+        ResultSet rs = pstm.executeQuery();
+        while (rs.next()) {        	
+        	String categoryname = rs.getString("categoryname");
+            String subid = rs.getString("subid");
+            		
+            Category category = new Category(categoryid,categoryname,subid);
+            return category;
+        }
+        return null;
+    }
+    public static void deleteCategory(Connection conn, String categoryid) throws SQLException {
+        String sql = "Delete From category where categoryid= ?";
+ 
+        PreparedStatement pstm = conn.prepareStatement(sql);
+ 
+        pstm.setString(1, categoryid);
+ 
+        pstm.executeUpdate();
+    }
+    public static void insertCategory(Connection conn, Category category) throws SQLException {
+        String sql = "Insert into category(categoryId, categoryname, subid) values (?,?,?)";
+ 
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.setString(1, category.getCategoryId());
+        pstm.setString(2, category.getCategoryname());
+        pstm.setString(3, category.getSubid());
+        pstm.executeUpdate();
+    }
+    public static void updateCategory(Connection conn, Category category) throws SQLException {
+        String sql = "Update category set categoryname =?, subid=? where categoryid=? ";
+ 
+        PreparedStatement pstm = conn.prepareStatement(sql);
+ 
+        pstm.setString(3, category.getCategoryId());
+        pstm.setString(1, category.getCategoryname());
+        pstm.setString(2, category.getSubid());
+        pstm.executeUpdate();
+    }
 //  ------Query Role-------------------------------------------------------------------------------
     public static List<Role> queryRole(Connection conn) throws SQLException {
         String sql = "Select roleid, rolename from role ";
@@ -733,5 +787,278 @@ public class DBUtils {
  
         pstm.executeUpdate();
     }
+    
+    public static List<OrderDetail> queryOrderDetail(Connection conn,String orders_id) throws SQLException {
+        String sql = "Select a.id, a.orders_id, a.product_id, a.quantity, a.total_price, a.coupon, "
+        		+ "b.userid,b.order_address,b.payment,b.order_date,b.status,b.customer,b.phone,c.name,c.price "
+        		+ "from order_details a,orders b,product c where a.orders_id=b.id and a.product_id=c.code and orders_id=?";
  
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.setString(1, orders_id);
+        ResultSet rs = pstm.executeQuery();
+        List<OrderDetail> list = new ArrayList<OrderDetail>();
+        while (rs.next()) {
+        	int id = rs.getInt("id");
+            String product_id = rs.getString("product_id");
+            int quantity = rs.getInt("quantity");
+            double total_price = rs.getDouble("total_price");
+            int coupon = rs.getInt("coupon");
+            String userid = rs.getString("userid");
+            String order_address = rs.getString("order_address");
+            String payment = rs.getString("payment");
+            Timestamp  order_date = rs.getTimestamp("order_date");
+            int status = rs.getInt("status");
+            String customer = rs.getString("customer");
+            String phone = rs.getString("phone");
+            String name = rs.getString("name");
+            int price = rs.getInt("price");
+            
+            OrderDetail orderdetail = new OrderDetail();
+            orderdetail.setId(id);
+            
+            Order order = new Order();
+            Account account = new Account(userid, "", "", "", "", "", "", "", null, 0, "");
+            order.setId(orders_id);
+            order.setUsername(account);
+            order.setAddress(order_address);
+            order.setPayment(payment);
+            order.setOrderdate(order_date);
+            order.setStatus(status);
+            order.setCustomer(customer);
+            order.setPhone(phone);
+            
+            orderdetail.setOrders_id(order);
+            Product product = new Product(product_id, name, price, 0, null, "", 0, "", "", "");
+            orderdetail.setProduct_id(product);
+            orderdetail.setQuantity(quantity);
+            orderdetail.setTotal_price(total_price);
+            orderdetail.setCoupon(coupon);
+            list.add(orderdetail);
+        }
+        return list;
+    }
+    public static OrderDetail findOrder(Connection conn, String orders_id) throws SQLException {
+    	String sql = "Select a.id, a.orders_id, a.product_id, a.quantity, a.total_price, a.coupon, "
+        		+ "b.userid,b.order_address,b.payment,b.order_date,b.status,b.customer,b.phone,c.name,c.price "
+        		+ "from order_details a,orders b,product c where a.orders_id=b.id and a.product_id=c.code and orders_id=?";
+ 
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.setString(1, orders_id);
+        ResultSet rs = pstm.executeQuery();
+        while (rs.next()) {        	
+        	int id = rs.getInt("id");
+            String product_id = rs.getString("product_id");
+            int quantity = rs.getInt("quantity");
+            double total_price = rs.getDouble("total_price");
+            int coupon = rs.getInt("coupon");
+            String userid = rs.getString("userid");
+            String order_address = rs.getString("order_address");
+            String payment = rs.getString("payment");
+            Timestamp  order_date = rs.getTimestamp("order_date");
+            int status = rs.getInt("status");
+            String customer = rs.getString("customer");
+            String phone = rs.getString("phone");
+            String name = rs.getString("name");
+            int price = rs.getInt("price");
+            
+            Order order = new Order();
+            Account account = new Account(userid, "", "", "", "", "", "", "", null, 0, "");
+            order.setId(orders_id);
+            order.setUsername(account);
+            order.setAddress(order_address);
+            order.setPayment(payment);
+            order.setOrderdate(order_date);
+            order.setStatus(status);
+            order.setCustomer(customer);
+            order.setPhone(phone);
+            Product product = new Product(product_id, name, price, 0, null, "", 0, "", "", "");
+            OrderDetail orderdetail = new OrderDetail(id, order, product, quantity, total_price, coupon);
+            return orderdetail;
+        }
+        return null;
+    }
+    public static List<Order> queryOrder(Connection conn) throws SQLException {
+        String sql = "Select id, userid, order_address, payment, order_date, status, customer, phone "
+        		+ "from orders order by id DESC";
+ 
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        ResultSet rs = pstm.executeQuery();
+        List<Order> list = new ArrayList<Order>();
+        while (rs.next()) {
+        	String id = rs.getString("id");
+        	String userid = rs.getString("userid");
+            String order_address = rs.getString("order_address");
+            String payment = rs.getString("payment");
+            Timestamp  order_date = rs.getTimestamp("order_date");
+            int status = rs.getInt("status");
+            String customer = rs.getString("customer");
+            String phone = rs.getString("phone");
+            
+            Order order = new Order();
+            Account account = new Account(userid, "", "", "", "", "", "", "", null, 0, "");
+            order.setId(id);
+            order.setUsername(account);
+            order.setAddress(order_address);
+            order.setPayment(payment);
+            order.setOrderdate(order_date);
+            order.setStatus(status);
+            order.setCustomer(customer);
+            order.setPhone(phone);
+            
+           
+            list.add(order);
+        }
+        return list;
+    }
+    public static List<Order> historyOrder(Connection conn,String userid) throws SQLException {
+    	String sql = "Select id, userid, order_address, payment, order_date, status, customer, phone "
+        		+ "from orders where userid=? order by id DESC";
+ 
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.setString(1, userid);
+        ResultSet rs = pstm.executeQuery();
+        List<Order> list = new ArrayList<Order>();
+        while (rs.next()) {
+        	String id = rs.getString("id");
+            String order_address = rs.getString("order_address");
+            String payment = rs.getString("payment");
+            Timestamp  order_date = rs.getTimestamp("order_date");
+            int status = rs.getInt("status");
+            String customer = rs.getString("customer");
+            String phone = rs.getString("phone");
+            
+            Order order = new Order();
+            Account account = new Account(userid, "", "", "", "", "", "", "", null, 0, "");
+            order.setId(id);
+            order.setUsername(account);
+            order.setAddress(order_address);
+            order.setPayment(payment);
+            order.setOrderdate(order_date);
+            order.setStatus(status);
+            order.setCustomer(customer);
+            order.setPhone(phone);
+            
+           
+            list.add(order);
+        }
+        return list;
+    }
+    
+    
+    public static List<Order> queryOrderWaiting(Connection conn) throws SQLException {
+        String sql = "Select id, userid, order_address, payment, order_date, status, customer, phone "
+        		+ "from orders where status=0";
+ 
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        ResultSet rs = pstm.executeQuery();
+        List<Order> list = new ArrayList<Order>();
+        while (rs.next()) {
+        	String id = rs.getString("id");
+        	String userid = rs.getString("userid");
+            String order_address = rs.getString("order_address");
+            String payment = rs.getString("payment");
+            Timestamp  order_date = rs.getTimestamp("order_date");
+            int status = rs.getInt("status");
+            String customer = rs.getString("customer");
+            String phone = rs.getString("phone");
+            
+            Order order = new Order();
+            Account account = new Account(userid, "", "", "", "", "", "", "", null, 0, "");
+            order.setId(id);
+            order.setUsername(account);
+            order.setAddress(order_address);
+            order.setPayment(payment);
+            order.setOrderdate(order_date);
+            order.setStatus(status);
+            order.setCustomer(customer);
+            order.setPhone(phone);
+            
+           
+            list.add(order);
+        }
+        return list;
+    }
+    public static List<Order> queryOrderDelivery(Connection conn) throws SQLException {
+        String sql = "Select id, userid, order_address, payment, order_date, status, customer, phone "
+        		+ "from orders where status=1";
+ 
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        ResultSet rs = pstm.executeQuery();
+        List<Order> list = new ArrayList<Order>();
+        while (rs.next()) {
+        	String id = rs.getString("id");
+        	String userid = rs.getString("userid");
+            String order_address = rs.getString("order_address");
+            String payment = rs.getString("payment");
+            Timestamp  order_date = rs.getTimestamp("order_date");
+            int status = rs.getInt("status");
+            String customer = rs.getString("customer");
+            String phone = rs.getString("phone");
+            
+            Order order = new Order();
+            Account account = new Account(userid, "", "", "", "", "", "", "", null, 0, "");
+            order.setId(id);
+            order.setUsername(account);
+            order.setAddress(order_address);
+            order.setPayment(payment);
+            order.setOrderdate(order_date);
+            order.setStatus(status);
+            order.setCustomer(customer);
+            order.setPhone(phone);
+            
+           
+            list.add(order);
+        }
+        return list;
+    }
+    public static List<Order> queryOrderSuccess(Connection conn) throws SQLException {
+        String sql = "Select id, userid, order_address, payment, order_date, status, customer, phone "
+        		+ "from orders where status=2";
+ 
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        ResultSet rs = pstm.executeQuery();
+        List<Order> list = new ArrayList<Order>();
+        while (rs.next()) {
+        	String id = rs.getString("id");
+        	String userid = rs.getString("userid");
+            String order_address = rs.getString("order_address");
+            String payment = rs.getString("payment");
+            Timestamp  order_date = rs.getTimestamp("order_date");
+            int status = rs.getInt("status");
+            String customer = rs.getString("customer");
+            String phone = rs.getString("phone");
+            
+            Order order = new Order();
+            Account account = new Account(userid, "", "", "", "", "", "", "", null, 0, "");
+            order.setId(id);
+            order.setUsername(account);
+            order.setAddress(order_address);
+            order.setPayment(payment);
+            order.setOrderdate(order_date);
+            order.setStatus(status);
+            order.setCustomer(customer);
+            order.setPhone(phone);
+            
+           
+            list.add(order);
+        }
+        return list;
+    }
+    public static List<Doanhthutheongay> doanhthuday(Connection conn) throws SQLException {
+        String sql = "Select sum(b.total_price-(b.total_price*b.coupon/100)) total , DATE(a.order_date) ngay "
+        		+ "from orders a, order_details b where a.id= b.orders_id and a.status=2 group by DATE(a.order_date)";
+ 
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        ResultSet rs = pstm.executeQuery();
+        List<Doanhthutheongay> list = new ArrayList<Doanhthutheongay>();
+        while (rs.next()) {
+        	String total = rs.getString("total");
+            String ngay = rs.getString("ngay");
+            Doanhthutheongay day = new Doanhthutheongay();
+            day.setTotal(total);
+            day.setNgay(ngay);
+            list.add(day);
+        }
+        return list;
+    }
 }

@@ -58,6 +58,17 @@
 		    border-width: 0 10px 22px 0;
 		    border-color: transparent transparent #ee4d2d transparent;
 		}
+		.product:hover .product-header::after {
+		  background:transparent;
+		}
+		.product:hover .product-header img {
+		  transform: scale(1.05);
+		  overflow: hidden;
+		}
+		.product{
+			cursor: pointer;
+			overflow: hidden;
+		}
     </style>
 </head>
 <body>
@@ -145,6 +156,7 @@
 	                <div class="product clickable" data-href='product?code=${product.code}&categoryid=${product.categoryId}'>
 	                    <div class="product-header">
 	                        <img src="${pageContext.request.contextPath}/image?code=${product.code}" alt="anhsanpham">
+	                        
 	                    </div>
 	                    <div class="product-footer">
 	                        <a href="product?code=${product.code}&categoryid=${product.categoryId}">

@@ -46,7 +46,7 @@ public class ActionEditUser extends HttpServlet {
 		HttpSession session = request.getSession();
 		Account loginedUser = MyUtils.getLoginedUser(session);
 		// Nếu chưa đăng nhập (login).
-        if (loginedUser == null) {
+        if (loginedUser == null  || loginedUser.getRoleid() == 3) {
             // Redirect (Chuyển hướng) tới trang login.
             response.sendRedirect(request.getContextPath() + "/dangnhap");
             return;

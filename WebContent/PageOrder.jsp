@@ -38,7 +38,6 @@
 			session.setAttribute("cart", cart);
 		}
 		TreeMap<Product, Integer> list = cart.getList();
-		System.out.print("1234: " + list);
 	%>
 	<jsp:include page="_header.jsp"></jsp:include>
 	<div class="rows">
@@ -52,14 +51,14 @@
 		            <label for="phone">Số điện thoại:</label>
 		            <input type="number" id="phone" name="phone" class="input-checkout" value="${user.phone}" />
 		            <label for="adr">Địa chỉ giao hàng:</label>
-		            <textarea id="adr" name="address" placeholder="542 W. 15th Street" value="${user.adress}" ></textarea>
+		            <textarea id="adr" name="address" placeholder="542 W. 15th Street">${user.adress}</textarea>
 		            <label>Phương thức thanh toán:</label>
 		            <select name="payment">
 		                <option value="COD">COD</option>
 		                <option value="Chuyển khoản">Chuyển khoản</option>
 		            </select>
 		            <input type="hidden" name="username" class="input-checkout" value="${user.userName}" />
-		            <input type="submit" value="Xác nhận thanh toán" class="btn-checkout">
+		            <input type="submit" value="Đặt hàng" class="btn-checkout">
 	            </form>
             </div>
         </div>
@@ -73,15 +72,22 @@
 	        		for(Map.Entry<Product, Integer> ds : list.entrySet()) {
 	        	%>
 	                <tr style="display:flex;justify-content: space-between;">
-	                    <td style="flex-basis: 20%;max-width: 20%;height: 150px">
+	                    <td style="flex-basis: 30%;max-width: 30%;height: 150px">
 	                        <img src="${pageContext.request.contextPath}/image?code=<%=ds.getKey().getCode() %>" alt="anhsanpham" style="height:auto;width: auto">
 	                    </td>
 	                    <td style="flex-basis: 60%;max-width: 60%;">
 	                        <a href="product?code=<%=ds.getKey().getCode() %>"><%=ds.getKey().getName() %></a>
 	                        <p>Số lượng: <%=ds.getValue() %></p>
 	                    </td>
-	                    <td style="flex-basis: 20%;max-width: 20%" id="loop">
+	                    <td style="flex-basis: 20%;max-width: 20%;display:none" id="loop">
 	                    	<%=ds.getValue() * (ds.getKey().getPrice() - (ds.getKey().getPrice()* ds.getKey().getDiscount()/100)) %>
+	                    </td>
+	                    <td style="flex-basis: 40%;max-width: 40%;overflow:hidden" id="loop">
+	                    	<script>
+									var price = <%=ds.getValue() * (ds.getKey().getPrice() - (ds.getKey().getPrice()* ds.getKey().getDiscount()/100)) %>;
+									price = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+									document.write(price);
+								</script> 
 	                    </td>
 	                    
 	                </tr>

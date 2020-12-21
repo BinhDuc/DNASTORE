@@ -28,7 +28,7 @@
     <script src="./js/jquery.twbsPagination.min.js" type="text/javascript"></script>
     <script type="text/javascript">
         $(function () {
-            var pageSize = 6; // Hiển thị 6 sản phẩm trên 1 trang
+            var pageSize = 8; // Hiển thị 8 sản phẩm trên 1 trang
             showPage = function (page) {
                 $(".product").hide();
                 $(".product").each(function (n) {
@@ -90,6 +90,15 @@
 		.bg-search{
 			background-image: url(./images/pexels-freestocksorg-749353.jpg);
   			background-size: cover;
+		}
+		.product{
+			cursor: pointer;
+		}
+		.product:hover .product-header::after {
+		  background:transparent;
+		}
+		.product:hover .product-header img {
+		  transform: scale(1.05);
 		}
     </style>
 </head>

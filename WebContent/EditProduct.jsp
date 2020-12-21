@@ -22,6 +22,7 @@
     <!-- owcarousel -->
     <script src="./js/jquery-3.3.1.min.js"></script>
     <script src="./js/owl.carousel.min.js"></script>
+    <script src='./assets/sweetalert2.all.js'></script>
     <style>
         *{
             font-family: AvertaStdCY-Regular;
@@ -33,9 +34,9 @@
 <body>
 	 <!-- Top container -->
     <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
-        <a href="${pageContext.request.contextPath}/quanly" class="w3-bar-item header"><i class="fas fa-arrow-left"></i></a>
-        <a href="${pageContext.request.contextPath}/quanly"><span class="w3-bar-item logo" style="color: #fff;">DNASTORE</span></a>
-        <span class="w3-bar-item w3-right">Quản lý</span>
+       	<a href="${pageContext.request.contextPath}/quanly" class="w3-bar-item header"><i class="fas fa-arrow-left"></i></a>
+     	<a href="${pageContext.request.contextPath}/quanly"><span class="w3-bar-item logo" style="color: #fff;">DNASTORE</span></a>  
+        <span class="w3-bar-item w3-right">${user.rolename}</span>
         <button id="btnFullscreen" class="w3-bar-item w3-right" type="button" style="border: none;
         background: none;color: #fff;cursor: pointer;">
             <i class="fas fa-expand"></i>
@@ -46,8 +47,6 @@
         <div class="khung">
             <c:choose>
 				<c:when test="${Message.equals('Sửa thành công')}">
-			    	<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>
-					<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 					<script>
 					    $(document).ready(function(){
 					        swal('Thành Công!', 'Sản Phẩm đã sửa thành công!', 'success');
@@ -62,8 +61,17 @@
             <div>
                 <h2 style="font-family: AvertaStdCY-Semibold;">Sửa Sản Phẩm</h2>
             </div>
-           
-           	<a href="deleteProduct?code=${product.code}" class="w3-button w3-green w3-margin-bottom" style="text-decoration: none;border-radius:5px">
+			<script>
+			    function ConfirmDelete()
+			    {
+			      var x = confirm("Bạn Có Muốn Xóa Không?");
+			      if (x)
+		          	return true;
+			      else
+		        	return false;
+			    }
+			</script> 
+           	<a href="deleteProduct?code=${product.code}" onclick="return ConfirmDelete();" class="w3-button w3-green w3-margin-bottom" style="text-decoration: none;border-radius:5px">
            		Delete <i class="fas fa-trash-alt"></i>
            	</a>
             <form method="POST" action="${pageContext.request.contextPath}/editProduct" enctype="multipart/form-data">
@@ -122,7 +130,7 @@
                     <div class="col-75">
                         <select name="categoryid">
                             <c:forEach items="${categoryList}" var="categoryList" >
-				         		<option value="${categoryList.categoryId}">${categoryList.categoryname}</option>
+				         		<option value="${categoryList.categoryId}" ${categoryList.categoryId == product.categoryId ? 'selected' : ''}>${categoryList.categoryname}</option>
 				         	</c:forEach>
                         </select>
                     </div>
@@ -133,6 +141,14 @@
                     </div>
                     <div class="col-75">
                         <textarea name="note" style="height:200px">${product.note}</textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Số lượng</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="number" name="quantity" value="${product.quantity}">
                     </div>
                 </div>
                 <br>
@@ -228,7 +244,7 @@
         });
         document.querySelector('.btn-full').onclick = function () {
             this.classList.toggle('fullscreen');
-        }
+        };
     </script>
 </body>
 </html>
