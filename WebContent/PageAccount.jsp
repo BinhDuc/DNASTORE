@@ -13,6 +13,7 @@
 
     <!-- Custom StyleSheet -->
     <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/SearchStyle.css" />
     <link rel="stylesheet" href="./fontawesome-free-5.15.1-web/css/all.min.css">
     <!--  owlcarosel -->
     <link rel="stylesheet" href="./assets/owlcarousel/assets/owl.carousel.min.css">
@@ -23,6 +24,61 @@
     <!-- owcarousel -->
     <script src="./js/jquery-3.3.1.min.js"></script>
     <script src="./js/owl.carousel.min.js"></script>
+    <link href = "${pageContext.request.contextPath}/css/jquery-ui.min.css" rel = "stylesheet">
+    <script src = "${pageContext.request.contextPath}/js/jquery-ui.min.js"></script>
+    <style>
+        #product-description {
+            margin: 0;
+            padding: 0;
+        }
+        ul.ui-menu{
+        	background: #fff;
+        	z-index:9;
+        	padding:10px 0 0 0;
+        	width:10%;
+        }
+        .list{
+            padding: 0 20px;
+            height:100px;
+            display:flex;
+            border-bottom:1px dotted #ccc;
+        }
+        .list a{
+            display: flex;
+            border: none;
+        }
+        .list a p{
+        	color: #ee4d2d;
+   			font-size: 1.5rem;
+        	font-family: AvertaStdCY-Semibold;
+        }
+        .list a h3{
+        	color: #696969;
+   			font-size: 1.5rem;
+        	font-family: AvertaStdCY-Regular;
+        }
+        .list a img{
+        	padding-right:30px
+        }
+        li.list:hover{
+        	background-color: rgba(0,0,0,0.1);
+        }
+        li.list:hover a{
+            background-color: transparent;
+            border: none;
+            color:#333;
+        }
+        li.list:hover a img{
+        	color:#ee4d2d;
+        	transform: none;
+        }
+        .ui-autocomplete {
+		    max-height: 70vh;
+		    overflow-y: auto;
+		    /* prevent horizontal scrollbar */
+		    overflow-x: hidden;
+	  	}
+    </style>
 </head>
 <body>
 	<jsp:include page="_header.jsp"></jsp:include>
@@ -45,8 +101,8 @@
             </div>
             
             <div class="user-header-info">
-                <div class="avatar-user">
-                    <img src="http://localhost:8080/DNAStore/avatar?username=${user.userName}" alt="">
+                <div class="avatar-user" style="background: url(DNAStore/WebContent/images/no_avatar.webp)">
+                    <img src="${pageContext.request.contextPath}/avatar?username=${user.userName}" alt="avatar">
                 </div>
                 <p>${user.fullname}</p>
             </div>    
@@ -62,11 +118,11 @@
         <section class="user-option" style="background-color: #fff;">
             <div class="options">
                 <i class="fas fa-user"></i>
-                <a href="">Thiết lập tài khoản</a>
+                <a href="accountInfo?username=${user.userName}">Thiết lập tài khoản</a>
             </div>
             <div class="options">
-                <i class="far fa-clock"></i>
-                <a href="">Lịch sử mua hàng</a>
+                <i class="fas fa-history"></i>
+                <a href="historyOrder?username=${user.userName}">Lịch sử mua hàng</a>
             </div>
             <div class="options" style="margin-bottom:20px">
                 <i class="fas fa-sign-out-alt"></i>

@@ -21,18 +21,29 @@
     <!-- owcarousel -->
     <script src="./js/jquery-3.3.1.min.js"></script>
     <script src="./js/owl.carousel.min.js"></script>
+    <script src='./assets/sweetalert2.all.js'></script>
     <style>
         *{
             font-family: AvertaStdCY-Regular;
         }
+        .khung{
+        padding:20px}
     </style>
 </head>
 <body>
 	 <!-- Top container -->
     <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
-        <a href="${pageContext.request.contextPath}/quanly" class="w3-bar-item header"><i class="fas fa-arrow-left"></i></a>
-        <a href="${pageContext.request.contextPath}/quanly"><span class="w3-bar-item logo" style="color: #fff;">DNASTORE</span></a>
-        <span class="w3-bar-item w3-right">Quản lý</span>
+        <c:choose>
+	    	<c:when test="${user.roleid == 1}">
+				<a href="${pageContext.request.contextPath}/quanly" class="w3-bar-item header"><i class="fas fa-arrow-left"></i></a>
+     	 		<a href="${pageContext.request.contextPath}/quanly"><span class="w3-bar-item logo" style="color: #fff;">DNASTORE</span></a>
+		  	</c:when>
+			<c:otherwise>
+				<a href="${pageContext.request.contextPath}/nhanvien" class="w3-bar-item header"><i class="fas fa-arrow-left"></i></a>
+     	 		<a href="${pageContext.request.contextPath}/nhanvien"><span class="w3-bar-item logo" style="color: #fff;">DNASTORE</span></a>
+			</c:otherwise>
+  		</c:choose>  
+        <span class="w3-bar-item w3-right">${user.rolename}</span>
         <button id="btnFullscreen" class="w3-bar-item w3-right" type="button" style="border: none;
         background: none;color: #fff;cursor: pointer;">
             <i class="fas fa-expand"></i>
@@ -40,14 +51,12 @@
     </div>
    
     <div class="w3-main" style="margin-top:43px;">
-        <div class="container">
+        <div class="khung">
             <c:choose>
 				<c:when test="${Message.equals('Sửa thành công')}">
-			    	<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>
-					<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 					<script>
 					    $(document).ready(function(){
-					        swal('Chào Mừng Bạn!', 'Tài khoản của bạn đã sửa thành công!', 'success');
+					        swal('Thành Công!', 'Tài khoản của bạn đã sửa thành công!', 'success');
 					    });
 					</script>
 				</c:when>
@@ -58,6 +67,26 @@
             <header>
                 <h2 style="font-family: AvertaStdCY-Semibold;">Sửa Tài Khoản</h2>
             </header>
+            <script>
+			    function ConfirmDelete()
+			    {
+			      var x = confirm("Bạn Có Muốn Xóa Không?");
+			      if (x)
+		          	return true;
+			      else
+		        	return false;
+			    }
+			</script>
+			<c:choose>
+				<c:when test="${user.userName != account.userName}">
+					<a href="deleteUser?userName=${account.userName}" onclick="return ConfirmDelete();" class="w3-button w3-green w3-margin-bottom" style="text-decoration: none;border-radius:5px">
+		           		Delete <i class="fas fa-trash-alt"></i>
+		           	</a>
+				</c:when>
+			    <c:otherwise>
+					
+			    </c:otherwise>
+			</c:choose>
             <form method="POST" action="${pageContext.request.contextPath}/editUser" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-25">
@@ -96,7 +125,27 @@
                         <label>Giới tính</label>
                     </div>
                     <div class="col-75">
-                    <input type="text" name="gender" value="${account.gender}">
+                    	<c:choose>
+							<c:when test="${account.gender.equals('Nam')}">
+						    	<select name="gender">
+		                    		<option value="Nam" selected>Nam</option>
+		                    		<option value="Nữ">Nữ</option>
+		                    	</select>
+							</c:when>
+							<c:when test="${account.gender.equals('Nữ')}">
+						    	<select name="gender">
+						    		<option value="Nữ" selected>Nữ</option>
+		                    		<option value="Nam">Nam</option>
+		                    	</select>
+							</c:when>
+						    <c:otherwise>
+								<select name="gender">
+		                    		<option value="Nam">Nam</option>
+		                    		<option value="Nữ">Nữ</option>
+		                    	</select>
+						    </c:otherwise>
+						</c:choose>
+	                    	
                     </div>
                 </div>
                 <div class="row">
@@ -131,10 +180,10 @@
                         
                     <div class="image">
                             <div class="image-boder">
-                                <img id="image_upload_preview" src="http://localhost:8080/DNAStore/avatar?username=${account.userName}" alt="your image" class="responsive"/> 
+                                <img id="image_upload_preview" src="${pageContext.request.contextPath}/avatar?username=${account.userName}" alt="your image" class="responsive"/> 
                             </div>
                     </div>
-                        <input type='file' id="inputFile" name="image" value="http://localhost:8080/DNAStore/avatar?username=${account.userName}"/>
+                        <input type='file' id="inputFile" name="image" required/>
                     
                         
                     </div>
@@ -144,16 +193,23 @@
                         <label>Role</label>
                     </div>
                     <div class="col-75">
-                        <select name="roleid">
-                            <c:forEach items="${roleList}" var="roleList" >
-				         		<option value="${roleList.roleid}">${roleList.rolename}</option>
-				         	</c:forEach>
-                        </select>
+                    	<c:choose>
+							<c:when test="${user.roleid == 1}">
+								<select name="roleid">
+		                            <c:forEach items="${roleList}" var="roleList" >
+						         		<option value="${roleList.roleid}" ${roleList.roleid == account.roleid ? 'selected' : ''}>${roleList.rolename}</option>
+						         	</c:forEach>
+		                        </select>
+							</c:when>
+						    <c:otherwise>
+								<input type="hidden" name="roleid" value="${account.roleid}">
+						    </c:otherwise>
+						</c:choose>
                     </div>
                 </div>
                 <br>
                 <div class="row">
-                    <input type="submit" value="Thêm tài khoản">
+                    <input type="submit" value="Sửa tài khoản">
                 </div>
             </form>
         </div>

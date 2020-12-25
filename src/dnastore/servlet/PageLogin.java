@@ -28,7 +28,8 @@ public class PageLogin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
- 
+    	response.setContentType("text/html;charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
         // Forward tới trang /WEB-INF/views/loginView.jsp
         // (Người dùng không thể truy cập trực tiếp
         // vào các trang JSP đặt trong thư mục WEB-INF).
@@ -44,6 +45,8 @@ public class PageLogin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    	response.setContentType("text/html;charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
         String userName = request.getParameter("userName");
         String password = request.getParameter("password");
         
@@ -92,7 +95,7 @@ public class PageLogin extends HttpServlet {
         // Lưu thông tin người dùng vào Session.
         // Và chuyển hướng sang trang userInfo.
         else {
-        	System.out.println("User Role: "+ user.getRoleid());
+//        	System.out.println("User Role: "+ user.getRoleid());
             HttpSession session = request.getSession();
             MyUtils.storeLoginedUser(session, user);
  

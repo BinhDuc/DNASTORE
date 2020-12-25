@@ -1,22 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
   pageEncoding="UTF-8"%>
-  
-<!-- sub navigation -->
+  	
 	<div class="sub-nav">       
-        <a href="tel:012345678" rel="nofollow" aria-label="phone">
+        <a href="tel:012345678" rel="nofollow" aria-label="phone" style="outline:none">
             <i class="fas fa-phone-alt"></i>
         </a>
         
-        <a href="//m.me/3591658937533633" target="_blank" rel="noreferrer" aria-label="messenger">
+        <a href="//m.me/3591658937533633" target="_blank" rel="noreferrer" aria-label="messenger" style="outline:none">
             <i class="fab fa-facebook-messenger"></i>
         </a>
-        <a href="${pageContext.request.contextPath}/">
+        <a href="${pageContext.request.contextPath}/" style="outline:none">
             <i class="fas fa-home"></i>
         </a>
-        <a href="mailto:company@gmail.com?subject=feedback">
+        <a href="mailto:company@gmail.com?subject=feedback" style="outline:none">
             <i class="fas fa-envelope"></i>
         </a> 
-        <a href="${pageContext.request.contextPath}/taikhoan">
+        <a href="${pageContext.request.contextPath}/taikhoan" style="outline:none">
             <i class="fas fa-user"></i>
         </a> 
     </div>
@@ -33,6 +32,7 @@
                     <a href=""><i class="fab fa-twitter"></i></a>
                     <a href=""><i class="fab fa-youtube"></i></a>
                     <a href=""><i class="fab fa-linkedin-in"></i></a>
+                   
                 </div>
                 <div class="footer-center">
                     <h3>Liên Hệ</h3>
@@ -64,9 +64,11 @@
                 <div class="footer-center">
                     <h3>Đăng ký nhận tin</h3>
                     <p style="color: rgb(153,153,153); font-size: 14px;font-family: AvertaStdCY-Light;">Nhập email của bạn để nhận khuyến mại</p>
-                    <div class="search">
-                        <input type="text" name="email" placeholder="Nhập email của bạn">
-                        <button><i class="fas fa-paper-plane"></i></button>
+                    <div class="search" style="position:relative">
+                    	<form method="post" action="" id="contact">
+                    		<input type="email" name="email" placeholder="Nhập email của bạn">
+                    	</form>
+                        <button type="submit" form="contact" onclick="arlet("hello")" style="position:absolute;right:10%;top:30%;cursor: pointer;z-index:1"><i class="fas fa-paper-plane"></i></button>
                     </div>
                     
                 </div>
@@ -77,6 +79,7 @@
         <div class="allright">
             <span style="color:rgb(245,237,35)">DNASTORE.</span >&copy;<script>document.write(new Date().getFullYear());</script> All Rights Reserved.
         </div>
+        
     </footer>  
     <!-- End Footer -->
     <script>
@@ -93,4 +96,9 @@
 	            return false; 
 	        }); 
 	    });
+	    jQuery(document).ready(function($) {
+      	    $(".clickable").click(function() {
+      	        window.location = $(this).data("href");
+      	    });
+      	});
     </script>

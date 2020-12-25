@@ -22,18 +22,21 @@
     <!-- owcarousel -->
     <script src="./js/jquery-3.3.1.min.js"></script>
     <script src="./js/owl.carousel.min.js"></script>
+    <script src='./assets/sweetalert2.all.js'></script>
     <style>
         *{
             font-family: AvertaStdCY-Regular;
         }
+        .khung{
+        padding:20px}
     </style>
 </head>
 <body>
 	 <!-- Top container -->
     <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
-        <a href="http://" class="w3-bar-item header"><i class="fas fa-arrow-left"></i></a>
-        <a href=""><span class="w3-bar-item logo" style="color: #fff;">DNASTORE</span></a>
-        <span class="w3-bar-item w3-right">Quản lý</span>
+        <a href="${pageContext.request.contextPath}/quanly" class="w3-bar-item header"><i class="fas fa-arrow-left"></i></a>
+	 	<a href="${pageContext.request.contextPath}/quanly"><span class="w3-bar-item logo" style="color: #fff;">DNASTORE</span></a>  
+        <span class="w3-bar-item w3-right">${user.rolename}</span>
         <button id="btnFullscreen" class="w3-bar-item w3-right" type="button" style="border: none;
         background: none;color: #fff;cursor: pointer;">
             <i class="fas fa-expand"></i>
@@ -41,8 +44,19 @@
     </div>
     
     <div class="w3-main" style="margin-top:43px;">
-        <div class="container">
-            
+        <div class="khung">
+            <c:choose>
+				<c:when test="${Message.equals('Image is uploaded successfully into the Database')}">
+					<script>
+					    $(document).ready(function(){
+					        swal('Thành Công!', 'Đã thêm thành công sản phẩm mới!', 'success');
+					    });
+					</script>
+				</c:when>
+			    <c:otherwise>
+					
+			    </c:otherwise>
+			</c:choose>
             <header>
                 <h2 style="font-family: AvertaStdCY-Semibold;">Thêm Sản Phẩm</h2>
             </header>
@@ -105,6 +119,14 @@
                     </div>
                     <div class="col-75">
                         <textarea name="note" style="height:200px"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Số lượng</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="number" name="quantity">
                     </div>
                 </div>
                 <br>

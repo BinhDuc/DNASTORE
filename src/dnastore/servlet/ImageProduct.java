@@ -37,22 +37,6 @@ public class ImageProduct extends HttpServlet {
 		String code = request.getParameter("code");
 		try {
 			product = DBUtils.findProduct(conn, code);
-			if (product == null) {
-               // Không có dữ liệu ảnh, chuyển hướng tới một ảnh mặc định.
-				response.sendRedirect(request.getContextPath() + "/image/no_avatar.webp");
-				return;
-			}
-        // trump.jpg, putin.png
-			String imageFileName = product.getName();
-			System.out.println("File Name: "+ imageFileName);
-			String contentType = this.getServletContext().getMimeType(imageFileName);
-			System.out.println("Content Type: "+ contentType);
-			response.setHeader("Content-Type", contentType);
-           
-			response.setHeader("Content-Length", String.valueOf(product.getImage().length));
-         
-			response.setHeader("Content-Disposition", "inline; filename=\"" + product.getName() + "\"");
-			// Ghi dữ liệu ảnh vào Response.
 			response.getOutputStream().write(product.getImage());
 		} catch (Exception e) {
 			 throw new ServletException(e);

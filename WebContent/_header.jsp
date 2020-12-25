@@ -1,6 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
   pageEncoding="UTF-8"%>
-  
+<%@page import="java.util.TreeMap"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
+ <%@page import="dnastore.beans.Cart"%>
+ <%@page import="dnastore.beans.Product"%>
+<%
+	Cart cart = (Cart) session.getAttribute("cart");
+	if(cart == null){
+		cart = new Cart();
+		session.setAttribute("cart", cart);
+	}
+	TreeMap<Product, Integer> list = cart.getList();
+%> 
 <!-- Navigation -->
     
     <nav class="navigation">
@@ -8,7 +19,7 @@
             <div class="hamburger">
                 <i class="fas fa-bars"></i>
             </div>
-            <a href="${pageContext.request.contextPath}/" class="logo">
+            <a href="${pageContext.request.contextPath}/" class="logo"  style="outline:none">
                 <h1>DNA<span>S</span>TORE</h1>
             </a>
 
@@ -24,25 +35,25 @@
 
                 <ul class="nav-list">
                     <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/" class="nav-link">Trang chủ</a>
+                        <a href="${pageContext.request.contextPath}/" class="nav-link"  style="outline:none">Trang chủ</a>
                     </li>
                     <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/nu" class="nav-link">Nữ</a>
+                        <a href="${pageContext.request.contextPath}/nu" class="nav-link"  style="outline:none">Nữ</a>
                     </li>
                     <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/nam" class="nav-link">Nam</a>
+                        <a href="${pageContext.request.contextPath}/nam" class="nav-link"  style="outline:none">Nam</a>
                     </li>
                     <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/tatca" class="nav-link">Tất cả</a>
+                        <a href="${pageContext.request.contextPath}/sale" class="nav-link"  style="outline:none">Sale</a>
                     </li>
                     <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/gioithieu" class="nav-link">Giới Thiệu</a>
+                        <a href="${pageContext.request.contextPath}/gioithieu" class="nav-link"  style="outline:none">Giới Thiệu</a>
                     </li>
                     <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/lienhe" class="nav-link">Liên hệ</a>
+                        <a href="${pageContext.request.contextPath}/lienhe" class="nav-link"  style="outline:none">Liên hệ</a>
                     </li>
                     <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/dangnhap" class="nav-link">Đăng nhập</a>
+                        <a href="${pageContext.request.contextPath}/dangnhap" class="nav-link"  style="outline:none">Đăng nhập</a>
                     </li>
                 </ul>
 
@@ -58,18 +69,21 @@
                 </div>
             </div>
             
-            <jsp:useBean id="cart" scope="session" class="dnastore.beans.CartBean" />
+            
             <div class="nav-icons">
-                <button class="bnt-search"><i class="fas fa-search"></i></button>
-                <a href="${pageContext.request.contextPath}/giohang" class="notification">
+            	<a href="${pageContext.request.contextPath}/taikhoan" style="outline:none"><i class="fas fa-user"></i></a>
+                <button class="bnt-search" style="border:none;outline:none"><i class="fas fa-search"></i></button>
+                <a href="${pageContext.request.contextPath}/giohang" class="notification" style="border:none;outline:none">
                     <i class="fas fa-shopping-cart"></i>
-                    <span class="badge total-count">${cart.lineItemCount}</span>
+                    <span class="badge total-count"><%=list.size() %></span>
                 </a>
             </div>
-            <div class="search-box">
-                <input type="text" placeholder="Bạn tìm gì ..." class="search-input"/>
-                <input type="button" value="Tìm kiếm"/>
-            </div>
+            <form class="search-box-s" method="get" action="search">
+                <input id ="product"  type="search" placeholder="Bạn tìm gì ..." maxlength="100" class="search-input" name="q"/>
+                <input type ="hidden" id = "product-id">
+                <input type="submit" value="Tìm kiếm" 
+                style="width: 80px;padding: 5px 0;background: orangered;color: #fff; margin-left: -6px;border: 1px solid orangered;outline: none;cursor: pointer;">
+            </form>
 
             
         </div>
@@ -111,10 +125,52 @@
             $(document).ready(function() {
      
                 $(".bnt-search").click(function() {
-                    $(".search-box").toggle();
+                    $(".search-box-s").toggle();
                     $("search-input").focus();
                 });
     
             });
         </script>
+        <script>
+        	var productData ={
+       			loadData : function(){
+   	            	var products = [];
+   	            	$.ajax({
+   		      			async: false,
+   		      			url: "JsonProduct",
+   		      			dataType:"json",
+   		      			success: function(JsonData) {
+   		      				products = JsonData;
+   		    				console.log(products);
+   		      			}
+   	    			});
+   	            	return products;
+   	            }
+        	}
+	        $(function() {
+	   			var data = productData.loadData();
+	   			console.log("data",data);
+	            $( "#product" ).autocomplete({
+	            	minLength:2,
+	                source: data,
+	                focus: function( event, ui ) {
+	                    $( "#product" ).val( ui.item.label );
+	                    return false;
+	                },
+	                select: function( event, ui ) {
+	                    $( "#product" ).val( ui.item.label );
+	                    $( "#product-id" ).val( ui.item.value );
+	                    $( "#product-description" ).html( ui.item.desc );
+	                    return false;
+	                }
+	            })
+	            .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+	                return $( "<li class='list'>" )
+	                .append( "<a href='product?code="+item.value+"'>"
+	                		+'<img src="${pageContext.request.contextPath}/image?code='+item.value+'" alt="anhsanpham">' 
+	                		+"<div>"+"<h3>"+ item.label +"</h3>"+ "<p>" + item.desc +" ₫"+"</p>" +"</div>"+ "</a>" )
+	                .appendTo( ul );
+	            };
+	         });
+	    </script>
     </nav>

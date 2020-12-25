@@ -35,17 +35,18 @@ public class PageProductDetail extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html;charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
 		Connection conn = MyUtils.getStoredConnection(request);
 		 
         String code = (String) request.getParameter("code");
+        String categoryid = (String) request.getParameter("categoryid");
         Product product = null;
         String errorString = null;
-//        HttpSession session = request.getSession();
         List<Product> list = null;
-//        ArrayList<Cart> arrCart = new ArrayList<Cart>();
         try {
             product = DBUtils.findProduct(conn, code);
-            list = DBUtils.queryRandomProduct(conn);
+            list = DBUtils.querySameProduct(conn, categoryid);
         } catch (SQLException e) {
             e.printStackTrace();
             errorString = e.getMessage();
@@ -60,8 +61,6 @@ public class PageProductDetail extends HttpServlet {
         }
  
         // Lưu thông tin vào request attribute trước khi forward sang views.
-//        session.setAttribute("cart", arrCart);
-//        response.sendRedirect("/WEB-INF/components/cart.jsp");
         request.setAttribute("errorString", errorString);
         request.setAttribute("product", product);
         request.setAttribute("productList", list);

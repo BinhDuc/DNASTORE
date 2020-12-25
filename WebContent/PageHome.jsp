@@ -13,16 +13,116 @@
 
     <!-- Custom StyleSheet -->
     <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/SearchStyle.css" />
     <link rel="stylesheet" href="./fontawesome-free-5.15.1-web/css/all.min.css">
     <!--  owlcarosel -->
     <link rel="stylesheet" href="./assets/owlcarousel/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="./assets/owlcarousel/assets/owl.theme.default.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <title>DNASTORE</title>
-
     <!-- owcarousel -->
     <script src="./js/jquery-3.3.1.min.js"></script>
     <script src="./js/owl.carousel.min.js"></script>
+    <link href = "${pageContext.request.contextPath}/css/jquery-ui.min.css" rel = "stylesheet">
+    <script src = "${pageContext.request.contextPath}/js/jquery-ui.min.js"></script>
+    <style>
+    	.flag-discount {
+		    color: #fff;
+		    display: block;
+		    float: left;
+		    padding: 3px 3px;
+		    background: #ee4d2d;
+		    font-size: 12px;
+		    font-weight: 400;
+		    position: absolute;
+		    top:3%;
+		    left:0;
+		}
+		.flag-discount::before,
+		.flag-discount::after {
+		    content: "";
+		    position: absolute;
+		    left: 100%;
+		    width: 0;
+		    height: 0;
+		    border-style: solid;
+		    display: block;
+		    
+		}
+		.flag-discount::before {
+		    top: 0;
+		    border-width: 22px 10px 0 0;
+		    border-color: #ee4d2d transparent transparent transparent;
+		}
+		.flag-discount::after {
+		    bottom: 0;
+		    border-width: 0 10px 22px 0;
+		    border-color: transparent transparent #ee4d2d transparent;
+		}
+		.product:hover .product-header::after {
+		  background:transparent;
+		}
+		.product:hover .product-header img {
+		  transform: scale(1.05);
+		  overflow: hidden;
+		}
+		.product{
+			cursor: pointer;
+			overflow: hidden;
+		}
+        #product-description {
+            margin: 0;
+            padding: 0;
+        }
+        ul.ui-menu{
+        	position: fixed;
+        	background: #fff;
+        	z-index:9;
+        	padding:10px 0 0 0;
+        	width:10%;
+        }
+        .list{
+            padding: 0 10px;
+            height:100px;
+            display:flex;
+            border-bottom:1px dotted #ccc;
+        }
+        .list a{
+            display: flex;
+            border: none;
+        }
+        .list a p{
+        	color: #ee4d2d;
+   			font-size: 1.5rem;
+        	font-family: AvertaStdCY-Semibold;
+        }
+        .list a h3{
+        	color: #696969;
+   			font-size: 1.5rem;
+        	font-family: AvertaStdCY-Regular;
+        }
+        .list a img{
+        	padding-right:30px
+        }
+        li.list:hover{
+        	background-color: rgba(0,0,0,0.1);
+        }
+        li.list:hover a{
+            background-color: transparent;
+            border: none;
+            color:#333;
+        }
+        li.list:hover a img{
+        	color:#ee4d2d;
+        	transform: none;
+        }
+        .ui-autocomplete {
+		    max-height: 70vh;
+		    overflow-y: auto;
+		    /* prevent horizontal scrollbar */
+		    overflow-x: hidden;
+	  	}
+    </style>
 </head>
 <body>
  
@@ -45,43 +145,21 @@
         </script>
         <section class="hero">
             <div class="owl-carousel" id="carousel">
-                <div class="item">
-                    <div class="banner" data-background="./images/slidess.jpg">
-                        <div class="banner-content">
-                            <span>Bô Sưu Tập Thu Đông</span>
-                            <h1>XU HƯỚNG THỜI TRANG</h1>
-                            <h3>“Thời trang có thể phai tàn nhưng phong cách sẽ tồn tại mãi mãi”</h3>
-                            <div class="buttons-group">
-                                <a href="${pageContext.request.contextPath}/tatca">MUA NGAY</a>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="banner" data-background="./images/slide.jpg">
-                        <div class="banner-content">
-                            <span>New Inspiration 2020</span>
-                            <h1>TƯNG BỪNG KHAI TRƯƠNG!</h1>
-                            <h3>Trending from men and women style collection</h3>
-                            <div class="buttons-group">
-                                <a href="${pageContext.request.contextPath}/tatca">MUA NGAY</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="banner" data-background="./images/s1.jpg">
-                        <div class="banner-content">
-                            <span>Black Friday 2020</span>
-                            <h1>NGÂP TRÀN QUÀ TẶNG!</h1>
-                            <h3>Trending from men and women style collection</h3>
-                            <div class="buttons-group">
-                                <a href="${pageContext.request.contextPath}/tatca">MUA NGAY</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <c:forEach items="${slideList}" var="slide" >
+	                <div class="item">
+	                    <div class="banner" data-background="${pageContext.request.contextPath}/bgSlide?id=${slide.id}">
+	                        <div class="banner-content">
+	                            <span>${slide.title}</span>
+	                            <h1>${slide.slideName}</h1>
+	                            <h3>${slide.content}</h3>
+	                            <div class="buttons-group">
+	                                <a href="sale">MUA NGAY</a>
+	                            </div>
+	                            
+	                        </div>
+	                    </div>
+	                </div>
+                </c:forEach>
             </div>
 
 
@@ -92,27 +170,27 @@
             <div class="category-center container">
 
                 <div class="category-box">
-                    <img src="./images/cat1.jpg" alt="">
+                    <img src="./images/balancing-1868051_1920.jpg" alt="">
                     <div class="content">
                         <h2>Sản phẩm nam</h2>
-                        <span>155 Sản phẩm</span>
+                        <span>${productListm.size()} Sản phẩm</span>
                         <a href="${pageContext.request.contextPath}/nam">mua ngay</a>
                     </div>
                 </div>
 
                 <div class="category-box">
-                    <img src="./images/cat3.jpg" alt="">
+                    <img src="./images/blue-2564660_1920.jpg" alt="">
                     <div class="content">
                         <h2>Sản phẩm nữ</h2>
-                        <span>155 Sản phẩm</span>
+                        <span>${productListf.size()} Sản phẩm</span>
                         <a href="${pageContext.request.contextPath}/nu">mua ngay</a>
                     </div>
                 </div>
                 <div class="category-box">
-                    <img src="./images/cat2.jpg" alt="">
+                    <img src="./images/adult-1866798_1920.jpg" alt="">
                     <div class="content">
                         <h2>Tất cả sản phẩm</h2>
-                        <span>155 Sản phẩm</span>
+                        <span>${productLista.size()} Sản phẩm</span>
                         <a href="${pageContext.request.contextPath}/tatca">mua ngay</a>
                     </div>
                 </div>
@@ -128,16 +206,24 @@
 
             <div class="product-center container">
                 <c:forEach items="${productList}" var="product" >
-	                <div class=" product">
+	                <div class="product clickable" data-href='product?code=${product.code}&categoryid=${product.categoryId}'>
 	                    <div class="product-header">
-	                        <img src="http://192.168.43.144:8080/DNAStore/image?code=${product.code}" alt="anhsanpham">
+	                        <img src="${pageContext.request.contextPath}/image?code=${product.code}" alt="anhsanpham">
+	                        
 	                    </div>
 	                    <div class="product-footer">
-	                        <a href="product?code=${product.code}">
+	                        <a href="product?code=${product.code}&categoryid=${product.categoryId}">
 	                            <h3>${product.name}</h3>
-	                        </a>
+	                        </a>	
+                        	<h4 class="price">
+		                        <script>
+									var price = ${product.price -(product.price * (product.discount / 100))};
+									price = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+									document.write(price);
+								</script>	
+	                        </h4>
 	                        
-	                        <h4 class="price">${product.price} ₫</h4>
+		                    <span class="flag-discount">New</span>
 	                    </div>
 	                </div>
                 </c:forEach>
@@ -151,7 +237,7 @@
                     <h1>
                         <span>Bộ Sưu Tập Thu Đông</span>
                     </h1>
-                    <a class="btn" href="#">Mua Ngay</a>
+                    <a class="btn" href="${pageContext.request.contextPath}/sale">Mua Ngay</a>
                 </div>
             </div>
         </section>
@@ -272,6 +358,7 @@
                 }
             }
         });
+        
     </script>
   </body>
 </html>

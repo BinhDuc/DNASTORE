@@ -20,7 +20,7 @@ import dnastore.utils.MyUtils;
 /**
  * Servlet implementation class ProductServlet
  */
-@WebServlet("/tatca")
+@WebServlet("/sale")
 public class PageProductAll extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -36,13 +36,14 @@ public class PageProductAll extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html;charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
 		Connection conn = MyUtils.getStoredConnection(request);
-		   
 	       String errorString = null;
 	       List<Product> list = null;
 	       
 	       try {
-	           list = DBUtils.queryProduct(conn);
+	           list = DBUtils.querySaleProduct(conn);
 	           
 	       } catch (SQLException e) {
 	           e.printStackTrace();

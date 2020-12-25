@@ -171,7 +171,7 @@ li {
 .nav-icons button {
   font-size: 1.6rem;
   border-radius: 50%;
-  border: 1px solid var(--grey);
+  border: none;
   padding: 0.3rem 0.7rem;
   cursor: pointer;
   transition: all 300ms ease-in-out;
@@ -239,7 +239,7 @@ li {
   outline: none;
 }
 
-.search-box input[type="button"] {
+.search-box input[type="submit"] {
   width: 80px;
   padding: 5px 0;
   background: orangered;
@@ -250,7 +250,26 @@ li {
   cursor: pointer;
 }
 
+@media only screen and (min-width: 996px) {
+  .search-box {
+    top: 50px;
+  }
 
+  .search-box input[type="text"] {
+    width: 90%;
+  }
+
+  .search-box:before {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+
+  .search-box input[type="text"] {
+    width: 85%;
+  }
+}
 
 @media only screen and (max-width: 996px) {
   .nav-item:not(:last-child) {
@@ -817,7 +836,6 @@ li {
   left: 0;
   top: 0;
   border-radius: 1rem 1rem 0 0;
-  background-color: rgba(0, 0, 0, 0.2);
   transition: all 300ms ease-in-out;
   z-index: 1;
 }
@@ -1903,6 +1921,7 @@ th:last-child {
     flex-basis: 100%;
     max-width: 100%;
   }
+
   .user-infos .user-infos-left .anh {
     display: none;
   }
@@ -1966,6 +1985,7 @@ th:last-child {
   width: 40px;
   height: 40px;
 }
+
 .admin-search {
   width: 100%;
   position: relative;

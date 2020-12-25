@@ -35,6 +35,8 @@ public class ActionRegister extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html;charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
 		Connection conn = MyUtils.getStoredConnection(request);
 		String username = request.getParameter("username");
         String password = request.getParameter("password");

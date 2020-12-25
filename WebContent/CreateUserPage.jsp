@@ -1,155 +1,254 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
- 
 <!DOCTYPE html>
 <html>
-   <head>
-      <meta charset="UTF-8" />
-    	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    	<!-- Favicon -->
-    	<link rel="shortcut icon" href="./images/240px-DNA_logo_2015.jpg" type="image/x-icon">
+<head>
+	<meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="./images/1234.png" type="image/x-icon">
+    <title>DNA Dashboard</title>
+    <link rel="stylesheet" href="./css/form.css" />
+    <link rel="stylesheet" href="./css/w3.css">
     <!-- Box icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
-   
-    <!-- Custom StyleSheet -->
-    <link rel="stylesheet" href="./css/styles.css" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
-    integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+    <link rel="stylesheet" href="./fontawesome-free-5.15.1-web/css/all.min.css">
     <!--  owlcarosel -->
     <link rel="stylesheet" href="./assets/owlcarousel/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="./assets/owlcarousel/assets/owl.theme.default.min.css">
-    <title>DNASTORE</title>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <!-- owcarousel -->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
+    <script src="./js/jquery-3.3.1.min.js"></script>
+    <script src="./js/owl.carousel.min.js"></script>
+    <script src='./assets/sweetalert2.all.js'></script>
     <style>
-      /* .container{
-         width: 200px;
-         margin: 50px auto;
-         font-family: sans-serif;
-      } */
-
-      /* label{
-         display: block;
-         max-width: 200px;
-         margin: 0 auto 15px;
-         text-align: center;
-         word-wrap: break-word;
-         color: #1a4756;
-      } */
-
-      .hidden, #uploadImg:not(.hidden) + label{
-         display: none;
-      }
-
-      #file{
-         display: none;
-         /* margin: 0 auto; */
-
-      }
-
-      #upload{
-         display: block;
-         padding: 10px 25px;
-         border: 0;
-         /* margin: 0 auto; */
-         font-size: 15px;
-         letter-spacing: 0.05em;
-         cursor: pointer;
-         background: #216e69;
-         color: #fff;
-         outline: none;
-         transition: .3s ease-in-out;}
-      #upload:hover, #upload:focus{
-            background: #1AA39A;
-      }
-      #upload:active{
-            background: #13D4C8;
-            transition: .1s ease-in-out;
-      }
-      
-/* 
-      img{
-         display: block;
-         margin: 0 auto 15px;
-      } */
+        *{
+            font-family: AvertaStdCY-Regular;
+        }
+        .khung{
+        padding:20px}
     </style>
-   </head>
-   <body>
+</head>
+<body>
+	 <!-- Top container -->
+    <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+        <a href="${pageContext.request.contextPath}/quanly" class="w3-bar-item header"><i class="fas fa-arrow-left"></i></a>
+     	<a href="${pageContext.request.contextPath}/quanly"><span class="w3-bar-item logo" style="color: #fff;">DNASTORE</span></a>  
+        <span class="w3-bar-item w3-right">${user.rolename}</span>
+        <button id="btnFullscreen" class="w3-bar-item w3-right" type="button" style="border: none;
+        background: none;color: #fff;cursor: pointer;">
+            <i class="fas fa-expand"></i>
+        </button>
+    </div>
+   
+    <div class="w3-main" style="margin-top:43px;">
+        <div class="khung">
+            <c:choose>
+				<c:when test="${Message.equals('Image is uploaded successfully into the Database')}">
+					<script>
+					    $(document).ready(function(){
+					        swal('Thành Công!', 'Đã thêm thành công sản phẩm mới!', 'success');
+					    });
+					</script>
+				</c:when>
+			    <c:otherwise>
+					
+			    </c:otherwise>
+			</c:choose>
+            <header>
+                <h2 style="font-family: AvertaStdCY-Semibold;">Thêm Nhân Viên</h2>
+            </header>
+            <form method="POST" action="${pageContext.request.contextPath}/createuser" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-25">
+                        <label>UserName</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="text" name="username"  >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Password</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="text" name="password" >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Email</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="email" name="email" >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Họ Tên</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="text" name="fullname" >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Giới tính</label>
+                    </div>
+                    <div class="col-75">
+                    	<select name="gender">
+                    		<option value="Nam">Nam</option>
+                    		<option value="Nữ">Nữ</option>
+                    	</select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Ngày sinh</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="date" name="birthday" >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Số điện thoại</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="number" name="phone" >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Địa chỉ</label>
+                    </div>
+                    <div class="col-75">
+                        <input type="text" name="adress">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Avatar</label>
+                    </div>
+                    <div class="col-75">
+                        
+                    <div class="image">
+                            <div class="image-boder">
+                                <img id="image_upload_preview" src="${pageContext.request.contextPath}/avatar?username=${account.userName}" alt="your image" class="responsive"/> 
+                            </div>
+                    </div>
+                        <input type='file' id="inputFile" name="image" required/>
+                    
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-25">
+                        <label>Role</label>
+                    </div>
+                    <div class="col-75">
+                        <select name="roleid">
+                            <c:forEach items="${roleList}" var="roleList" >
+				         		<option value="${roleList.roleid}">${roleList.rolename}</option>
+				         	</c:forEach>
+                        </select>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <input type="submit" value="Thêm tài khoản">
+                </div>
+            </form>
+        </div>
+    </div>
     
-      <jsp:include page="_header.jsp"></jsp:include>
-       
-      <h3>Create Product</h3>
-       
-      <p style="color: red;">${errorString}</p>
-      <br/>
-       
-      <form method="POST" action="${pageContext.request.contextPath}/createuser" enctype="multipart/form-data">
-         
-         <label>User_name</label>
-         <input type="text" name="username" style="width:50%;padding:10px;margin:10px"/>
-         <br/>
-          <label>Password</label>
-         <input type="text" name="password" style="width:50%;padding:10px;margin:20px"/>
-         <br/>
-         <label>Full Name</label>
-         <input type="text" name="fullname" style="width:50%;padding:10px;margin:10px"/>
-         <br/>
-         <label>gender</label>
-         <input type="text" name="gender" style="width:50%;padding:10px;margin:10px"/>
-         <br/>
-         <label>birthday</label>
-         <input type="text" name="birthday" style="width:50%;padding:10px;margin:10px"/>
-         <br/>
-         <label>phone number</label>
-         <input type="text" name="number" style="width:50%;padding:10px;margin:10px"/>
-         <br/>
-         <label>Image</label>
-         
-         
-         <div>
-	    	<input type='file' id="inputFile" name="image" />
-		    <div style="width: 200px;height: 200px;overflow: hidden;background: #f3f3f3;display: flex;justify-content: center;align-items: center;">
-		    	<img id="image_upload_preview" src="http://placehold.it/100x100" alt="your image" /> 
-		    </div>
-		</div>
-	    
-	    
-	    <script type="text/javascript">
-			function readURL(input) {
-		        if (input.files && input.files[0]) {
-		            var reader = new FileReader();
-	
-		            reader.onload = function (e) {
-		                $('#image_upload_preview').attr('src', e.target.result);
-		            }
-	
-		            reader.readAsDataURL(input.files[0]);
-		        }
-		    }
-	
-		    $("#inputFile").change(function () {
-		        readURL(this);
-		    });
-		</script>
-         <br/>
-         <label>Category</label>
-         <select name="roleid">
-         	<c:forEach items="${roleList}" var="roleList" >
-         		<option value="${roleList.roleid}">${roleList.rolename}</option>
-         	</c:forEach>
-		</select>
-         
-         <br/>
-         
-         <input type="submit" value="Submit" style="width:20%;padding:10px;margin:20px" />
-         <input type="reset" value="Clear" style="width:20%;padding:10px;margin:20px"/>
-      </form>
-      
-       
-      <jsp:include page="_footer.jsp"></jsp:include>
-       
-   </body>
+    <script type="text/javascript">
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#image_upload_preview').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#inputFile").change(function () {
+            readURL(this);
+        });
+        var mySidebar = document.getElementById("mySidebar");
+
+        // Get the DIV with overlay effect
+        var overlayBg = document.getElementById("myOverlay");
+
+        // Toggle between showing and hiding the sidebar, and add overlay effect
+        function w3_open() {
+            if (mySidebar.style.display === 'block') {
+                mySidebar.style.display = 'none';
+                overlayBg.style.display = "none";
+            } else {
+                mySidebar.style.display = 'block';
+                overlayBg.style.display = "block";
+            }
+        };
+
+        // Close the sidebar with the close button
+        function w3_close() {
+            mySidebar.style.display = "none";
+            overlayBg.style.display = "none";
+        };
+
+        function openDashboard(dashboardName) {
+            var i;
+            var x = document.getElementsByClassName("dashboard");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";  
+            }
+            document.getElementById(dashboardName).style.display = "block";  
+        };
+        function dropDown(id) {
+            var x = document.getElementById(id);
+            if (x.className.indexOf("w3-show") == -1) {
+                x.className += " w3-show";
+            } else { 
+                x.className = x.className.replace(" w3-show", "");
+            }
+        };
+        function toggleFullscreen(elem) {
+            elem = elem || document.documentElement;
+            if (!document.fullscreenElement && !document.mozFullScreenElement &&
+                !document.webkitFullscreenElement && !document.msFullscreenElement) {
+                if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+                } else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen();
+                } else if (elem.mozRequestFullScreen) {
+                elem.mozRequestFullScreen();
+                } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+                }
+            } else {
+                if (document.exitFullscreen) {
+                document.exitFullscreen();
+                } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+                }
+            }
+            }
+
+            document.getElementById('btnFullscreen').addEventListener('click', function() {
+            toggleFullscreen();
+        });
+        document.querySelector('.btn-full').onclick = function () {
+            this.classList.toggle('fullscreen');
+        }
+    </script>
+</body>
 </html>

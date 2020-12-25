@@ -35,11 +35,13 @@ public class ActionCreateProduct extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    	response.setContentType("text/html;charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
     	Connection conn = MyUtils.getStoredConnection(request);
     	HttpSession session = request.getSession();
 		Account loginedUser = MyUtils.getLoginedUser(session);
 		// Nếu chưa đăng nhập (login).
-        if (loginedUser == null) {
+        if (loginedUser == null || loginedUser.getRoleid() != 1) {
             // Redirect (Chuyển hướng) tới trang login.
             response.sendRedirect(request.getContextPath() + "/dangnhap");
             return;
@@ -70,6 +72,8 @@ public class ActionCreateProduct extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    	response.setContentType("text/html;charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
         Connection conn = MyUtils.getStoredConnection(request);
  
         // gets values of text fields
@@ -78,6 +82,7 @@ public class ActionCreateProduct extends HttpServlet {
         String discount = request.getParameter("discount");
         String categoryid = request.getParameter("categoryid");
         String note = request.getParameter("note");
+        String quantity = request.getParameter("quantity");
         InputStream inputStream = null;
 
         // obtains the upload file part in this multipart request
@@ -95,14 +100,14 @@ public class ActionCreateProduct extends HttpServlet {
         String message = null; // message will be sent back to client
         try {
             // constructs SQL statement
-            String sql = "INSERT INTO product (name, price, discount, image, categoryid, note) values (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO product (name, price, discount, image, categoryid, note, quantity) values (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, name);
             statement.setString(2, price);
             statement.setString(3, discount);
             statement.setString(5, categoryid);
             statement.setString(6, note);
-            
+            statement.setString(7, quantity);
 
             if (inputStream != null) {
                 // fetches input stream of the upload file for the blob column

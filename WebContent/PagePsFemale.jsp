@@ -13,6 +13,8 @@
 
     <!-- Custom StyleSheet -->
     <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/SearchStyle.css" />
+    <link rel="stylesheet" href="./css/pagination.css">
     <link rel="stylesheet" href="./fontawesome-free-5.15.1-web/css/all.min.css">
     <!--  owlcarosel -->
     <link rel="stylesheet" href="./assets/owlcarousel/assets/owl.carousel.min.css">
@@ -23,6 +25,99 @@
     <!-- owcarousel -->
     <script src="./js/jquery-3.3.1.min.js"></script>
     <script src="./js/owl.carousel.min.js"></script>
+    <script src="./js/jquery.twbsPagination.min.js" type="text/javascript"></script>
+    <link href = "${pageContext.request.contextPath}/css/jquery-ui.min.css" rel = "stylesheet">
+    <script src = "${pageContext.request.contextPath}/js/jquery-ui.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var pageSize = 8; // Hiển thị 6 sản phẩm trên 1 trang
+            showPage = function (page) {
+                $(".product").hide();
+                $(".product").each(function (n) {
+                    if (n >= pageSize * (page - 1) && n < pageSize * page)
+                        $(this).show();
+                });
+            }
+            showPage(1);
+            ///** Cần truyền giá trị vào đây **///
+            var totalRows = ${productList.size()}; // Tổng số sản phẩm hiển thị
+            var btnPage = 3; // Số nút bấm hiển thị di chuyển trang
+            var iTotalPages = Math.ceil(totalRows / pageSize);
+
+            var obj = $('#pagination').twbsPagination({
+                totalPages: iTotalPages,
+                visiblePages: btnPage,
+                onPageClick: function (event, page) {
+                    console.info(page);
+                    showPage(page);
+                }
+            });
+            console.info(obj.data());
+        });
+    </script>
+    <style>
+        .product:hover .product-header::after {
+		  background:transparent;
+		}
+		.product:hover .product-header img {
+		  transform: scale(1.05);
+		}
+		.product{
+			cursor: pointer;
+		}
+		#product-description {
+            margin: 0;
+            padding: 0;
+        }
+        ul.ui-menu{
+        	position: fixed;
+        	background: #fff;
+        	z-index:9;
+        	padding:10px 0 0 0;
+        	width:10%;
+        }
+        .list{
+            padding: 0 20px;
+            height:100px;
+            display:flex;
+            border-bottom:1px dotted #ccc;
+        }
+        .list a{
+            display: flex;
+            border: none;
+        }
+        .list a p{
+        	color: #ee4d2d;
+   			font-size: 1.5rem;
+        	font-family: AvertaStdCY-Semibold;
+        }
+        .list a h3{
+        	color: #696969;
+   			font-size: 1.5rem;
+        	font-family: AvertaStdCY-Regular;
+        }
+        .list a img{
+        	padding-right:30px
+        }
+        li.list:hover{
+        	background-color: rgba(0,0,0,0.1);
+        }
+        li.list:hover a{
+            background-color: transparent;
+            border: none;
+            color:#333;
+        }
+        li.list:hover a img{
+        	color:#ee4d2d;
+        	transform: none;
+        }
+        .ui-autocomplete {
+		    max-height: 70vh;
+		    overflow-y: auto;
+		    /* prevent horizontal scrollbar */
+		    overflow-x: hidden;
+	  	}
+    </style>
 </head>
 <body>
 	<jsp:include page="_header.jsp"></jsp:include>
@@ -42,7 +137,7 @@
     <!-- Female Products -->
     <section class="sections all-products" id="products">
         <div class="top container">
-            <h3>120 sản phẩm</h3>
+            <h3>${productList.size()} sản phẩm</h3>
             <form>
                 <select>
                     <option value="1">Defualt Sorting</option>
@@ -74,21 +169,35 @@
             </div>
             <div class="product-center product-list-right">
                 <c:forEach items="${productList}" var="product" >
-	                <div class="product">
+	                <div class="product clickable" data-href='product?code=${product.code}&categoryid=${product.categoryId}'>
 	                    <div class="product-header">
-	                        <img src="http://localhost:8080/DNAStore/image?code=${product.code}" alt="anhsanpham">
+	                        <img src="${pageContext.request.contextPath}/image?code=${product.code}" alt="anhsanpham">
 	                    </div>
 	                    <div class="product-footer">
 	                        <a href="product?code=${product.code}">
 	                            <h3>${product.name}</h3>
 	                        </a>
-	                        <h4 class="price">${product.price} ₫</h4>
+	                        <h4 class="price">
+	                        	<script>
+									var price = ${product.price -(product.price * (product.discount / 100))};
+									price = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+									document.write(price);
+								</script>
+	                        </h4>
 	                    </div>
 	                </div>
                 </c:forEach>
             </div>
         </div>  
     </section>
+    <c:choose>
+		<c:when test="${productList.size() > 6}">
+			<section id="pagination"></section>
+		</c:when>
+		<c:otherwise>
+		
+		</c:otherwise>
+	</c:choose>
 	<jsp:include page="_footer.jsp"></jsp:include>
 </body>
 </html>
