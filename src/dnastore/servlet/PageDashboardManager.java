@@ -34,6 +34,8 @@ public class PageDashboardManager extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    	response.setContentType("text/html;charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
     	Connection conn = MyUtils.getStoredConnection(request);
         HttpSession session = request.getSession();
         String errorString = null;

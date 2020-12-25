@@ -75,7 +75,7 @@
         </div>
         <div class="w3-bar-block">
             <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'overview')">
-            	<i class="fas fa-tachometer-alt"></i>  Overview
+            	<i class="fas fa-tachometer-alt"></i>  Thống kê
             </button>
             <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'userinfo')">
             	<i class="fas fa-user"></i>  Hồ sơ
@@ -111,6 +111,9 @@
             <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'listorder')">
             	<i class='bx bxs-receipt' ></i>  Danh sách đơn hàng
             </button>
+            <a class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" href="doanhThu">
+               	<i class="fas fa-cash-register"></i> Doanh thu
+        	</a>
             <a class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" href="carousel">
                	<i class="fas fa-cogs"></i> Carousel
         	</a>
@@ -128,7 +131,7 @@
         <div id="overview" class="city w3-animate-opacity" style="display: block;">
             <div class="w3-row-padding w3-margin-bottom">
                 <div class="w3-quarter">
-                    <div class="w3-container w3-pink w3-padding-16 w3-card">
+                    <div class="w3-container w3-padding-16 w3-card" style="background:#f44336;color:#ffffff">
                         <div class="w3-left"><i class="fas fa-cash-register w3-xxxlarge"></i></div>
                         <div class="w3-right">
                             <h3>
@@ -144,7 +147,7 @@
                     </div>
                 </div>
                 <div class="w3-quarter">
-                    <div class="w3-container w3-blue w3-padding-16 w3-card">
+                    <div class="w3-container w3-padding-16 w3-card" style="background:#3f51b5;color:#ffffff">
                         <div class="w3-left"><i class="fas fa-shipping-fast w3-xxxlarge"></i></div>
                         <div class="w3-right">
                             <h3 class="counter-value">${listod.size()}</h3>
@@ -154,7 +157,7 @@
                     </div>
                 </div>
                 <div class="w3-quarter">
-                    <div class="w3-container w3-orange w3-text-white w3-padding-16  w3-card">
+                    <div class="w3-container w3-text-white w3-padding-16  w3-card" style="background:#ff9100;color:#ffffff">
                         <div class="w3-left"><i class="fab fa-product-hunt w3-xxxlarge "></i></div>
                         <div class="w3-right">
                             <h3 class="counter-value">${productList.size()}</h3>
@@ -164,7 +167,7 @@
                     </div>
                 </div>
                 <div class="w3-quarter">
-                    <div class="w3-container w3-green w3-text-white w3-padding-16 w3-card">
+                    <div class="w3-container w3-text-white w3-padding-16 w3-card" style="background:#4caf50;color:#ffffff">
                         <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
                         <div class="w3-right">
                             <h3 class="counter-value">${UserList.size()}</h3>
@@ -190,51 +193,22 @@
 		
 		   		});
 		   	</script>
-            <hr/>
             
 <!-- ----------------------------------Biểu Đồ------------------------------------------------------------------------ -->
 			<div class="w3-row">
-				<div class="w3-half w3-container">
-					<canvas id="myChart"></canvas>
-				    <script>
-				    	var ctx = document.getElementById("myChart").getContext('2d');
-				      var myChart = new Chart(ctx, {
-				        type: 'pie',
-				        data: {
-				          labels: ["Đang chờ", "Đang chuyển", "Thành Công"],
-				          datasets: [{
-				            backgroundColor: [
-				              "#ff0057",
-				              "#ff9800",
-				              "#00ff11"
-				            ],
-				            data: [${waiting.size()}, ${delivery.size()}, ${success.size()}]
-				          }]
-				        },
-		   			   	options: {
-		   					animation: {
-		   						duration: 0
-		   					}
-		   				}
-				      });
-				    </script>
-				    <div class="w3-container w3-padding-16">
-		                <h5>Users mới</h5>
-		                <ul class="w3-ul w3-card w3-white">
-		                    <c:forEach items="${NewUserList}" var="NewUserList"> 
-		                    	<li class="w3-padding-16">
-		                        	<img src="${pageContext.request.contextPath}/avatar?username=${NewUserList.userName}" class="w3-left w3-circle w3-margin-right" style="width:45px;height:45px">
-		                        	<span class="w3-xlarge">${NewUserList.fullname}</span><br>
-		                    	</li>
-		                    </c:forEach>
-		                </ul>
-		            </div>
-				</div>
-				<div class="w3-half w3-container w3-padding-16 w3-responsive">
-					<div class="w3-white w3-container w3-padding-16">
-						<canvas id="canvas" width="400" height="400"></canvas>
+				<div class=" w3-container w3-padding-16 w3-responsive">
+					<div class="w3-bar" style="width: 100%;background: #263238;color:#fff">
+		            	<button class="w3-bar-item w3-button w3-hover-dark-grey" style="border: 1px solid #ccc;width: 50%" 
+		            	onclick="openDiagram('bieuDoDay')">Doanh thu theo ngày</button>
+						<button class="w3-bar-item w3-button w3-hover-dark-grey" style="border: 1px solid #ccc;width: 50%" 
+						onclick="openDiagram('bieuDoMonth')">Doanh thu theo tháng</button>
 					</div>
-					
+					<div id="bieuDoDay" class="w3-white w3-container tab" style="display:block;padding:0 16px 16px 16px;">
+						<canvas id="canvas" width="400" height="150"></canvas>
+					</div>
+					<div id="bieuDoMonth" class="w3-white w3-container tab" style="display:none;padding:0 16px 16px 16px">
+						<canvas id="month" width="400" height="150"></canvas>
+					</div>
 					<script>
 						var BIEUDO ={
 					  		loadData : function(){
@@ -271,9 +245,9 @@
 				   			      		datasets: [{
 					   			         	label: 'Doanh thu theo ngày',
 					   			         	data: jsonData[1],
-					   			         	fill: false,
+					   			         	fill:null,
 				   			      			borderColor: 'rgb(233, 30, 99)',
-				   			      			lineTension: 0.1
+				   			      			lineTension: 0,
 				   			      		}]
 				   			   		},
 					   			   	options: {
@@ -283,22 +257,24 @@
 					   					},
 					   					scales: {
 				   				        	yAxes: [{
+				   				        		display: true,
 				   				          		ticks: {
 				   				            		beginAtZero: true,
 				   				            		callback: function(value, index, values) {
 						   				              	if(parseInt(value) >= 1000){
-						   				                	return '₫' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+						   				                	return 'đ ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 						   				              	} else {
-						   				                	return '₫' + value;
+						   				                	return 'đ ' + value;
 						   				              	}
 					   				            	}
-					   				          	}
+					   				          	},
+					   				         	position: 'right'
 		   				        			}]
 				   				      	},
 					   				   tooltips: {
 						   			        callbacks: {
 						   			            label: function(tooltipItem, data) {
-						   			                return "₫" + Number(tooltipItem.yLabel).toFixed(0).replace(/./g, function(c, i, a) {
+						   			                return "đ " + Number(tooltipItem.yLabel).toFixed(0).replace(/./g, function(c, i, a) {
 						   			                    return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
 						   			                });
 						   			            }
@@ -334,7 +310,145 @@
 						   
 							BIEUDO.initChart();
 						});
+						function openDiagram(Name) {
+						  var i;
+						  var x = document.getElementsByClassName("tab");
+						  for (i = 0; i < x.length; i++) {
+						    x[i].style.display = "none";  
+						  }
+						  document.getElementById(Name).style.display = "block";  
+						}
 					</script>
+					
+					<script>
+						var BieudoMonth ={
+					  		loadData : function(){
+					   			var formatteDayListArray =[];
+					    		$.ajax({
+					      			async: false,
+					      			url: "doanhThuMonth",
+					      			dataType:"json",
+					      			success: function(monthJsonData) {
+						    			console.log(monthJsonData);
+						    			var labels = monthJsonData.map(function(e) {
+					    				   return e.thang;
+					    				});
+						    			console.log('thang: ',labels);
+						    			var data = monthJsonData.map(function(e) {
+				    				   		return e.total;
+					    				});
+					    				console.log('total: ',data);
+					     				formatteDayListArray.push(labels,data);
+						     			
+					      			}
+				    			});
+					   			return formatteDayListArray;
+			  				},
+						  /*Crate the custom Object with the data*/
+					  		createChartData : function(jsonData){
+					  			console.log(jsonData);
+						    
+						   
+					   			return {
+					   				type: 'line',
+					   				data: {
+				   			      		labels: jsonData[0],
+				   			      		datasets: [{
+					   			         	label: 'Doanh thu theo tháng',
+					   			         	data: jsonData[1],
+					   			         	fill: false,
+				   			      			borderColor: 'rgb(63, 81, 181)',
+				   			      			lineTension: 0
+				   			      		}]
+				   			   		},
+					   			   	options: {
+					   					animation: {
+					   						duration: 2000,
+					   						easing: 'easeInOutExpo'
+					   					},
+					   					scales: {
+				   				        	yAxes: [{
+				   				          		ticks: {
+				   				            		beginAtZero: true,
+				   				            		callback: function(value, index, values) {
+						   				              	if(parseInt(value) >= 1000){
+						   				                	return 'đ ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+						   				              	} else {
+						   				                	return 'đ ' + value;
+						   				              	}
+					   				            	}
+					   				          	},
+					   				         	position: 'right'
+		   				        			}]
+				   				      	},
+					   				   tooltips: {
+						   			        callbacks: {
+						   			            label: function(tooltipItem, data) {
+						   			                return "đ " + Number(tooltipItem.yLabel).toFixed(0).replace(/./g, function(c, i, a) {
+						   			                    return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
+						   			                });
+						   			            }
+					   			        	}
+					   			    	}
+					   				}
+				   				};
+					  		},
+						  /*Renders the Chart on a canvas and returns the reference to chart*/
+						  renderChart:function(ChartData){
+						  
+						   var ctx = document.getElementById("month").getContext("2d"),
+						    
+						   myChart = new Chart(ctx,ChartData)
+						             
+						         
+						    return myChart;
+						  },
+						  /*Initalization Student render chart*/
+						  initChart : function(){
+						     
+						   	var Data = BieudoMonth.loadData();
+						    
+						    chartData = BieudoMonth.createChartData(Data);
+						     
+						    ChartObj = BieudoMonth.renderChart(chartData);
+						     
+						  }
+						};
+						 
+						 
+						$(document).ready(function(){
+						   
+							BieudoMonth.initChart();
+						});
+					</script>
+				</div>
+				<div class="w3-container w3-padding-16 w3-responsive" >
+					<div class="w3-container w3-padding-16  w3-white">
+						<h3 style="text-align:center">Tình trạng đơn hàng</h3>
+						<canvas id="myChart"></canvas>
+					</div>
+				    <script>
+				    	var ctx = document.getElementById("myChart").getContext('2d');
+				      	var myChart = new Chart(ctx, {
+				        	type: 'pie',
+				        	data: {
+				          		labels: ["Đang chờ", "Đang chuyển", "Thành Công"],
+				          		datasets: [{
+				            		backgroundColor: [
+				              			"#ff0057",
+				              			"#ff9800",
+				              			"#00ff11"
+				            		],
+				            		data: [${waiting.size()}, ${delivery.size()}, ${success.size()}]
+				          		}]
+			        		},
+		   			   		options: {
+		   						animation: {
+		   							duration: 0
+		   						}
+		   					}
+				      	});
+				    </script>
 				</div>
 			</div>
 

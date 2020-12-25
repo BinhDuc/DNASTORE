@@ -116,7 +116,7 @@
                 </div>
                 <br>
                 <div class="row">
-                    <input type="submit" value="Sửa sản phẩm">
+                    <input type="submit" value="Sửa Slide">
                 </div>
             </form>
         </div>

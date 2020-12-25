@@ -79,7 +79,8 @@
                 </a>
             </div>
             <form class="search-box-s" method="get" action="search">
-                <input type="search" placeholder="Bạn tìm gì ..." maxlength="100" class="search-input" name="q"/>
+                <input id ="product"  type="search" placeholder="Bạn tìm gì ..." maxlength="100" class="search-input" name="q"/>
+                <input type ="hidden" id = "product-id">
                 <input type="submit" value="Tìm kiếm" 
                 style="width: 80px;padding: 5px 0;background: orangered;color: #fff; margin-left: -6px;border: 1px solid orangered;outline: none;cursor: pointer;">
             </form>
@@ -130,4 +131,46 @@
     
             });
         </script>
+        <script>
+        	var productData ={
+       			loadData : function(){
+   	            	var products = [];
+   	            	$.ajax({
+   		      			async: false,
+   		      			url: "JsonProduct",
+   		      			dataType:"json",
+   		      			success: function(JsonData) {
+   		      				products = JsonData;
+   		    				console.log(products);
+   		      			}
+   	    			});
+   	            	return products;
+   	            }
+        	}
+	        $(function() {
+	   			var data = productData.loadData();
+	   			console.log("data",data);
+	            $( "#product" ).autocomplete({
+	            	minLength:2,
+	                source: data,
+	                focus: function( event, ui ) {
+	                    $( "#product" ).val( ui.item.label );
+	                    return false;
+	                },
+	                select: function( event, ui ) {
+	                    $( "#product" ).val( ui.item.label );
+	                    $( "#product-id" ).val( ui.item.value );
+	                    $( "#product-description" ).html( ui.item.desc );
+	                    return false;
+	                }
+	            })
+	            .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+	                return $( "<li class='list'>" )
+	                .append( "<a href='product?code="+item.value+"'>"
+	                		+'<img src="${pageContext.request.contextPath}/image?code='+item.value+'" alt="anhsanpham">' 
+	                		+"<div>"+"<h3>"+ item.label +"</h3>"+ "<p>" + item.desc +" ₫"+"</p>" +"</div>"+ "</a>" )
+	                .appendTo( ul );
+	            };
+	         });
+	    </script>
     </nav>

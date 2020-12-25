@@ -43,6 +43,8 @@ public class ActionEditUser extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Connection conn = MyUtils.getStoredConnection(request);
+		response.setContentType("text/html;charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
 		HttpSession session = request.getSession();
 		Account loginedUser = MyUtils.getLoginedUser(session);
 		// Nếu chưa đăng nhập (login).
@@ -81,7 +83,8 @@ public class ActionEditUser extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Connection conn = MyUtils.getStoredConnection(request);
-		
+		response.setContentType("text/html;charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
 		 
         // gets values of text fields
         String username = request.getParameter("username");

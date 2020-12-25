@@ -1046,7 +1046,7 @@ public class DBUtils {
     }
     public static List<Doanhthutheongay> doanhthuday(Connection conn) throws SQLException {
         String sql = "Select sum(b.total_price-(b.total_price*b.coupon/100)) total , DATE(a.order_date) ngay "
-        		+ "from orders a, order_details b where a.id= b.orders_id and a.status=2 group by DATE(a.order_date)";
+        		+ "from orders a, order_details b where a.id= b.orders_id and a.status=2 group by DATE(a.order_date) order by ngay desc limit 7";
  
         PreparedStatement pstm = conn.prepareStatement(sql);
         ResultSet rs = pstm.executeQuery();
@@ -1058,6 +1058,82 @@ public class DBUtils {
             day.setTotal(total);
             day.setNgay(ngay);
             list.add(day);
+        }
+        return list;
+    }
+    public static List<Doanhthutheothang> doanhthuMonth(Connection conn) throws SQLException {
+        String sql = "Select sum(b.total_price-(b.total_price*b.coupon/100)) total , date_format(a.order_date, \"%Y-%m\") thang "
+        		+ "from orders a, order_details b where a.id= b.orders_id and a.status=2 group by Month(a.order_date) order by thang desc limit 12";
+ 
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        ResultSet rs = pstm.executeQuery();
+        List<Doanhthutheothang> list = new ArrayList<Doanhthutheothang>();
+        while (rs.next()) {
+        	String total = rs.getString("total");
+            String thang = rs.getString("thang");
+            Doanhthutheothang day = new Doanhthutheothang();
+            day.setTotal(total);
+            day.setThang(thang);
+            list.add(day);
+        }
+        return list;
+    }
+    public static List<Doanhthutheongay> queryDoanhthuday(Connection conn) throws SQLException {
+        String sql = "Select CONCAT('₫ ', FORMAT(sum(b.total_price-(b.total_price*b.coupon/100)), 0)) total , DATE(a.order_date) ngay "
+        		+ "from orders a, order_details b where a.id= b.orders_id and a.status=2 group by DATE(a.order_date) order by ngay desc";
+ 
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        ResultSet rs = pstm.executeQuery();
+        List<Doanhthutheongay> list = new ArrayList<Doanhthutheongay>();
+        while (rs.next()) {
+        	String total = rs.getString("total");
+            String ngay = rs.getString("ngay");
+            Doanhthutheongay day = new Doanhthutheongay();
+            day.setTotal(total);
+            day.setNgay(ngay);
+            list.add(day);
+        }
+        return list;
+    }
+    public static List<Doanhthutheothang> queryDoanhthuMonth(Connection conn) throws SQLException {
+        String sql = "Select CONCAT('₫ ', FORMAT(sum(b.total_price-(b.total_price*b.coupon/100)), 0)) total , date_format(a.order_date, \"%Y-%m\") thang "
+        		+ "from orders a, order_details b where a.id= b.orders_id and a.status=2 group by Month(a.order_date) order by thang desc";
+ 
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        ResultSet rs = pstm.executeQuery();
+        List<Doanhthutheothang> list = new ArrayList<Doanhthutheothang>();
+        while (rs.next()) {
+        	String total = rs.getString("total");
+            String thang = rs.getString("thang");
+            Doanhthutheothang day = new Doanhthutheothang();
+            day.setTotal(total);
+            day.setThang(thang);
+            list.add(day);
+        }
+        return list;
+    }
+    public static List<ProductJson> queryJsonProduct(Connection conn) throws SQLException {
+        String sql = "Select code, name, price, discount, quantity"
+        		+ " from product "
+        		+ "where quantity>0";
+ 
+        PreparedStatement pstm = conn.prepareStatement(sql);
+ 
+        ResultSet rs = pstm.executeQuery();
+        List<ProductJson> list = new ArrayList<ProductJson>();
+        while (rs.next()) {
+        	String code = rs.getString("code");
+            String name = rs.getString("name");
+            int price = rs.getInt("price");
+            int discount = rs.getInt("discount");
+            int quantity = rs.getInt("quantity");
+            ProductJson product = new ProductJson();
+            product.setValue(code);
+            product.setLabel(name);
+            product.setDesc(price);
+            product.setDiscount(discount);
+            product.setQuantity(quantity);
+            list.add(product);
         }
         return list;
     }

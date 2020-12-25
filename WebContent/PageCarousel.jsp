@@ -61,7 +61,7 @@
     	<header class="w3-container" style="padding-top:22px">
             <h5><b><i class="fas fa-images"></i> Carousel</b></h5>
         </header>
- <!--------------------------------- Danh sách Đơn Hàng ----------------------------------------------------------------------------->
+ <!--------------------------------- Danh sách Carousel ----------------------------------------------------------------------------->
         <div id='slideshow' class="w3-container city w3-animate-zoom" style="display:block">
 		    <p style="color: red;">${errorString}</p>
 		 	<div class="w3-responsive w3-container">

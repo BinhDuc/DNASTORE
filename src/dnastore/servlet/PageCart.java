@@ -34,6 +34,8 @@ public class PageCart extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html;charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
 		Connection conn = MyUtils.getStoredConnection(request);
 	       String errorString = null;
 	       List<Product> list = null;
@@ -56,6 +58,8 @@ public class PageCart extends HttpServlet {
 	 */
 	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html;charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
 		Connection conn = MyUtils.getStoredConnection(request);
 		HttpSession session = request.getSession();
 		Cart cart = (Cart) session.getAttribute("cart");

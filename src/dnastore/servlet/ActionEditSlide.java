@@ -42,6 +42,8 @@ public class ActionEditSlide extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html;charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
 		Connection conn = MyUtils.getStoredConnection(request);
 		HttpSession session = request.getSession();
 		Account loginedUser = MyUtils.getLoginedUser(session);
@@ -75,6 +77,8 @@ public class ActionEditSlide extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html;charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
 		Connection conn = MyUtils.getStoredConnection(request);
 		// gets values of text fields
 		String id = request.getParameter("id");

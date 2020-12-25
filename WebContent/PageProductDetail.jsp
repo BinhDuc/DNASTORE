@@ -28,6 +28,8 @@
     <script src="./js/jquery-3.3.1.min.js"></script>
     <script src="./js/owl.carousel.min.js"></script>
     <script src='./assets/sweetalert2.all.js'></script>
+    <link href = "${pageContext.request.contextPath}/css/jquery-ui.min.css" rel = "stylesheet">
+    <script src = "${pageContext.request.contextPath}/js/jquery-ui.min.js"></script>
     <style>
     	/* Chrome, Safari, Edge, Opera */
 		input::-webkit-outer-spin-button,
@@ -91,8 +93,58 @@
 			text-align:center;
 			font-weight:bold;
 		}
-		
-		
+		#product-description {
+            margin: 0;
+            padding: 0;
+        }
+        ul.ui-menu{
+        	position: fixed;
+        	background: #fff;
+        	z-index:9;
+        	padding:10px 0 0 0;
+        	width:10%;
+        }
+        .list{
+            padding: 0 20px;
+            height:100px;
+            display:flex;
+            border-bottom:1px dotted #ccc;
+        }
+        .list a{
+            display: flex;
+            border: none;
+        }
+        .list a p{
+        	color: #ee4d2d;
+   			font-size: 1.5rem;
+        	font-family: AvertaStdCY-Semibold;
+        }
+        .list a h3{
+        	color: #696969;
+   			font-size: 1.5rem;
+        	font-family: AvertaStdCY-Regular;
+        }
+        .list a img{
+        	padding-right:30px
+        }
+        li.list:hover{
+        	background-color: rgba(0,0,0,0.1);
+        }
+        li.list:hover a{
+            background-color: transparent;
+            border: none;
+            color:#333;
+        }
+        li.list:hover a img{
+        	color:#ee4d2d;
+        	transform: none;
+        }
+		.ui-autocomplete {
+		    max-height: 70vh;
+		    overflow-y: auto;
+		    /* prevent horizontal scrollbar */
+		    overflow-x: hidden;
+	  	}
     </style>
 </head>
 <body>

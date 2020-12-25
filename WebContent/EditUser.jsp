@@ -193,11 +193,18 @@
                         <label>Role</label>
                     </div>
                     <div class="col-75">
-                        <select name="roleid">
-                            <c:forEach items="${roleList}" var="roleList" >
-				         		<option value="${roleList.roleid}" ${roleList.roleid == account.roleid ? 'selected' : ''}>${roleList.rolename}</option>
-				         	</c:forEach>
-                        </select>
+                    	<c:choose>
+							<c:when test="${user.roleid == 1}">
+								<select name="roleid">
+		                            <c:forEach items="${roleList}" var="roleList" >
+						         		<option value="${roleList.roleid}" ${roleList.roleid == account.roleid ? 'selected' : ''}>${roleList.rolename}</option>
+						         	</c:forEach>
+		                        </select>
+							</c:when>
+						    <c:otherwise>
+								<input type="hidden" name="roleid" value="${account.roleid}">
+						    </c:otherwise>
+						</c:choose>
                     </div>
                 </div>
                 <br>
