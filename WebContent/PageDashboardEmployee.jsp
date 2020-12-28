@@ -80,7 +80,20 @@
             <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'userinfo')">
             	<i class="fas fa-user"></i>  Hồ sơ
             </button>
-            
+            <button onclick="dropDown('sub-order')" class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink">
+            	<i class="bx bxs-receipt"></i> Quản lý đơn hàng
+            </button>
+            <div id="sub-order" class="w3-hide w3-animate-zoom w3-margin-left">
+                <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'listWaiting')">
+                	<i class="fas fa-hourglass-half"></i> Chờ xác nhận
+                </button>
+                <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'listDelivery')">
+                	<i class="fas fa-shipping-fast"></i> Đang vận chuyển
+                </button>
+                <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'listSuccess')">
+                	<i class="fas fa-check-circle"></i> Thành công
+                </button>
+            </div>
         </div>
     </nav>
 
@@ -111,7 +124,7 @@
                     <div class="w3-container w3-pink w3-padding-16 w3-card">
                         <div class="w3-left"><i class="fas fa-hourglass-half w3-xxxlarge"></i></div>
                         <div class="w3-right">
-                            <h3 class="counter-value">${waiting}</h3>
+                            <h3 class="counter-value">${waiting.size()}</h3>
                         </div>
                         <div class="w3-clear"></div>
                         <h4>Chờ xác nhận</h4>
@@ -121,7 +134,7 @@
                     <div class="w3-container w3-orange w3-text-white w3-padding-16 w3-card">
                         <div class="w3-left"><i class="fas fa-shipping-fast w3-xxxlarge"></i></div>
                         <div class="w3-right">
-                            <h3 class="counter-value">${delivery}</h3>
+                            <h3 class="counter-value">${delivery.size()}</h3>
                         </div>
                         <div class="w3-clear"></div>
                         <h4>Đang giao</h4>
@@ -131,7 +144,7 @@
                     <div class="w3-container w3-green w3-text-white w3-padding-16 w3-card">
                         <div class="w3-left"><i class="fas fa-check-circle w3-xxxlarge"></i></div>
                         <div class="w3-right">
-                            <h3 class="counter-value">${success}</h3>
+                            <h3 class="counter-value">${success.size()}</h3>
                         </div>
                         <div class="w3-clear"></div>
                         <h4>Đơn thành công</h4>
@@ -212,8 +225,168 @@
 			    </div>
 		    </div>
         </div>
-
-	        
+		<div id='listWaiting' class="w3-container city w3-animate-zoom" style="display:none">
+		    <div class="w3-container">
+                <h2 >Danh sách đơn chờ</h2>
+                <button onclick="exportTableToExcel('waiting-table', 'Danh_Sách_Đơn_Hàng')" 
+                class="w3-button w3-large w3-green w3-margin-bottom " style="text-decoration: none;">Xuất Excel</button>
+            </div>
+		    
+		    
+		    <p style="color: red;">${errorString}</p>
+		    
+		    
+		    <div class="w3-container admin-search">	
+		    	<i class="fas fa-search"></i>
+		 		<input type="search" placeholder="Search..." class="search-input" data-table="order-list">
+		 	</div>
+		 	<div class="w3-responsive w3-container">
+		    <table class="w3-table-all w3-hoverable order-list" id="waiting-table">
+		    	<thead>
+			       <tr class="w3-green">
+			          <th>Mã đơn hàng</th>
+			          <th>Mã khách hàng</th>
+			          <th>Khách hàng</th>
+			          <th>Địa chỉ giao hàng</th>
+			          <th>SĐT</th>
+			          <th>Thời điểm đặt hàng</th>
+			          <th>Hình thức thanh toán</th>
+			          <th>Trạng thái</th>
+			       </tr>
+		       </thead>
+	      		<c:forEach items="${waiting}" var="waiting" > 
+						<tr class='clickable-row' data-href='comfirmOrder?orders_id=${waiting.id}' style="cursor: pointer;">
+		     				<td><c:out value="${waiting.id}"/></td>
+		     				<td><c:out value="${waiting.username.userName}"/></td>
+		     				<td><c:out value="${waiting.customer}"/></td>
+		     				<td><c:out value="${waiting.address}"/></td>
+		     				<td><c:out value="${waiting.phone}"/></td>
+		     				<td><c:out value="${waiting.orderdate}"/></td>
+		     				<td><c:out value="${waiting.payment}"/></td>
+		     				<c:choose>
+		                    	<c:when test="${waiting.status == '0'}">
+									<td><i class="fas fa-hourglass-half" style="color:#696969;font-size:20px"></i></td>
+							    </c:when>
+							    <c:when test="${waiting.status == '1'}">
+									<td><i class="fas fa-shipping-fast" style="color:#ec8209;font-size:20px"></i></td>
+							    </c:when>
+							    <c:otherwise>
+							    	<td><i class="fas fa-check-circle" style="color:#00ff73;font-size:20px"></i></td>
+							    </c:otherwise>
+	                   		</c:choose>          
+		           		</tr>	       
+		      	</c:forEach>
+		    </table>
+		    </div>
+	    </div>
+	    <div id='listDelivery' class="w3-container city w3-animate-zoom" style="display:none">
+		    <div class="w3-container">
+                <h2 >Danh sách đơn đang giao</h2>
+                <button onclick="exportTableToExcel('delivery-table', 'Danh_Sách_Đơn_Vân_Chuyển')" 
+                class="w3-button w3-large w3-green w3-margin-bottom " style="text-decoration: none;">Xuất Excel</button>
+            </div>
+		    
+		    
+		    <p style="color: red;">${errorString}</p>
+		    
+		    
+		    <div class="w3-container admin-search">	
+		    	<i class="fas fa-search"></i>
+		 		<input type="search" placeholder="Search..." class="search-input" data-table="order-list">
+		 	</div>
+		 	<div class="w3-responsive w3-container">
+		    <table class="w3-table-all w3-hoverable order-list" id="delivery-table">
+		    	<thead>
+			       <tr class="w3-green">
+			          <th>Mã đơn hàng</th>
+			          <th>Mã khách hàng</th>
+			          <th>Khách hàng</th>
+			          <th>Địa chỉ giao hàng</th>
+			          <th>SĐT</th>
+			          <th>Thời điểm đặt hàng</th>
+			          <th>Hình thức thanh toán</th>
+			          <th>Trạng thái</th>
+			       </tr>
+		       </thead>
+	      		<c:forEach items="${delivery}" var="delivery" > 
+						<tr class='clickable-row' data-href='comfirmOrder?orders_id=${delivery.id}' style="cursor: pointer;">
+		     				<td><c:out value="${delivery.id}"/></td>
+		     				<td><c:out value="${delivery.username.userName}"/></td>
+		     				<td><c:out value="${delivery.customer}"/></td>
+		     				<td><c:out value="${delivery.address}"/></td>
+		     				<td><c:out value="${delivery.phone}"/></td>
+		     				<td><c:out value="${delivery.orderdate}"/></td>
+		     				<td><c:out value="${delivery.payment}"/></td>
+		     				<c:choose>
+		                    	<c:when test="${delivery.status == '0'}">
+									<td><i class="fas fa-hourglass-half" style="color:#696969;font-size:20px"></i></td>
+							    </c:when>
+							    <c:when test="${delivery.status == '1'}">
+									<td><i class="fas fa-shipping-fast" style="color:#ec8209;font-size:20px"></i></td>
+							    </c:when>
+							    <c:otherwise>
+							    	<td><i class="fas fa-check-circle" style="color:#00ff73;font-size:20px"></i></td>
+							    </c:otherwise>
+	                   		</c:choose>          
+		           		</tr>	       
+		      	</c:forEach>
+		    </table>
+		    </div>
+	    </div>
+	    <div id='listSuccess' class="w3-container city w3-animate-zoom" style="display:none">
+		    <div class="w3-container">
+                <h2 >Danh sách đơn hàng thành công</h2>
+                <button onclick="exportTableToExcel('success-table', 'Danh_Sách_Đơn_Thành_Công')" 
+                class="w3-button w3-large w3-green w3-margin-bottom " style="text-decoration: none;">Xuất Excel</button>
+            </div>
+		    
+		    
+		    <p style="color: red;">${errorString}</p>
+		    
+		    
+		    <div class="w3-container admin-search">	
+		    	<i class="fas fa-search"></i>
+		 		<input type="search" placeholder="Search..." class="search-input" data-table="order-list">
+		 	</div>
+		 	<div class="w3-responsive w3-container">
+		    <table class="w3-table-all w3-hoverable order-list" id="success-table">
+		    	<thead>
+			       <tr class="w3-green">
+			          <th>Mã đơn hàng</th>
+			          <th>Mã khách hàng</th>
+			          <th>Khách hàng</th>
+			          <th>Địa chỉ giao hàng</th>
+			          <th>SĐT</th>
+			          <th>Thời điểm đặt hàng</th>
+			          <th>Hình thức thanh toán</th>
+			          <th>Trạng thái</th>
+			       </tr>
+		       </thead>
+	      		<c:forEach items="${success}" var="success" > 
+						<tr class='clickable-row' data-href='comfirmOrder?orders_id=${success.id}' style="cursor: pointer;">
+		     				<td><c:out value="${success.id}"/></td>
+		     				<td><c:out value="${success.username.userName}"/></td>
+		     				<td><c:out value="${success.customer}"/></td>
+		     				<td><c:out value="${success.address}"/></td>
+		     				<td><c:out value="${success.phone}"/></td>
+		     				<td><c:out value="${success.orderdate}"/></td>
+		     				<td><c:out value="${success.payment}"/></td>
+		     				<c:choose>
+		                    	<c:when test="${success.status == '0'}">
+									<td><i class="fas fa-hourglass-half" style="color:#696969;font-size:20px"></i></td>
+							    </c:when>
+							    <c:when test="${success.status == '1'}">
+									<td><i class="fas fa-shipping-fast" style="color:#ec8209;font-size:20px"></i></td>
+							    </c:when>
+							    <c:otherwise>
+							    	<td><i class="fas fa-check-circle" style="color:#00ff73;font-size:20px"></i></td>
+							    </c:otherwise>
+	                   		</c:choose>          
+		           		</tr>	       
+		      	</c:forEach>
+		    </table>
+		    </div>
+	    </div>      
 		<script>
 	      	jQuery(document).ready(function($) {
 	      	    $(".clickable-row").click(function() {
@@ -431,10 +604,10 @@
        	  }
        	  tablinks = document.getElementsByClassName("tablink");
        	  for (i = 0; i < x.length; i++) {
-       	    tablinks[i].className = tablinks[i].className.replace(" w3-light-gray", "");
+       	    tablinks[i].className = tablinks[i].className.replace(" w3-white", "");
        	  }
        	  document.getElementById(animName).style.display = "block";
-       	  evt.currentTarget.className += " w3-light-gray";
+       	  evt.currentTarget.className += " w3-white";
        	};
         function dropDown(id) {
             var x = document.getElementById(id);

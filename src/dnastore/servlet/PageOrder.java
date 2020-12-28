@@ -5,10 +5,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
+
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -71,7 +71,6 @@ public class PageOrder extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
 		Connection conn = MyUtils.getStoredConnection(request);
-		 
         // gets values of text fields
         String customer = request.getParameter("name");
         String phone = request.getParameter("phone");
@@ -117,6 +116,7 @@ public class PageOrder extends HttpServlet {
 		        request.setAttribute("Message", message);
 		        System.out.println(message);
 			}
+			
 			sesion.removeAttribute("cart");
 			RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/Success.jsp");
 			dispatcher.forward(request, response);

@@ -47,7 +47,7 @@ public class JsonProduct extends HttpServlet {
 		String jsonString = gson.toJson(list);
 		response.setContentType("application/json");
 		response.getWriter().write(jsonString);
-		System.out.print("PeoductJson: "+jsonString);
+		System.out.print("ProductJson: "+jsonString);
 	}
 
 }

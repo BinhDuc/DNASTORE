@@ -28,6 +28,13 @@
         }
         .khung{
         padding:20px}
+        input[type=password]{
+		    width: 100%;
+		    padding: 12px;
+		    border: 1px solid #ccc;
+		    border-radius: 4px;
+		    resize: vertical;
+		}
     </style>
 </head>
 <body>
@@ -101,7 +108,7 @@
                         <label>Password</label>
                     </div>
                     <div class="col-75">
-                        <input type="text" name="password" value="${account.password}">
+                        <input type="password" name="password" value="${account.password}" required>
                     </div>
                 </div>
                 <div class="row">

@@ -10,6 +10,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import dnastore.filter.Md5Hash;
 import dnastore.utils.MyUtils;
 
 /**
@@ -39,10 +41,11 @@ public class ActionRegister extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		Connection conn = MyUtils.getStoredConnection(request);
 		String username = request.getParameter("username");
-        String password = request.getParameter("password");
+		String passwordStr = request.getParameter("password");
+        String password = Md5Hash.md5(passwordStr);
         String email = request.getParameter("email");
         String roleid = request.getParameter("roleid");
-        
+        System.out.println("mahoaRegister: "+ password);
         String message = null;
         try {
         	String sql = "INSERT INTO account (username, password, email, roleid) values (?, ?, ?, ?)";

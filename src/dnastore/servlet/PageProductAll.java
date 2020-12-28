@@ -39,26 +39,26 @@ public class PageProductAll extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
 		Connection conn = MyUtils.getStoredConnection(request);
-	       String errorString = null;
-	       List<Product> list = null;
-	       
-	       try {
-	           list = DBUtils.querySaleProduct(conn);
-	           
-	       } catch (SQLException e) {
-	           e.printStackTrace();
-	           errorString = e.getMessage();
-	       }
+		String errorString = null;
+		List<Product> list = null;
+       
+		try {
+			list = DBUtils.querySaleProduct(conn);
+           
+		} catch (SQLException e) {
+			e.printStackTrace();
+			errorString = e.getMessage();
+		}
 	       
 	       // Lưu thông tin vào request attribute trước khi forward sang views.
-	       request.setAttribute("errorString", errorString);
-	       request.setAttribute("productList", list);
+		request.setAttribute("errorString", errorString);
+		request.setAttribute("productList", list);
 	       // Forward toi trang /WEB-INF/views/homeView.jsp
 	       // (Người dùng không bao giờ truy cập trực tiếp được vào các trang JSP
 	       // đặt trong WEB-INF)
-	       RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/PageProductAll.jsp");
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/PageProductAll.jsp");
 	        
-	       dispatcher.forward(request, response);
+		dispatcher.forward(request, response);
 	}
 
 	/**

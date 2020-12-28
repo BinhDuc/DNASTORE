@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import dnastore.beans.Account;
 import dnastore.utils.DBUtils;
 import dnastore.utils.MyUtils;
+import dnastore.filter.Md5Hash;
  
 @WebServlet(urlPatterns = { "/dangnhap" })
 public class PageLogin extends HttpServlet {
@@ -48,8 +49,9 @@ public class PageLogin extends HttpServlet {
     	response.setContentType("text/html;charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
         String userName = request.getParameter("userName");
-        String password = request.getParameter("password");
-        
+        String passwordStr = request.getParameter("password");
+        String password = Md5Hash.md5(passwordStr);
+        System.out.println("mahoa: "+ password);
  
         Account user = null;
         boolean hasError = false;

@@ -19,6 +19,7 @@ import javax.servlet.http.Part;
 
 import dnastore.beans.Account;
 import dnastore.beans.Role;
+import dnastore.filter.Md5Hash;
 import dnastore.utils.DBUtils;
 import dnastore.utils.MyUtils;
 
@@ -88,7 +89,8 @@ public class ActionEditUser extends HttpServlet {
 		 
         // gets values of text fields
         String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String passwordStr = request.getParameter("password");
+        String password = Md5Hash.md5(passwordStr);
         String email = request.getParameter("email");
         String fullname = request.getParameter("fullname");
         String gender = request.getParameter("gender");
@@ -97,7 +99,7 @@ public class ActionEditUser extends HttpServlet {
         String adress = request.getParameter("adress");
         String roleid = request.getParameter("roleid");
         InputStream inputStream = null;
-        
+        System.out.println("mahoaEdit: "+ password);
         Part filePart = request.getPart("image");
         if (filePart != null) {
             // debug messages

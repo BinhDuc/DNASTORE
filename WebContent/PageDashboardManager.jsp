@@ -24,6 +24,7 @@
     <script src="${pageContext.request.contextPath}/js/jquery-3.3.1.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/owl.carousel.min.js"></script>
     <script src="./js/Chart.min.js"></script>
+    
     <style>
         *{
             font-family: AvertaStdCY-Regular;
@@ -57,7 +58,7 @@
         background: none;color: #fff;cursor: pointer;"><i class="fas fa-expand"></i></button>
     </div>
 <!----------------------------------------------------------- Sidebar/menu -------------------------------------------------------->
-    <nav class="w3-sidebar w3-collapse w3-white w3-margin-top w3-animate-opacity" style="z-index:3;width:300px;" id="mySidebar"><br>
+    <nav class="w3-sidebar w3-collapse w3-white w3-margin-top w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
         <div class="w3-container w3-row">
             <div class="w3-col s4">
                 <img src="${pageContext.request.contextPath}/avatar?username=${user.userName}" class=" w3-margin-right" style="width:76px;height:76px; border-radius:50%;">
@@ -79,6 +80,12 @@
             </button>
             <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'userinfo')">
             	<i class="fas fa-user"></i>  Hồ sơ
+            </button>
+            <a class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" href="doanhThu">
+               	<i class="fas fa-cash-register"></i> Doanh thu
+        	</a>
+            <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'listorder')">
+            	<i class='bx bxs-receipt' ></i>  Danh sách đơn hàng
             </button>
             <button onclick="dropDown('sub-product')" class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink">
             	<i class='bx bxs-store' ></i> Sản phẩm
@@ -108,12 +115,6 @@
             <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'listcustomer')">
             	<i class="fas fa-address-book"></i>  Tài khoản khách hàng
             </button>
-            <button class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" onclick="openLink(event, 'listorder')">
-            	<i class='bx bxs-receipt' ></i>  Danh sách đơn hàng
-            </button>
-            <a class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" href="doanhThu">
-               	<i class="fas fa-cash-register"></i> Doanh thu
-        	</a>
             <a class="w3-bar-item w3-button w3-padding w3-text-dark-grey tablink" href="carousel">
                	<i class="fas fa-cogs"></i> Carousel
         	</a>
@@ -818,7 +819,7 @@
 		    <div class="w3-container">
                 <h2 >Danh sách đơn hàng</h2>
                 <button onclick="exportTableToExcel('ordertable', 'Danh sách đơn hàng')" 
-                class="w3-button w3-large w3-green w3-margin-bottom " style="text-decoration: none;">Xuất Excel</button>
+                class="w3-button w3-green w3-margin-bottom " style="text-decoration: none;">Xuất Excel</button>
             </div>
 		    <p style="color: red;">${errorString}</p>
 		    <div class="w3-container admin-search">	
@@ -826,40 +827,40 @@
 		 		<input type="search" placeholder="Search..." class="search-input" data-table="customers-list">
 		 	</div>
 		 	<div class="w3-responsive w3-container">
-		    <table class="w3-table-all w3-hoverable customers-list" id="ordertable">
-		    	<thead>
-			       <tr class="w3-green">
-			          <th>Mã đơn hàng</th>
-			          <th>Khách Hàng</th>
-			          <th>Địa chỉ giao hàng</th>
-			          <th>SĐT</th>
-			          <th>Thời điểm đặt hàng</th>
-			          <th>Hình thức thanh toán</th>
-			          <th>Trạng thái</th>
-			       </tr>
-		       </thead>
-	      		<c:forEach items="${listod}" var="listod" > 
-					<tr class='clickable-row' data-href='comfirmOrder?orders_id=${listod.id}' style="cursor: pointer;">
-	     				<td><c:out value="${listod.id}"/></td>
-	     				<td><c:out value="${listod.customer}"/></td>
-	     				<td><c:out value="${listod.address}"/></td>
-	     				<td><c:out value="${listod.phone}"/></td>
-	     				<td><c:out value="${listod.orderdate}"/></td>
-	     				<td><c:out value="${listod.payment}"/></td>
-	                   	<c:choose>
-	                    	<c:when test="${listod.status == '0'}">
-								<td><i class="fas fa-hourglass-half" style="color:#696969;font-size:20px"></i></td>
-						    </c:when>
-						    <c:when test="${listod.status == '1'}">
-								<td><i class="fas fa-shipping-fast" style="color:#ec8209;font-size:20px"></i></td>
-						    </c:when>
-						    <c:otherwise>
-						    	<td><i class="fas fa-check-circle" style="color:#00ff73;font-size:20px"></i></td>
-						    </c:otherwise>
-                   		</c:choose>          
-	           		</tr>	       
-		      	</c:forEach>
-		    </table>
+			    <table class="w3-table-all w3-hoverable customers-list" id="ordertable" >
+			    	<thead>
+				       <tr class="w3-green">
+				          <th>Mã đơn hàng</th>
+				          <th>Khách Hàng</th>
+				          <th>Địa chỉ giao hàng</th>
+				          <th>SĐT</th>
+				          <th>Thời điểm đặt hàng</th>
+				          <th>Hình thức thanh toán</th>
+				          <th>Trạng thái</th>
+				       </tr>
+			       </thead>
+		      		<c:forEach items="${listod}" var="listod" > 
+						<tr class='clickable-row' data-href='comfirmOrder?orders_id=${listod.id}' style="cursor: pointer;">
+		     				<td><c:out value="${listod.id}"/></td>
+		     				<td><c:out value="${listod.customer}"/></td>
+		     				<td><c:out value="${listod.address}"/></td>
+		     				<td><c:out value="${listod.phone}"/></td>
+		     				<td><c:out value="${listod.orderdate}"/></td>
+		     				<td><c:out value="${listod.payment}"/></td>
+		                   	<c:choose>
+		                    	<c:when test="${listod.status == '0'}">
+									<td><i class="fas fa-hourglass-half" style="color:#696969;font-size:20px"></i></td>
+							    </c:when>
+							    <c:when test="${listod.status == '1'}">
+									<td><i class="fas fa-shipping-fast" style="color:#ec8209;font-size:20px"></i></td>
+							    </c:when>
+							    <c:otherwise>
+							    	<td><i class="fas fa-check-circle" style="color:#00ff73;font-size:20px"></i></td>
+							    </c:otherwise>
+	                   		</c:choose>          
+		           		</tr>	       
+			      	</c:forEach>
+			    </table>
 		    </div>
 	    </div>
 	</div>
