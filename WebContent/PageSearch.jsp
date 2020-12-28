@@ -175,6 +175,7 @@
             <h3>Tìm thấy <b>${productList.size()}</b> sản phẩm</h3>
             
         </div>
+        <p>${errorString }</p>
         <div class="container">
             <div class="product-center product-center-s">
             	<c:forEach items="${productList}" var="product" >

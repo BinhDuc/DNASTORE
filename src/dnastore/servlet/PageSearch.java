@@ -42,21 +42,32 @@ public class PageSearch extends HttpServlet {
 		String q = '%' + search + '%';
 		System.out.println("search: "+ q);
 		String errorString = null;
+		boolean hasError = false;
 		List<Product> list = null;
-		try {
-            list = DBUtils.searchProduct(conn, q);
-            
-        } catch (SQLException e) {
-            e.printStackTrace();
-            errorString = e.getMessage();
+		if(search == null || search.length() == 0) {
+			hasError = true;
+		}else {
+			try {
+	            list = DBUtils.searchProduct(conn, q);
+	            
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            hasError = true;
+	            errorString = e.getMessage();
+	        }
+		}
+		if (hasError) {
+			response.sendRedirect(request.getContextPath() + "/trangchu");
+        }else {
+        	// Lưu thông tin vào request attribute trước khi forward sang views.
+	        request.setAttribute("errorString", errorString);
+	        request.setAttribute("productList", list);
+	        request.setAttribute("search", search);
+	        
+	        RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/PageSearch.jsp");
+	        dispatcher.forward(request, response);
         }
-		// Lưu thông tin vào request attribute trước khi forward sang views.
-        request.setAttribute("errorString", errorString);
-        request.setAttribute("productList", list);
-        request.setAttribute("search", search);
-        
-        RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/PageSearch.jsp");
-        dispatcher.forward(request, response);
+			
 	}
 
 	/**

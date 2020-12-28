@@ -2,8 +2,6 @@ package dnastore.servlet;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -55,33 +53,15 @@ public class PageDashboardEmployee extends HttpServlet {
 	        }
 	        System.out.print(loginedUser.getRoleid());
 	        List<Order> listod = null;
+	        List<Order> listods = null;
+	        List<Order> listodd = null;
+	        List<Order> listodw = null;
 	        String errorString = null;
-	        int success = 0;
-	        int delivery = 0;
-	        int waiting = 0;
 	        try {
 	        	listod = DBUtils.queryOrder(conn);
-	        	String sql = "select count(id) success from orders where status=2";  
-	               PreparedStatement pstm = conn.prepareStatement(sql);
-	               ResultSet rs = pstm.executeQuery();
-	               while(rs.next())
-	               {
-	            	   success = rs.getInt("success");
-	               }
-               String sql1 = "select count(id) delivery from orders where status=1";  
-               PreparedStatement pstm1 = conn.prepareStatement(sql1);
-               ResultSet rs1 = pstm1.executeQuery();
-               while(rs1.next())
-               {
-            	   delivery = rs1.getInt("delivery");
-               }
-               String sql2 = "select count(id) waiting from orders where status=0";  
-               PreparedStatement pstm2 = conn.prepareStatement(sql2);
-               ResultSet rs2 = pstm2.executeQuery();
-               while(rs2.next())
-               {
-            	   waiting = rs2.getInt("waiting");
-               }
+	            listods = DBUtils.queryOrderSuccess(conn);
+	            listodd = DBUtils.queryOrderDelivery(conn);
+	            listodw = DBUtils.queryOrderWaiting(conn);
                
 	        } catch (SQLException e) {
 	            e.printStackTrace();
@@ -92,9 +72,9 @@ public class PageDashboardEmployee extends HttpServlet {
 	        request.setAttribute("user", loginedUser);
 	        request.setAttribute("errorString", errorString);
 	        request.setAttribute("listod", listod);
-	        request.setAttribute("success", success);
-	        request.setAttribute("delivery", delivery);
-	        request.setAttribute("waiting", waiting);
+	        request.setAttribute("success", listods);
+	        request.setAttribute("delivery", listodd);
+	        request.setAttribute("waiting", listodw);
 	        // Nếu người dùng đã login thì forward (chuyển tiếp) tới trang
 	        // /WEB-INF/views/userInfoView.jsp
 	        RequestDispatcher dispatcher //

@@ -250,7 +250,41 @@ public class DBUtils {
         }
         return list;
     }
-    
+    public static List<Product> queryAllProduct(Connection conn) throws SQLException {
+        String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, a.quantity, b.categoryname, b.subid"
+        		+ " from product a , category b "
+        		+ "where a.categoryid = b.categoryid";
+ 
+        PreparedStatement pstm = conn.prepareStatement(sql);
+ 
+        ResultSet rs = pstm.executeQuery();
+        List<Product> list = new ArrayList<Product>();
+        while (rs.next()) {
+        	String code = rs.getString("code");
+            String name = rs.getString("name");
+            int price = rs.getInt("price");
+            int discount = rs.getInt("discount");
+            byte[] image = rs.getBytes("image");
+            String note = rs.getString("note");
+            int quantity = rs.getInt("quantity");
+            String categoryid = rs.getString("categoryid");
+            String categoryname = rs.getString("categoryname");
+            String subid = rs.getString("subid");
+            Product product = new Product();
+            product.setCode(code);
+            product.setName(name);
+            product.setDiscount(discount);
+            product.setPrice(price);
+            product.setImage(image);
+            product.setNote(note);
+            product.setQuantity(quantity);
+            product.setCategoryId(categoryid);
+            product.setCategoryname(categoryname);
+            product.setSubid(subid);
+            list.add(product);
+        }
+        return list;
+    }
     public static List<Product> querySaleProduct(Connection conn) throws SQLException {
         String sql = "Select a.code, a.name, a.price, a.discount, a.image, a.categoryid , a.note, a.quantity, b.categoryname, b.subid"
         		+ " from product a , category b "
@@ -879,7 +913,7 @@ public class DBUtils {
     }
     public static List<Order> queryOrder(Connection conn) throws SQLException {
         String sql = "Select id, userid, order_address, payment, order_date, status, customer, phone "
-        		+ "from orders order by id DESC";
+        		+ "from orders order by order_date DESC";
  
         PreparedStatement pstm = conn.prepareStatement(sql);
         ResultSet rs = pstm.executeQuery();

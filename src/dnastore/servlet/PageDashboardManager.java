@@ -68,7 +68,7 @@ public class PageDashboardManager extends HttpServlet {
         }
         
         try {
-           list = DBUtils.queryProduct(conn);
+           list = DBUtils.queryAllProduct(conn);
            listm = DBUtils.queryProductMale(conn);
            listf = DBUtils.queryProductFemale(conn);
            listct = DBUtils.queryAllCategory(conn);

@@ -110,6 +110,7 @@
         .col-75 input[type=email],
         .col-75 input[type=date],
         .col-75 input[type=number],
+        .col-75 input[type=password],
         .col-75 select,
         .col-75 textarea {
             width: 100%;
@@ -276,7 +277,7 @@
                     <label>Password</label>
                 </div>
                 <div class="col-75">
-                    <input type="text" name="password" value="${account.password}" >
+                    <input type="password" name="password" value="${account.password}" >
                 </div>
             </div>
             <div class="row">
@@ -300,7 +301,26 @@
                     <label>Giới tính</label>
                 </div>
                 <div class="col-75">
-                    <input type="text" name="gender" value="${account.gender}">
+                	<c:choose>
+							<c:when test="${account.gender.equals('Nam')}">
+						    	<select name="gender">
+		                    		<option value="Nam" selected>Nam</option>
+		                    		<option value="Nữ">Nữ</option>
+		                    	</select>
+							</c:when>
+							<c:when test="${account.gender.equals('Nữ')}">
+						    	<select name="gender">
+						    		<option value="Nữ" selected>Nữ</option>
+		                    		<option value="Nam">Nam</option>
+		                    	</select>
+							</c:when>
+						    <c:otherwise>
+								<select name="gender">
+		                    		<option value="Nam">Nữ</option>
+		                    		<option value="Nữ">Nam</option>
+		                    	</select>
+						    </c:otherwise>
+						</c:choose>
                 </div>
             </div>
             <div class="row">
