@@ -1,6 +1,7 @@
 package dnastore.servlet;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.SQLException;
  
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpSession;
 import dnastore.beans.Account;
 import dnastore.utils.DBUtils;
 import dnastore.utils.MyUtils;
-import dnastore.filter.Md5Hash;
+import dnastore.filter.SHA256Hash;
  
 @WebServlet(urlPatterns = { "/dangnhap" })
 public class PageLogin extends HttpServlet {
@@ -50,9 +51,14 @@ public class PageLogin extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
         String userName = request.getParameter("userName");
         String passwordStr = request.getParameter("password");
-        String password = Md5Hash.md5(passwordStr);
+        String password = "";
+        try {
+        	password = SHA256Hash.toHexString(SHA256Hash.getSHA(passwordStr));
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         System.out.println("mahoa: "+ password);
- 
         Account user = null;
         boolean hasError = false;
         String errorString = null;

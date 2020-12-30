@@ -2,6 +2,7 @@ package dnastore.servlet;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -19,7 +20,7 @@ import javax.servlet.http.Part;
 
 import dnastore.beans.Account;
 import dnastore.beans.Role;
-import dnastore.filter.Md5Hash;
+import dnastore.filter.SHA256Hash;
 import dnastore.utils.DBUtils;
 import dnastore.utils.MyUtils;
 
@@ -83,7 +84,13 @@ public class ActionCreateUser extends HttpServlet {
         // gets values of text fields
         String username = request.getParameter("username");
         String passwordStr = request.getParameter("password");
-        String password = Md5Hash.md5(passwordStr);
+        String password = "";
+        try {
+        	password = SHA256Hash.toHexString(SHA256Hash.getSHA(passwordStr));
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         String email = request.getParameter("email");
         String fullname = request.getParameter("fullname");
         String gender = request.getParameter("gender");

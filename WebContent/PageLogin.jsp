@@ -12,6 +12,7 @@
     <!-- Custom StyleSheet -->
     <link rel="stylesheet" href="./fontawesome-free-5.15.1-web/css/all.min.css">
     <script src="./js/jquery-3.3.1.min.js"></script>
+    <script src='./assets/sweetalert2.all.js'></script>
     <title>DNASTORE</title>
 </head>
 <body>
@@ -49,7 +50,12 @@
 		              	</div>
                         <div class="input-group">
                             <i class="bx bxs-lock-alt"></i>
-                            <input type="password" placeholder="Mật khẩu" name="password" id="password" required />
+                            <input type="password" placeholder="Mật khẩu" 
+                            name="password" id="password" 
+                            oninvalid="$(document).ready(function(){
+				      						swal('Nhập lại mật khẩu', 'Mật khẩu của bạn chưa đủ độ an toàn.\nMật khẩu phải tối thiểu 6 ký tự!', 'warning');
+			  							});"
+                            minlength="6" required />
                         </div>
                         <div class="input-group">
                             <i class="bx bxs-lock-alt"></i>
@@ -160,11 +166,11 @@
         var confirm_password = document.getElementById("confirm_password");
 
         function validatePassword(){
-        if(password.value != confirm_password.value) {
-            confirm_password.setCustomValidity("Mật khẩu không trùng");
-        } else {
-            confirm_password.setCustomValidity('');
-        }
+	        if(password.value != confirm_password.value) {
+	            confirm_password.setCustomValidity("Mật khẩu không trùng");
+	        } else {
+	            confirm_password.setCustomValidity('');
+	        }
         }
 
         password.onchange = validatePassword;

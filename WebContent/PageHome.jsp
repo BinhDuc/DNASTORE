@@ -62,6 +62,9 @@
 		.product:hover .product-header::after {
 		  background:transparent;
 		}
+		.product-header img{
+			transition: all .3s ease;
+		}
 		.product:hover .product-header img {
 		  transform: scale(1.05);
 		  overflow: hidden;
@@ -69,6 +72,11 @@
 		.product{
 			cursor: pointer;
 			overflow: hidden;
+			backdrop-filter: blur(25px);
+			background:rgba(255,255,255,.9)
+		}
+		.product-header {
+			background:transparent;
 		}
         #product-description {
             margin: 0;
@@ -204,7 +212,7 @@
                 <h1>Sản phẩm mới</h1>
             </div>
 
-            <div class="product-center container">
+            <div class="product-center container" style="backdrop-filter:blur(5px)">
                 <c:forEach items="${productList}" var="product" >
 	                <div class="product clickable" data-href='product?code=${product.code}&categoryid=${product.categoryId}'>
 	                    <div class="product-header">

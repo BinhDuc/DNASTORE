@@ -1,6 +1,7 @@
 package dnastore.servlet;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dnastore.filter.Md5Hash;
+import dnastore.filter.SHA256Hash;
 import dnastore.utils.MyUtils;
 
 /**
@@ -42,9 +43,15 @@ public class ActionRegister extends HttpServlet {
 		Connection conn = MyUtils.getStoredConnection(request);
 		String username = request.getParameter("username");
 		String passwordStr = request.getParameter("password");
-        String password = Md5Hash.md5(passwordStr);
+        String password = "";
         String email = request.getParameter("email");
         String roleid = request.getParameter("roleid");
+        try {
+        	password = SHA256Hash.toHexString(SHA256Hash.getSHA(passwordStr));
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         System.out.println("mahoaRegister: "+ password);
         String message = null;
         try {
