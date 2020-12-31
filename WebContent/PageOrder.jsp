@@ -128,10 +128,10 @@
 	        		for(Map.Entry<Product, Integer> ds : list.entrySet()) {
 	        	%>
 	                <tr style="display:flex;justify-content: space-between;">
-	                    <td style="flex-basis: 30%;max-width: 30%;height: 150px">
+	                    <td style="flex-basis: 20%;max-width: 20%;height: 150px">
 	                        <img src="${pageContext.request.contextPath}/image?code=<%=ds.getKey().getCode() %>" alt="anhsanpham" style="height:auto;width: auto">
 	                    </td>
-	                    <td style="flex-basis: 60%;max-width: 60%;">
+	                    <td style="flex-basis: 50%;max-width: 50%;">
 	                        <a href="product?code=<%=ds.getKey().getCode() %>"><%=ds.getKey().getName() %></a>
 	                        <p>Số lượng: <%=ds.getValue() %></p>
 	                    </td>

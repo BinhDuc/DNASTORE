@@ -7,13 +7,13 @@
 }
 
 .column-30 {
-    -ms-flex: 30%;
-    flex: 30%;
+    -ms-flex: 40%;
+    flex: 40%;
 }
 
 .column-70 {
-    -ms-flex: 70%;
-    flex: 70%;
+    -ms-flex: 60%;
+    flex: 60%;
 }
 
 .column-30,

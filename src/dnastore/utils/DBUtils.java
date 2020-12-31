@@ -981,7 +981,7 @@ public class DBUtils {
     
     public static List<Order> queryOrderWaiting(Connection conn) throws SQLException {
         String sql = "Select id, userid, order_address, payment, order_date, status, customer, phone "
-        		+ "from orders where status=0";
+        		+ "from orders where status=0 order by order_date DESC";
  
         PreparedStatement pstm = conn.prepareStatement(sql);
         ResultSet rs = pstm.executeQuery();
@@ -1014,7 +1014,7 @@ public class DBUtils {
     }
     public static List<Order> queryOrderDelivery(Connection conn) throws SQLException {
         String sql = "Select id, userid, order_address, payment, order_date, status, customer, phone "
-        		+ "from orders where status=1";
+        		+ "from orders where status=1 order by order_date DESC";
  
         PreparedStatement pstm = conn.prepareStatement(sql);
         ResultSet rs = pstm.executeQuery();
@@ -1047,7 +1047,7 @@ public class DBUtils {
     }
     public static List<Order> queryOrderSuccess(Connection conn) throws SQLException {
         String sql = "Select id, userid, order_address, payment, order_date, status, customer, phone "
-        		+ "from orders where status=2";
+        		+ "from orders where status=2 order by order_date DESC";
  
         PreparedStatement pstm = conn.prepareStatement(sql);
         ResultSet rs = pstm.executeQuery();

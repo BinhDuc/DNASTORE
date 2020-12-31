@@ -56,6 +56,7 @@
         </button>
     </div>
     <div class="w3-main" style="margin-top:43px;">
+    	
     	<c:choose>
 			<c:when test="${Message.equals('Sửa thành công')}">
 				<script>
@@ -68,36 +69,45 @@
 				
 		    </c:otherwise>
 		</c:choose>
-    	<header>
+    	<header style="padding:0 60px;">
             <h4 style="font-family: AvertaStdCY-Semibold;">Mã đơn hàng : ${orders_id}</h2>
+            <button id="btn-export" class="w3-btn w3-green" onclick="exportHTML();">Xuất hóa đơn</button>
         </header>
-		<div class="rows">
+		<div class="rows" style="padding:20px 50px">
 	        <div class="column-70">
 	            <div class="con">
 		            <form method="post" action="comfirmOrder">
 			            <h2 style="border-bottom: 1px solid #ccc;">Thông tin thanh toán</h2>
 			            <br>
 			            <label for="customer">Họ tên:</label>
-			            <input type="text" id="name" name="name" class="input-checkout" value="${orderdetail.orders_id.customer}" />
+			            <p>
+			            	<input type="text" id="name" name="name" class="input-checkout" value="${orderdetail.orders_id.customer}" />
+			            </p>
 			            <label for="phone">Số điện thoại:</label>
-			            <input type="number" id="phone" name="phone" class="input-checkout" value="${orderdetail.orders_id.phone}" />
+			            <p>
+			            	<input type="text" id="phone" name="phone" class="input-checkout" value="${orderdetail.orders_id.phone}" />
+			            </p>
 			            <label for="adr">Địa chỉ giao hàng:</label>
-			            <textarea id="adr" name="address" placeholder="542 W. 15th Street">${orderdetail.orders_id.address}</textarea>
+			            <p>
+			           		<textarea id="adr" name="address" placeholder="542 W. 15th Street">${orderdetail.orders_id.address}</textarea>
+			            </p>
 			            <label>Phương thức thanh toán:</label>
-			            <c:choose>
-							<c:when test="${orderdetail.orders_id.payment.equals('COD')}">
-						    	<select name="payment">
-					                <option value="COD" selected>COD</option>
-					                <option value="Chuyển khoản">Chuyển khoản</option>
-					            </select>
-							</c:when>
-						    <c:otherwise>
-								<select name="payment">
-									<option value="Chuyển khoản" selected>Chuyển khoản</option>
-					                <option value="COD">COD</option>
-					            </select>
-						    </c:otherwise>
-						</c:choose>
+			            <p>
+				            <c:choose>
+								<c:when test="${orderdetail.orders_id.payment.equals('COD')}">
+							    	<select name="payment">
+						                <option value="COD" selected>COD</option>
+						                <option value="Chuyển khoản">Chuyển khoản</option>
+						            </select>
+								</c:when>
+							    <c:otherwise>
+									<select name="payment">
+										<option value="Chuyển khoản" selected>Chuyển khoản</option>
+						                <option value="COD">COD</option>
+						            </select>
+							    </c:otherwise>
+							</c:choose>
+						</p>
 			            <label>Trạng thái:</label>
 			            <c:choose>
 							<c:when test="${orderdetail.orders_id.status == 0}">
@@ -142,15 +152,14 @@
 		                    <td style="flex-basis: 20%;max-width: 20%;height: 150px">
 		                        <img src="${pageContext.request.contextPath}/image?code=${list.product_id.code}" alt="anhsanpham" style="height:auto;width: auto">
 		                    </td>
-		                    <td style="flex-basis: 60%;max-width: 60%;">
-		                        <a href="product?code=${list.product_id.code}">${list.product_id.name}</a>
+		                    <td style="flex-basis: 50%;max-width: 50%;">
+		                        <a href="product?code=${list.product_id.code}" style="font-size: 16px">${list.product_id.name}</a>
 		                        <p>Số lượng: ${list.quantity}</p>
 		                    </td>
 		                    <td style="flex-basis: 20%;max-width: 20%;display: none;" id="loop">
 		                    	${list.total_price - (list.total_price*list.coupon/100)}
 		                    </td>
-		                    <td style="flex-basis: 20%;max-width: 20%;" id="loop">
-		                    	
+		                    <td style="flex-basis: 30%;max-width: 30%;">
 		                    	<script>
 									var price = ${list.total_price - (list.total_price*list.coupon/100)};
 									price = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
@@ -169,7 +178,7 @@
 				        
 				        	for(var i = 0; i < table.rows.length; i++)
 					        {
-					            sumVal = sumVal + parseInt(table.rows[i].cells[2].innerHTML);
+					            sumVal = sumVal + parseFloat(table.rows[i].cells[2].innerHTML);
 					        }
 				        	sumVal = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(sumVal);
 							document.write(sumVal);
@@ -180,5 +189,138 @@
 	        </div>
 	    </div>
 	</div>
+	
+	<div id="source-html" class="w3-main" style="margin-top:43px;display:none">
+		<div>
+			<center><h1>HÓA ĐƠN MUA HÀNG</h1></center>
+			<div style="display: flex;justify-content: space-between">
+				<div style="text-align: center;flex-basis: 50%">
+                     <h2 style="color: #333333;">DNA<span style="color: orangered;">S</span>TORE</h2>
+                 </div>
+                 <div style="flex-basis: 50%">
+                   	<p>Hostline: 012345678 </p>
+                    <p>Email: company@gmail.com</p>
+                 </div>
+			</div>
+		</div>
+		<br>
+		<div>
+       		Chào quý khách,<br>
+       		DNASTORE gửi đến quý khách hóa đơn cho đơn hàng ${orders_id}
+       	</div>
+		<div >
+	        <div style="width:100%">
+	            <div class="con">
+		            <form method="post" action="comfirmOrder">
+			            <h3 style="border-bottom: 1px solid #ccc;">THÔNG TIN ĐƠN HÀNG #${orders_id} (${orderdetail.orders_id.orderdate})</h3>
+			            <br>
+			            <p>
+			            	Họ tên khách hàng: ${orderdetail.orders_id.customer}
+			            </p>
+			            <p>
+			            	Điện thoại: ${orderdetail.orders_id.phone}
+			            </p>
+			            <p>
+			           		Địa chỉ giao hàng: ${orderdetail.orders_id.address}
+			            </p>
+			            <p>
+				            Phương thức thanh toán: ${orderdetail.orders_id.payment}
+						</p>
+		            </form>
+	            </div>
+	        </div>
+	        <br>
+	        <div style="width:100%">
+	            <div class="con">
+	                <h3 style="border-bottom: 1px solid #ccc;">CHI TIẾT ĐƠN HÀNG</h3>
+	                
+	                <br>
+	                <table id="tables" style="width:100%;border: none">
+	                	<thead style="background-color: rgb(2, 172, 234);border: none">
+					       <tr style=" text-align: left;color:#fff;font-weight: bold;text-transform: uppercase;height: 40px;border: none;font-size: 16px">
+					          <td style="border: none;border: 1px solid rgb(2, 172, 234)">Sản phẩm</td>
+					          <td style="border: none;border: 1px solid rgb(2, 172, 234)">Số lượng</td>
+					          <td style="border: none;border: 1px solid rgb(2, 172, 234)">Đơn giá</td>
+					          <td style="text-align: left;border: none;border: 1px solid rgb(2, 172, 234)">Thành tiền</td>
+					          <td style="text-align: left;border: none;display: none;border: 1px solid rgb(2, 172, 234)">0</td>
+					       </tr>
+				       	</thead>
+		                <c:forEach items="${list}" var="list" >
+			                <tr style="border-bottom: 1px solid red;height: 30px;">
+			                    <td style="border-bottom: 1px solid #ccc" >
+			                    	${list.product_id.name}
+			                    </td>
+			                    <td style="border-bottom: 1px solid #ccc">
+			                    	${list.quantity}
+			                    </td>
+			                    <td style="border-bottom: 1px solid #ccc">
+			                    	<script>
+										var price = ${list.total_price/list.quantity};
+										price = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+										document.write(price);
+									</script>
+			                    </td>
+			                    <td style="text-align: left;border-bottom: 1px solid #ccc">
+			                    	<script>
+										var price = ${list.total_price - (list.total_price*list.coupon/100)};
+										price = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+										document.write(price);
+									</script> 
+			                    </td>
+			                    <td style="display: none">
+			                    	${list.total_price - (list.total_price*list.coupon/100)}
+			                    </td>
+			                </tr>
+		                </c:forEach>
+		          	</table>
+	                <p style="margin-top:10px;font-weight: bold;text-align: right">
+	                	Tổng giá trị đơn hàng:
+	                	<script type="text/javascript">
+				   			var table = document.getElementById("tables"), sumVal = 0;
+				        
+				        	for(var i = 0; i < table.rows.length; i++)
+					        {
+					            sumVal = sumVal + parseFloat(table.rows[i].cells[4].innerHTML);
+					            console.log(table.rows[i].cells[4].innerHTML);
+					        }
+				        	sumVal = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(sumVal);
+							document.write(sumVal);
+						</script>
+	                </p>
+	                <table>
+	                	<tr>
+	                		<td colspan="2" style="margin-right:350px;">
+	                			<h3>Người mua hàng</h3>
+	                			<p>(Ký,ghi rõ họ tên)</p>
+	                		</td>
+	                		<td colspan="2"style="float: right;">
+	                			<h3>Người bán hàng</h3>
+	                			<p>(Ký,ghi rõ họ tên)</p>
+	                		</td>
+	                	</tr>
+	                </table>
+	        	</div>
+	        </div>
+	    </div>
+	</div>
+	
+	<script>
+	    function exportHTML(){
+	       var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
+	            "xmlns:w='urn:schemas-microsoft-com:office:word' "+
+	            "xmlns='http://www.w3.org/TR/REC-html40'>"+
+	            "<head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title></head><body>";
+	       var footer = "</body></html>";
+	       var sourceHTML = header+document.getElementById("source-html").innerHTML+footer;
+	       
+	       var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+	       var fileDownload = document.createElement("a");
+	       document.body.appendChild(fileDownload);
+	       fileDownload.href = source;
+	       fileDownload.download = 'hoadon#${orders_id}.doc';
+	       fileDownload.click();
+	       document.body.removeChild(fileDownload);
+	    }
+	</script>
 </body>
 </html>

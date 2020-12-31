@@ -123,7 +123,22 @@
         body{
             padding:200px;
         }
-        @media (max-width: 800px) {
+        @media (max-width: 1439px) {
+            body{
+                padding:100px;
+            }
+            .container{
+                border: none;
+                padding: 20px;
+            }
+            p{
+                font-size: 20px;
+            }
+            h1{
+                font-size: 25px;
+            }
+        }
+        @media (max-width: 1023px) {
             body{
                 padding:0px;
             }
