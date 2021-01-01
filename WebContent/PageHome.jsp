@@ -25,6 +25,7 @@
     <script src="./js/owl.carousel.min.js"></script>
     <link href = "${pageContext.request.contextPath}/css/jquery-ui.min.css" rel = "stylesheet">
     <script src = "${pageContext.request.contextPath}/js/jquery-ui.min.js"></script>
+    <link href = "${pageContext.request.contextPath}/css/animate.min.css" rel = "stylesheet">
     <style>
     	.flag-discount {
 		    color: #fff;
@@ -130,6 +131,45 @@
 		    /* prevent horizontal scrollbar */
 		    overflow-x: hidden;
 	  	}
+	  	.banner-fix{
+	  		display: flex;
+	  		justify-content: center;
+	  		align-items: flex-end;
+	  		padding-bottom: 65px;
+	  	}
+	  	.buttons-group .btn-fix{
+	  		background: transparent;
+	  		border-bottom: 1px solid #fff;
+	  		border-top: none;
+	  		border-left: none;
+	  		border-right: none;
+	  		text-transform: none;
+	  	}
+	  	.buttons-group .btn-fix:hover {
+			background-color: #fff;
+			color:#333;
+			
+		}
+		@media only screen and (max-width: 1439px) {
+	  		.hero,
+	  		.banner {
+	    		height: 93vh;
+	  		}
+		  	.banner-fix{
+	  			padding-bottom: 25px;
+  			}
+		}
+	  	@media only screen and (max-width: 567px) {
+	  		.hero,
+	  		.banner {
+	    		height: 88vh;
+	  		}
+		  	.banner-fix {
+		    	background-repeat: no-repeat;
+		    	background-size: cover;
+		    	background-position: center;
+		  	}
+		}
     </style>
 </head>
 <body>
@@ -153,11 +193,23 @@
         </script>
         <section class="hero">
             <div class="owl-carousel" id="carousel">
+            	<div class="item">
+                    <div class="banner banner-fix" data-background="./images/slide/home_page_banner_DT.webp">
+                        <div>
+                            <h1 style="color:#fff;font-size: 3.5rem;margin-bottom: 0;font-family: AvertaStdCY-bold;text-align: center;">Holiday Gifts</h1>
+                            <div class="buttons-group" style="display: flex;justify-content: center;">
+                                <a href="nam" class="btn-fix" style="margin-right: 10px">Nam</a>
+                                <a href="nu" class="btn-fix">Nữ</a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
                 <c:forEach items="${slideList}" var="slide" >
 	                <div class="item">
 	                    <div class="banner" data-background="${pageContext.request.contextPath}/bgSlide?id=${slide.id}">
 	                        <div class="banner-content">
-	                            <span>${slide.title}</span>
+	                            <span >${slide.title}</span>
 	                            <h1>${slide.slideName}</h1>
 	                            <h3>${slide.content}</h3>
 	                            <div class="buttons-group">
@@ -169,9 +221,6 @@
 	                </div>
                 </c:forEach>
             </div>
-
-
-            
         </section>
         <section class="section category">
 
@@ -338,8 +387,8 @@
             loop: true,
             items: 1,
             autoplay: true,
-            autoplayTimeout: 5000,
-            smartSpeed: 1000
+            autoplayTimeout: 7000,
+            smartSpeed: 2000
         });
         $('#brand').owlCarousel({
             loop:true,
