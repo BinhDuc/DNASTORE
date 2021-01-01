@@ -7,9 +7,18 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Map;
+import java.util.Properties;
 import java.util.TreeMap;
 
-
+import javax.mail.Message;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -71,15 +80,30 @@ public class PageOrder extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
 		Connection conn = MyUtils.getStoredConnection(request);
-        // gets values of text fields
+		
         String customer = request.getParameter("name");
         String phone = request.getParameter("phone");
         String address = request.getParameter("address");
         String payment = request.getParameter("payment");
         String username = request.getParameter("username");
+        String email = request.getParameter("email");
         HttpSession sesion = request.getSession();
         Cart cart = (Cart) sesion.getAttribute("cart");
-        System.out.print("cart "+ cart);
+        
+        final String emailId = "dnastorethongbao@gmail.com";
+        final String password = "binhduc123";
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", true);
+        props.put("mail.smtp.starttls.enable", true);
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        Session session = Session.getInstance(props,
+            new javax.mail.Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(emailId, password);
+                }
+            });
         
         try {
 			Date orderdate = new Date();
@@ -89,6 +113,7 @@ public class PageOrder extends HttpServlet {
 			Order order = new Order(id, account, address, payment, new Timestamp(new Date().getTime()), 0, customer, phone);
 			order.setId(id);
 			DBUtils.insertOrder(conn, order);
+			
 			TreeMap<Product, Integer> list = cart.getList();
 			for(Map.Entry<Product, Integer> ds : list.entrySet()) {
 				Product product = new Product();
@@ -97,7 +122,7 @@ public class PageOrder extends HttpServlet {
 				int quantity = ds.getKey().getQuantity() - ds.getValue();
 				String code = ds.getKey().getCode();
 				String message = null;
-				System.out.println("san pham: "+ code +" con: "+ quantity);
+				System.out.println("San pham co ma: "+ code +" Con lai: "+ quantity+" san pham");
 				try {
 					String sql = "update product set quantity=? "
 		            		+ "where code=?";
@@ -106,7 +131,7 @@ public class PageOrder extends HttpServlet {
 		            statement.setString(2, code);
 		            int row = statement.executeUpdate();
 		            if (row > 0) {
-		                message = "thanh toan và tru san pham thanh cong ";
+		                message = "Thanh toan và tru san pham thanh cong";
 		            }
 				} catch (SQLException ex) {
 					message = "ERROR: " + ex.getMessage();
@@ -116,7 +141,24 @@ public class PageOrder extends HttpServlet {
 		        request.setAttribute("Message", message);
 		        System.out.println(message);
 			}
-			
+			//send email
+			Message messages = new MimeMessage(session);
+			messages.setHeader("Content-Type", "text/plain; charset=UTF-8");
+            messages.setFrom(new InternetAddress(email));
+            messages.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailId));
+            MimeBodyPart textPart = new MimeBodyPart();
+            Multipart multipart = new MimeMultipart();
+            String final_Text = "Có 1 Đơn Hàng Mới, "
+            		+ "\nMã đơn hàng: #" + id
+            		+ "\nTên khách hàng: "+ customer + "\nSố điện thoại: " + phone
+            		+ "\nĐịa chỉ nhận hàng: "+ address + "\nHình thức thanh toán: "+payment;
+            String subject = "New Order: #"+ id;
+            textPart.setText(final_Text,"utf-8");
+            multipart.addBodyPart(textPart);
+            messages.setContent(multipart);
+            messages.setSubject(subject);
+            Transport.send(messages);
+            
 			sesion.removeAttribute("cart");
 			RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/Success.jsp");
 			dispatcher.forward(request, response);

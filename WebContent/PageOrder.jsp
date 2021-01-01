@@ -114,6 +114,7 @@
 		                <option value="Chuyển khoản">Chuyển khoản</option>
 		            </select>
 		            <input type="hidden" name="username" class="input-checkout" value="${user.userName}" />
+		            <input type="hidden" name="email" class="input-checkout" value="${user.email}" />
 		            <input type="submit" value="Đặt hàng" class="btn-checkout">
 	            </form>
             </div>
