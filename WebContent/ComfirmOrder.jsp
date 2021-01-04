@@ -29,7 +29,18 @@
     <!-- owcarousel -->
     <script src="./js/jquery-3.3.1.min.js"></script>
     <script src="./js/owl.carousel.min.js"></script>
+    <script src="./js/n2vi.min.js"></script>
     <script src='./assets/sweetalert2.all.js'></script>
+    <style type="text/css">
+    	.comfirm-header{
+    		padding: 0 60px
+    	}
+    	@media screen and (max-width: 600px) {
+	        .comfirm-header{
+	    		padding: 0 20px
+	    	}
+        }
+    </style>
 </head>
 <body>
 	<!-- Top container -->
@@ -69,11 +80,11 @@
 				
 		    </c:otherwise>
 		</c:choose>
-    	<header style="padding:0 60px;">
+    	<header class="comfirm-header">
             <h4 style="font-family: AvertaStdCY-Semibold;">Mã đơn hàng : ${orders_id}</h2>
             <button id="btn-export" class="w3-btn w3-green" onclick="exportHTML();">Xuất hóa đơn</button>
         </header>
-		<div class="rows" style="padding:20px 50px">
+		<div class="rows">
 	        <div class="column-70">
 	            <div class="con">
 		            <form method="post" action="comfirmOrder">
@@ -285,6 +296,19 @@
 					        }
 				        	sumVal = Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(sumVal);
 							document.write(sumVal);
+						</script>
+	                </p>
+	                <p style="margin-top:10px;font-weight: bold;text-align: right">
+	                	Số tiền viết bằng chữ:
+	                	<script type="text/javascript">
+				   			var table = document.getElementById("tables"), sumVal = 0;
+				        
+				        	for(var i = 0; i < table.rows.length; i++)
+					        {
+					            sumVal = sumVal + parseFloat(table.rows[i].cells[4].innerHTML);
+					            console.log(table.rows[i].cells[4].innerHTML);
+					        }
+							document.write(to_vietnamese(sumVal));
 						</script>
 	                </p>
 	                <table>

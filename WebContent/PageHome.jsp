@@ -193,18 +193,6 @@
         </script>
         <section class="hero">
             <div class="owl-carousel" id="carousel">
-            	<div class="item">
-                    <div class="banner banner-fix" data-background="./images/slide/home_page_banner_DT.webp">
-                        <div>
-                            <h1 style="color:#fff;font-size: 3.5rem;margin-bottom: 0;font-family: AvertaStdCY-bold;text-align: center;">Holiday Gifts</h1>
-                            <div class="buttons-group" style="display: flex;justify-content: center;">
-                                <a href="nam" class="btn-fix" style="margin-right: 10px">Nam</a>
-                                <a href="nu" class="btn-fix">Nữ</a>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
                 <c:forEach items="${slideList}" var="slide" >
 	                <div class="item">
 	                    <div class="banner" data-background="${pageContext.request.contextPath}/bgSlide?id=${slide.id}">
@@ -388,7 +376,7 @@
             items: 1,
             autoplay: true,
             autoplayTimeout: 7000,
-            smartSpeed: 2000
+            smartSpeed: 1000
         });
         $('#brand').owlCarousel({
             loop:true,
