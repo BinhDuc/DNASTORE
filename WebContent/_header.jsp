@@ -126,7 +126,7 @@
      
                 $(".bnt-search").click(function() {
                     $(".search-box-s").toggle();
-                    $("search-input").focus();
+                    $(".search-input").focus();
                 });
     
             });
